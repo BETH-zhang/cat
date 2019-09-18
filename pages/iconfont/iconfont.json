@@ -1,0 +1,72 @@
+{
+  "id": "1422158",
+  "name": "柿饼的日常",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3574387",
+      "name": "猫",
+      "font_class": "Artboard",
+      "unicode": "edc9",
+      "unicode_decimal": 60873
+    },
+    {
+      "icon_id": "3896045",
+      "name": "猫猫",
+      "font_class": "maomao",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "5068711",
+      "name": "猫猫出售",
+      "font_class": "icon-",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "5216384",
+      "name": "猫咪",
+      "font_class": "maomi",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "5220067",
+      "name": "猫",
+      "font_class": "mao",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "5618768",
+      "name": "猫咪",
+      "font_class": "maomi1",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "6641410",
+      "name": "猫",
+      "font_class": "mao1",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
+      "icon_id": "6887983",
+      "name": "钱 金融 支付",
+      "font_class": "qian",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "6998616",
+      "name": "猫",
+      "font_class": "mao2",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    }
+  ]
+}
