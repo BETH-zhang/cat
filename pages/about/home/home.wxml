@@ -13,23 +13,23 @@
     <view class="flex flex-sub flex-direction solid-right">
       <view class="text-xxl text-orange">{{visitTotal}}</view>
       <view class="margin-top-sm">
-        <text class="cuIcon-attentionfill"></text> View</view>
+        <text class="iconfont icon-eye"></text> View</view>
     </view>
     <view class="flex flex-sub flex-direction solid-right">
       <view class="text-xxl text-green">{{starCount}}</view>
       <view class="margin-top-sm">
-        <text class="cuIcon-favorfill"></text> Star</view>
+        <text class="iconfont icon-star"></text> Star</view>
     </view>
     <view class="flex flex-sub flex-direction">
       <view class="text-xxl text-green">{{forksCount}}</view>
       <view class="margin-top-sm">
-        <text class="cuIcon-fork"></text> Fork</view>
+        <text class="iconfont icon-fork"></text> Fork</view>
     </view>
   </view>
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <view class="cu-item arrow">
       <view class="content" bindtap="CopyLink" data-link="https://github.com/BETH-zhang/cat">
-        <text class="cuIcon-github text-grey"></text>
+        <text class="iconfont icon-github text-grey"></text>
         <text class="text-grey">GitHub</text>
       </view>
     </view>
@@ -41,13 +41,13 @@
     </view>
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/about/log/log" hover-class="none">
-        <text class="cuIcon-formfill text-green"></text>
+        <text class="iconfont icon-log text-green"></text>
         <text class="text-grey">日志</text>
       </navigator>
     </view>
     <view class="cu-item arrow">
       <view class="content" bindtap="showQrcode">
-        <text class="cuIcon-appreciatefill text-red"></text>
+        <text class="iconfont icon-zan text-red"></text>
         <text class="text-grey">赞赏支持</text>
       </view>
     </view>

@@ -1559,6 +1559,16 @@ button.icon.lg {
 	top: -10rpx;
 }
 
+.cu-bar.tabbar .action {
+	margin: 0 auto;
+}
+
+.cu-bar.tabbar .action image {
+	width: 50rpx;
+	height: 50rpx;
+	display: inline-block;
+}
+
 .cu-bar .action.border-title text[class*="bg-"]:last-child {
 	position: absolute;
 	bottom: -0.5rem;

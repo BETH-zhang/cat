@@ -1,14 +1,24 @@
-<!--index.wxml-->
-<view class="container">
-  <!-- <image class="home-bg" src="/images/bg.jpg"></image> -->
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+<basics wx:if="{{PageCur=='basics'}}"></basics>
+<component wx:if="{{PageCur=='component'}}"></component>
+<plugin wx:if="{{PageCur=='plugin'}}"></plugin>
+<about wx:if="{{PageCur=='about'}}"></about>
+
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="NavChange" data-cur="basics">
+    <image src="/images/tabbar/logo-icon{{PageCur=='basics'?'-action':''}}.png"></image>
+    <view class="{{PageCur=='basics'?'text-blue':'text-gray'}}">文饼</view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view class="action" bindtap="NavChange" data-cur="component">
+    <image src="/images/tabbar/logo-icon{{PageCur=='component'?'-action':''}}.png"></image>
+    <view class="{{PageCur=='component'?'text-blue':'text-gray'}}">图饼</view>
+  </view>
+  <!-- 
+  <view class="action" bindtap="NavChange" data-cur="plugin">
+    <image src="/images/tabbar/logo-icon{{PageCur=='plugin'?'-action':''}}.png"></image>
+    <view class="{{PageCur=='plugin'?'text-blue':'text-gray'}}">喜饼</view>
+  </view> -->
+  <view class="action" bindtap="NavChange" data-cur="about">
+    <image src="/images/tabbar/logo-icon{{PageCur=='about'?'-action':''}}.png"></image>
+    <view class="{{PageCur=='about'?'text-blue':'text-gray'}}">柿饼</view>
   </view>
 </view>

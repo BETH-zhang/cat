@@ -4,64 +4,64 @@ Component({
   },
   data: {
     elements: [{
-        title: '布局',
-        name: 'layout',
+        title: '舔毛',
+        name: 'hair',
         color: 'cyan',
-        icon: 'newsfill'
+        icon: 'mao1'
       },
       {
-        title: '背景',
-        name: 'background',
+        title: '制作表情包',
+        name: 'emoticons',
         color: 'blue',
-        icon: 'colorlens'
+        icon: 'biaoqingbao'
       },
       {
-        title: '文本',
-        name: 'text',
+        title: '敲代码',
+        name: 'code',
         color: 'purple',
-        icon: 'font'
+        icon: 'daimayuanpeizhi'
       },
       {
-        title: '图标 ',
-        name: 'icon',
+        title: '睡觉',
+        name: 'sleep',
         color: 'mauve',
-        icon: 'icon'
+        icon: 'shuijue'
       },
       {
-        title: '按钮',
-        name: 'button',
+        title: '画画',
+        name: 'draw',
         color: 'pink',
-        icon: 'btn'
+        icon: 'huahua'
       },
       {
-        title: '标签',
-        name: 'tag',
+        title: '学英语',
+        name: 'learn English',
         color: 'brown',
-        icon: 'tagfill'
+        icon: 'yingyu'
       },
       {
-        title: '头像',
-        name: 'avatar',
+        title: '看书',
+        name: 'read Book',
         color: 'red',
-        icon: 'myfill'
+        icon: 'kanshu'
       },
       {
-        title: '进度条',
-        name: 'progress',
+        title: '追剧',
+        name: 'play',
         color: 'orange',
-        icon: 'icloading'
+        icon: 'dianshi'
       },
       {
-        title: '边框阴影',
-        name: 'shadow',
+        title: '狼人杀',
+        name: 'play',
         color: 'olive',
-        icon: 'copy'
+        icon: 'wanju'
       },
       {
-        title: '加载',
-        name: 'loading',
+        title: '烹饪',
+        name: 'cooking',
         color: 'green',
-        icon: 'loading2'
+        icon: 'kezuofan'
       },
     ],
   }

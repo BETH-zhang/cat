@@ -1,11 +1,16 @@
 <scroll-view scroll-y class="scrollPage">
-  <image src='/images/BasicsBg.png' mode='widthFix' class='png' style='width:100%;height:486rpx'></image>
+  <image src='https://static.uskid.com/web/garden/k0p7e7rf_EQFv8N8g95HdhnhfvrJX8EzZ.png?x-oss-process=image/resize,m_mfit,h_400,w_800' mode='widthFix' class='png' style='width:100%;height:486rpx'></image>
   <view class='nav-list'>
-    <navigator open-type="navigate" hover-class='none' url="/pages/basics/{{item.name}}/{{item.name}}" class="nav-li bg-{{item.color}}" wx:for="{{elements}}" wx:key>
+    <view hover-class='none' class="nav-li bg-{{item.color}}" wx:for="{{elements}}" wx:key>
+      <view class="nav-title">{{item.title}}</view>
+      <view class="nav-name">{{item.name}}</view>
+      <text class="iconfont icon-{{item.icon}}"></text>
+    </view>
+    <!-- <navigator open-type="navigate" hover-class='none' url="/pages/basics/{{item.name}}/{{item.name}}" class="nav-li bg-{{item.color}}" wx:for="{{elements}}" wx:key>
       <view class="nav-title">{{item.title}}</view>
       <view class="nav-name">{{item.name}}</view>
       <text class='cuIcon-{{item.icon}}'></text>
-    </navigator>
+    </navigator> -->
   </view>
   <view class='cu-tabbar-height'></view>
 </scroll-view>

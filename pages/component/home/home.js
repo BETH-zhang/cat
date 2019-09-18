@@ -3,17 +3,65 @@ Component({
     addGlobalClass: true,
   },
   data: {
-    elements: [
-      { title: '操作条', name: 'bar', color: 'purple', icon: 'vipcard' },
-      { title: '导航栏 ', name: 'nav', color: 'mauve', icon: 'formfill' },
-      { title: '列表', name: 'list', color: 'pink', icon: 'list' },
-      { title: '卡片', name: 'card', color: 'brown', icon: 'newsfill' },
-      { title: '表单', name: 'form', color: 'red', icon: 'formfill' },
-      { title: '时间轴', name: 'timeline', color: 'orange', icon: 'timefill' },
-      { title: '聊天', name: 'chat', color: 'green', icon: 'messagefill' },
-      { title: '轮播', name: 'swiper', color: 'olive', icon: 'album' },
-      { title: '模态框', name: 'modal', color: 'grey', icon: 'squarecheckfill' },
-      { title: '步骤条', name: 'steps', color: 'cyan', icon: 'roundcheckfill' },
-    ],
+    elements: [{
+      title: '舔毛',
+      name: 'hair',
+      color: 'cyan',
+      icon: 'mao1'
+    },
+    {
+      title: '制作表情包',
+      name: 'emoticons',
+      color: 'blue',
+      icon: 'biaoqingbao'
+    },
+    {
+      title: '敲代码',
+      name: 'code',
+      color: 'purple',
+      icon: 'daimayuanpeizhi'
+    },
+    {
+      title: '睡觉',
+      name: 'sleep',
+      color: 'mauve',
+      icon: 'shuijue'
+    },
+    {
+      title: '画画',
+      name: 'draw',
+      color: 'pink',
+      icon: 'huahua'
+    },
+    {
+      title: '学英语',
+      name: 'learn English',
+      color: 'brown',
+      icon: 'yingyu'
+    },
+    {
+      title: '看书',
+      name: 'read Book',
+      color: 'red',
+      icon: 'kanshu'
+    },
+    {
+      title: '追剧',
+      name: 'play',
+      color: 'orange',
+      icon: 'dianshi'
+    },
+    {
+      title: '狼人杀',
+      name: 'play',
+      color: 'olive',
+      icon: 'wanju'
+    },
+    {
+      title: '烹饪',
+      name: 'cooking',
+      color: 'green',
+      icon: 'kezuofan'
+    }],
   },
 })
