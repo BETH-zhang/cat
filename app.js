@@ -1,5 +1,5 @@
 //app.js
-import { isEmpty } from './utils/util'
+import { isEmpty, compareVersion } from './utils/util'
 import { ColorList } from './data/colorData'
 
 App({
@@ -57,6 +57,7 @@ App({
   customSystemBarStyle: function() {
     wx.getSystemInfo({
       success: e => {
+        console.log('wx.getSystemInfo:', e)
         this.globalData.StatusBar = e.statusBarHeight;
         let capsule = wx.getMenuButtonBoundingClientRect();
         if (capsule) {
@@ -64,6 +65,18 @@ App({
           this.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;
         } else {
           this.globalData.CustomBar = e.statusBarHeight + 50;
+        }
+
+        const version = wx.getSystemInfoSync().SDKVersion
+
+        if (compareVersion(version, '1.1.0') >= 0) {
+          wx.openBluetoothAdapter()
+        } else {
+          // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
         }
       }
     })
