@@ -2,6 +2,10 @@ Page({
   data: {
     PageCur: 'basics'
   },
+  onLoad() {
+    console.log('index')
+    this.renderCanvas()
+  },
   NavChange(e) {
     this.setData({
       PageCur: e.currentTarget.dataset.cur
@@ -13,6 +17,36 @@ Page({
       imageUrl: '/images/share.jpg',
       path: '/pages/index/index'
     }
+  },
+  renderCanvas() {
+    const ctx = wx.createCanvasContext('mainCanvas')
+    console.log('home-ctx: ', ctx)
+    ctx.setFillStyle('red')
+    ctx.fillRect(10, 10, 150, 75)
+    ctx.draw(false, function (e) {
+      console.log('draw callback')
+    })
+    
+    const grd = ctx.createCircularGradient(75, 50, 50)
+    grd.addColorStop(0, 'red')
+    grd.addColorStop(1, 'white')
+
+    // Fill with gradient
+    ctx.setFillStyle(grd)
+    ctx.fillRect(10, 10, 150, 80)
+    ctx.draw()
+  },
+  takePhoto() {
+    console.log(1)
+    const ctx = wx.createCameraContext()
+    ctx.takePhoto({
+      quality: 'high',
+      success: (res) => {
+        this.setData({
+          src: res.tempImagePath
+        })
+      }
+    })
   },
   // onReady: function () {
   //   this.position = {

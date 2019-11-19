@@ -40,7 +40,8 @@
     "navigationBarTextStyle": "white"
   },
   "usingComponents": {
-    "cu-custom": "/colorui/components/cu-custom"
+    "cu-custom": "/colorui/components/cu-custom",
+    "canvasdrawer": "/canvasdrawer/canvasdrawer"
   },
   "sitemapLocation": "sitemap.json"
 }

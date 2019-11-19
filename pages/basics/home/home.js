@@ -1,83 +1,29 @@
+const app = getApp();
+
 Page({
   options: {
     addGlobalClass: true,
   },
-  data: {
-    elements: [{
-        title: '舔毛',
-        name: 'hair',
-        color: 'cyan',
-        icon: 'mao1'
-      },
-      {
-        title: '制作表情包',
-        name: 'emoticons',
-        color: 'blue',
-        icon: 'biaoqingbao'
-      },
-      {
-        title: '敲代码',
-        name: 'code',
-        color: 'purple',
-        icon: 'daimayuanpeizhi'
-      },
-      {
-        title: '睡觉',
-        name: 'sleep',
-        color: 'mauve',
-        icon: 'shuijue'
-      },
-      {
-        title: '画画',
-        name: 'draw',
-        color: 'pink',
-        icon: 'huahua'
-      },
-      {
-        title: '学英语',
-        name: 'learn English',
-        color: 'brown',
-        icon: 'yingyu'
-      },
-      {
-        title: '看书',
-        name: 'read Book',
-        color: 'red',
-        icon: 'kanshu'
-      },
-      {
-        title: '追剧',
-        name: 'play',
-        color: 'orange',
-        icon: 'dianshi'
-      },
-      {
-        title: '狼人杀',
-        name: 'play',
-        color: 'olive',
-        icon: 'wanju'
-      },
-      {
-        title: '烹饪',
-        name: 'cooking',
-        color: 'green',
-        icon: 'kezuofan'
-      },
-    ],
-  },
-  takePhoto() {
-    console.log(1)
-    const ctx = wx.createCameraContext()
-    ctx.takePhoto({
-      quality: 'high',
-      success: (res) => {
-        this.setData({
-          src: res.tempImagePath
-        })
-      }
+  data: {},
+  onLoad() {
+    const ctx = wx.createCanvasContext('mainCanvas')
+    console.log('home-ctx: ', ctx)
+    ctx.setFillStyle('red')
+    ctx.fillRect(10, 10, 150, 75)
+    ctx.draw(false, function (e) {
+      console.log('draw callback')
     })
+    
+    const grd = ctx.createCircularGradient(75, 50, 50)
+    grd.addColorStop(0, 'red')
+    grd.addColorStop(1, 'white')
+
+    // Fill with gradient
+    ctx.setFillStyle(grd)
+    ctx.fillRect(10, 10, 150, 80)
+    ctx.draw()
   },
-  error(e) {
-    console.log(e.detail)
+  onReady() {
+    console.log('onReady')
   },
 })
