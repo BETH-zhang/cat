@@ -266,8 +266,8 @@ class TestApplication {
     this.ctx.setFontSize(12);
     this.ctx.setTextAlign('right');
     this.ctx.setFillStyle('#bbbbbb')
-    const metrics = this.ctx.measureText(name + 'dfdf ' + time).width;   //时间文字的所占宽度
-    this.ctx.fillText(name + 'dfdf ' + time, metrics + 75, 55, metrics + 5);
+    const metrics = this.ctx.measureText(name + ' ' + time).width;   //时间文字的所占宽度
+    this.ctx.fillText(name + ' ' + time, metrics + 75, 55, metrics + 5);
 
     const bottomBox = this.canvas.height - 100
     // 二维码描述  及图片

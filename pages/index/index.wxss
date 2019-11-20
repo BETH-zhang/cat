@@ -18,6 +18,13 @@
   height: 80vh;
 }
 
+.share-modal-bg .share-msg {
+  widh: 100%;
+  text-align: center;
+  color: #f9f9f9;
+  margin-top: 10px;
+}
+
 .btn-openset {
   display: flex;
   justify-content: space-around;

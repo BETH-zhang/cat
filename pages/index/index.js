@@ -182,8 +182,8 @@ Page({
       cover: this.data.shareImg,
       qrcode: 'https://s2.ax1x.com/2019/11/20/MfsqZF.jpg',
       name: app.globalData.userInfo.nickName,
-      title: this.data.title || '我的第一',
-      description: this.data.description || '一副蜡笔小新送给你',
+      title: this.data.title || '抖音像素画',
+      description: this.data.description || '画一副像素画，送给你',
       time: time,
     }
 
@@ -209,11 +209,13 @@ Page({
                 // canvas画图需要时间而且还是异步的，所以加了个定时器
                 setTimeout(() => {
                   // 将生成的canvas图片，转为真实图片
+                  console.log(1)
                   wx.canvasToTempFilePath({
                     x: 0,
                     y: 0,
                     canvasId: 'shareFrends',
                     success: (res) => {
+                      console.log(2)
                       let shareImg = res.tempFilePath;
                       that.setData({
                         shareImg: shareImg,
