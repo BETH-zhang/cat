@@ -45,7 +45,7 @@
     <view class="padding">16</view>
     <view class="flex-sub text-center">
       <view class="solid-bottom text-lg padding">
-        <text class="text-black">柿饼的日常</text>
+        <text class="text-black">抖音像素画</text>
       </view>
       <view class="padding">页面小标题，首要层级显示内容</view>
     </view>

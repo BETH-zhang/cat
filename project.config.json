@@ -1,5 +1,5 @@
 {
-	"description": "Project configuration file",
+	"description": "抖音像素画",
 	"packOptions": {
 		"ignore": []
 	},
@@ -13,7 +13,7 @@
 		"coverView": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.8.2",
+	"libVersion": "1.0.0",
 	"appid": "wx44378f03ea3692aa",
 	"projectname": "cat",
 	"debugOptions": {

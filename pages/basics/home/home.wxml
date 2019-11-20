@@ -29,8 +29,3 @@
 
 <canvasdrawer painting="{{painting}}" bind:getImage="eventGetImage"/>
 -->
-<view class="open-camera">
-  选择一张图片
-</view>
-
-<canvas canvas-id="mainCanvas" style="border: 1px solid;"/>

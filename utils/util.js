@@ -51,8 +51,30 @@ const compareVersion = (v1, v2) => {
   return 0
 }
 
+const throttle = (method, delay, duration) => {
+  const self = this;
+  let timer = null;
+  let begin = new Date()
+  return (...rest) => {
+    const context = self;
+    const args = rest;
+    const current = new Date()
+    clearTimeout(timer)
+    timer = null
+    if (current - begin >= duration) {
+      method.apply(context, args)
+      begin = current;
+    } else if (delay) {
+      timer = setTimeout(() => {
+        method.apply(context, args)
+      }, delay)
+    }
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
   isEmpty: isEmpty,
   compareVersion: compareVersion,
+  throttle: throttle,
 }
