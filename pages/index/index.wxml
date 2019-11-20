@@ -3,6 +3,11 @@
 
 <view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
+    canvas-id="shareFrends"
+    class="main-canvas hide-canvas"
+    style="width: 100%; height: 100vh;"
+  />
+  <canvas
     canvas-id="bgCanvas"
     class="main-canvas bg-canvas"
     style="width: 100%; height: 100vh"
@@ -30,7 +35,6 @@
 <view class='share-modal-bg' wx:if='{{showModal}}' bindtap='hideModal'>
   <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
      <view><image src='{{shareImg}}' class='share-img'></image></view>
-     <view class='share-img-tips'>长按图片保存至相册，快去分享吧！</view>
   </view>
 </view>
 

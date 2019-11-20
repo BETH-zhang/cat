@@ -20,7 +20,7 @@ page {
 	--green: #39b54a;
 	--cyan: #1cbbb4;
 	/* --blue: #0081ff; */
-	--blue: #ec7530;
+	--blue: #4e7dc2;
 	--purple: #6739b6;
 	--mauve: #9c26b0;
 	--pink: #e03997;

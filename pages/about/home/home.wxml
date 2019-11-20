@@ -33,28 +33,28 @@
     <view class="cu-item arrow">
       <view class="content" bindtap="CopyLink" data-link="https://github.com/BETH-zhang/cat">
         <text class="iconfont icon-github text-grey"></text>
-        <text class="text-grey">GitHub</text>
+        <text class="text-grey" style="margin-left: 12px">GitHub</text>
       </view>
     </view>
     -->
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/about/about/about" hover-class="none">
         <image src="/images/logo.png" class="png" mode="aspectFit"></image>
-        <text class="text-grey">关于抖音像素画</text>
+        <text class="text-grey" style="margin-left: 12px">关于抖音像素画</text>
       </navigator>
     </view>
     <!--
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/about/log/log" hover-class="none">
         <text class="iconfont icon-log text-green"></text>
-        <text class="text-grey">日志</text>
+        <text class="text-grey" style="margin-left: 12px">日志</text>
       </navigator>
     </view>
     -->
     <view class="cu-item arrow">
       <view class="content" bindtap="showQrcode">
         <text class="iconfont icon-zan text-red"></text>
-        <text class="text-grey">赞赏支持</text>
+        <text class="text-grey" style="margin-left: 12px">赞赏支持</text>
       </view>
     </view>
   </view>

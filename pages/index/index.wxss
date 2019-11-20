@@ -11,7 +11,11 @@
 }
 
 .share-modal-bg .share-img {
+  margin-left: 10%;
+  margin-top: 10vh;
   background: #ffffff;
+  width: 80%;
+  height: 80vh;
 }
 
 .btn-openset {
