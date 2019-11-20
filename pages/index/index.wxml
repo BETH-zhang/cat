@@ -1,11 +1,11 @@
 <component wx:if="{{PageCur=='component'}}"></component>
 <about wx:if="{{PageCur=='about'}}"></about>
 
-<view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
+<cover-view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
     canvas-id="shareFrends"
-    class="main-canvas hide-canvas1"
-    style="width: 100%; height: 100vh;"
+    class="main-canvas"
+    style="width: 100%; height: 100vh; z-index: 0"
   />
   <canvas
     canvas-id="bgCanvas"
@@ -20,6 +20,9 @@
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
   />
+</cover-view>
+
+<view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
   <button class="cu-btn shadow clear-picture" type="default" bindtap="clearPicture">清除</button>
   <button class="cu-btn shadow save-picture" bindtap="savePicture">生成</button>
   <button
