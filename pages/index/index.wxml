@@ -60,6 +60,7 @@
   </view>
 </view>
 
+<!-- 颜色工具 -->
 <view wx:if='{{openSetting && showColorPanel}}' class="open-setting-color">
     <view class="open-setting-color__bd">
         <view class="section section_gap">
@@ -99,12 +100,33 @@
     </view>
 </view>
 
+<!-- 网格工具 -->
 <view wx:if='{{openSetting && showGridPanel}}' class="open-setting">
   <radio-group class="radio-group" bindchange="radioChange">
       <radio class="radio" wx:for-items="{{gapItems}}" wx:key="value" value="{{item.value}}" checked="{{gap === item.value}}">
         <text>{{item.name}}</text>
       </radio>
   </radio-group>
+</view>
+
+<!-- 设置标题 -->
+<view wx:if='{{openSetting && showTitlePanel}}' class="open-setting">
+  <view class="page-section">
+    <view class="weui-cells__title">填写标题</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="titleInputChange" placeholder-style="color:#F76260" placeholder="标题：抖音像素画" />
+      </view>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="weui-cells__title">填写想说的话</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="desInputChange" placeholder-style="color:#F76260" placeholder="描述：画一副像素画，送给你" />
+      </view>
+    </view>
+  </view>
 </view>
 
 <view class="cu-bar tabbar bg-white shadow foot">

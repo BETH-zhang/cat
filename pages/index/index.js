@@ -48,6 +48,21 @@ Page({
       showGridPanel: false,
     })
   },
+  updateState(key, value) {
+    this.setData({
+      [key]: value,
+    })
+  },
+  titleInputChange(e) {
+    this.setData({
+      title: this.data.title,
+    })
+  },
+  desInputChange() {
+    this.setData({
+      description: e.detail.value
+    })
+  },
   NavChange(e) {
     // this.appCanvas.updateGrid(0, 0, '', true)
     this.setData({
