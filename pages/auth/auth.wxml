@@ -1,6 +1,6 @@
 <view class='UCenter-bg'>
   <image src='/images/logo.png' class='png' mode='widthFix'></image>
-  <view class='text-xl'>抖音像素画
+  <view class='text-xl'>程小元像素画
     <text class='text-df'>v2.0</text>
   </view>
   <view class='margin-top-sm'>

@@ -98,7 +98,7 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '抖音像素画',
+      title: '程小元像素画',
       imageUrl: '/images/share.jpg',
       path: '/pages/index/index',
       success: function(res) {
@@ -286,7 +286,7 @@ Page({
       cover: this.data.shareImg,
       qrcode: 'https://wx2.sinaimg.cn/orj360/9f7ff7afgy1g95lugzeu0j209k09k403.jpg',
       name: app.globalData.userInfo.nickName,
-      title: this.data.title || '抖音像素画',
+      title: this.data.title || '程小元像素画',
       description: this.data.description || '画一副像素画，送给你',
       time: time,
     }
