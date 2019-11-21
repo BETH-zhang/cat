@@ -22,16 +22,17 @@
   />
 </view>
 <view class="{{ openSetting && shareImg ? 'show-canvas' : 'hide-canvas' }}">
- <image src='{{shareImg}}' style="width: {{width}}px; height: {{height}}px; background: #ffffff"></image>
+ <image src='{{shareImg}}' style="width: {{width}}px; height: {{height}}px; background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"></image>
 </view>
 
 <view class="setting-panel" style="display: {{ openSetting ? 'block' : 'none' }}">
+  <button class="cu-btn shadow set-share-title" type="default" bindtap="setShareTitle">文案</button>
   <button class="cu-btn shadow set-grid-gap" type="default" bindtap="setGridGap">网格</button>
   <button class="cu-btn shadow clear-picture" type="default" bindtap="clearPicture">清除</button>
   <button class="cu-btn shadow save-picture" bindtap="savePicture">生成</button>
   <button
     class="cu-btn shadow color-picture"
-    style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}}); color: {{fontColor}}"
+    style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}});"
     bindtap="openColorPanel"
   >色板</button>
   <!--
@@ -94,7 +95,7 @@
     <view class="open-setting-color__fo">
       <button
         class="cu-btn shadow bg-green lg block shadow radius margin-xl"
-        style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}}); color: {{fontColor}}"
+        style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}});"
         bindtap="selectColor"
       >确定 ({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}})</button>
     </view>
@@ -126,6 +127,12 @@
         <input class="weui-input" bindinput="desInputChange" placeholder-style="color:#F76260" placeholder="描述：画一副像素画，送给你" />
       </view>
     </view>
+  </view>
+   <view class="open-setting-color__fo">
+    <button
+      class="cu-btn shadow bg-green lg block shadow radius margin-xl"
+      bindtap="inputTitle"
+    >确定</button>
   </view>
 </view>
 

@@ -11,9 +11,11 @@ Page({
       b: 43,
       a: 1
     },
-    fontColor: 'white',
+    pixelColor: '#000000',
     gap: 25,
     gapItems: [],
+    bgColor:  '#ffffff',
+    fontColor: '#333333'
   },
   onLoad() {
     console.log('onLoad')
@@ -40,7 +42,7 @@ Page({
     this.closeSetting()
     const gap = Number(e.detail.value)
     this.bgCanvas.setGap(gap)
-    this.bgCanvas.init()
+    this.bgCanvas.init(this.data.bgColor)
     this.appCanvas.setGap(gap)
     this.appCanvas.updateGrid(0, 0, '', true)
     this.setData({
@@ -55,10 +57,10 @@ Page({
   },
   titleInputChange(e) {
     this.setData({
-      title: this.data.title,
+      title: e.detail.value,
     })
   },
-  desInputChange() {
+  desInputChange(e) {
     this.setData({
       description: e.detail.value
     })
@@ -114,7 +116,7 @@ Page({
         x0: e.touches[0].x,
         y0: e.touches[0].y
       })
-      this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.color, true)
+      this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor, true)
     }
   },
   dispatchTouchMove(e) {
@@ -123,7 +125,7 @@ Page({
         x: e.touches[0].x,
         y: e.touches[0].y
       })
-      this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.color, false)
+      this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor, false)
       // this.bgCanvas.updateLine(this.data.x0, this.data.y0, e.touches[0].x, e.touches[0].y)
     }
   },
@@ -132,7 +134,7 @@ Page({
       this.setData({
         show: false,
       })
-      this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.color, true)
+      this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.pixelColor, true)
       // this.bgCanvas.updateLine(0, 0, 0, 0)
     }
   },
@@ -151,10 +153,20 @@ Page({
     const ctxbg = wx.createCanvasContext('bgCanvas')
     this.bgCanvas = new TestApplication(ctxbg, { width, height })
     this.bgCanvas.setGap(this.data.gap)
-    this.bgCanvas.init()
+    this.bgCanvas.init(this.data.bgColor)
     
     this.appCanvas = new TestApplication(ctx, { width, height })
     this.appCanvas.setGap(this.data.gap)
+  },
+  setShareTitle() {
+    this.setData({
+      showTitlePanel: true,
+    })
+  },
+  inputTitle() {
+    this.setData({
+      showTitlePanel: false,
+    })
   },
   openColorPanel() {
     this.setData({
@@ -164,7 +176,7 @@ Page({
   selectColor() {
     this.closeSetting()
     this.setData({
-      color: `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`,
+      pixelColor: `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`,
       showColorPanel: false,
     })
   },
@@ -185,20 +197,7 @@ Page({
       ...this.data.rgba,
       [type]: value
     }
-    let cb = 0
-    if (rgba.r > 200) {
-      cb += 1
-    }
-    if (rgba.g > 200) {
-      cb += 1
-    }
-    if (rgba.b > 200) {
-      cb += 1
-    }
-    if (rgba.a < 0.5) {
-      cb += 2
-    }
-    this.setData({ rgba, fontColor: cb >= 2 ? 'black' : 'white' })
+    this.setData({ rgba })
   },
   setGridGap() {
     this.setData({
@@ -282,7 +281,10 @@ Page({
               success: res => {
                 data.qrcode = res.path
 
-                shareFrendsApp.createSharePicture(data)
+                shareFrendsApp.createSharePicture(data, {
+                  color: this.data.bgColor,
+                  fontColor: this.data.fontColor,
+                })
                 // canvas画图需要时间而且还是异步的，所以加了个定时器
                 setTimeout(() => {
                   // 将生成的canvas图片，转为真实图片

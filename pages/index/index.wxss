@@ -1,4 +1,8 @@
 //wxss
+page {
+  background: #ffffff;
+}
+
 .share-canvas {
   position: absolute;
   top: 0;
@@ -100,7 +104,8 @@ button::after {
 .save-picture,
 .clear-picture,
 .color-picture,
-.set-grid-gap {
+.set-grid-gap,
+.set-share-title {
   position: absolute;
   right: 20px;
   bottom: 60px;
@@ -121,6 +126,17 @@ button::after {
 
 .set-grid-gap {
   bottom: 240px;
+}
+
+.set-share-title {
+  bottom: 300px;
+}
+
+input {
+  border: 1px solid #ccc;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 12px;
 }
 
 .show-canvas {

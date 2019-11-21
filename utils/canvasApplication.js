@@ -173,7 +173,8 @@ class TestApplication {
     }
   }
 
-  init = () => {
+  init = (color) => {
+    this.fillRect(0, 0, this.canvas.width, this.canvas.height, color)
     this.strokeGrid('grey', this.interval)
     this.ctx.draw()
   }
@@ -226,7 +227,7 @@ class TestApplication {
     }
   }
 
-  createSharePicture = ({ cover, avatar, qrcode, name, title, description, time, color = '#ffffff', fontColor = '#333333' }) => {
+  createSharePicture = ({ cover, avatar, qrcode, name, title, description, time}, { color = '#ffffff', fontColor = '#333333' }) => {
     // 截取昵称 超出省略。。。
     if (name.length > 16) {   //用户昵称显示一行 截取
       name = name.slice(0, 9) + '...'
@@ -239,11 +240,12 @@ class TestApplication {
 
     this.ctx.save()
 
+    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height - 50);
     //绘制logo
     this.ctx.drawImage(avatar, 16, 16, 46, 44);
-    this.ctx.globalCompositeOperation="destination-in"
-    this.ctx.arc(39, 38, 23, 0, Math.PI * 2, true);
-    this.ctx.fill();
+    // this.ctx.globalCompositeOperation="destination-in"
+    // this.ctx.arc(39, 38, 23, 0, Math.PI * 2, true);
+    // this.ctx.fill();
 
     // this.ctx.setStrokeStyle('#ffff')
     // this.ctx.setLineWidth(2)
@@ -273,10 +275,6 @@ class TestApplication {
 
     const bottomBox = this.canvas.height - 150
 
-    this.ctx.restore();
-
-    this.ctx.save()
-    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height - 50);
     this.ctx.restore();
 
     this.ctx.save();
