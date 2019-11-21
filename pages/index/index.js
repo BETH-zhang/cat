@@ -26,7 +26,7 @@ Page({
   },
   setGapItemsDefault() {
     const width = this.systemInfo.windowWidth
-    const gapCounts = [5, 10, 15, 25, 40]
+    const gapCounts = [5, 10, 15, 20, 25, 40]
     const gapItems = gapCounts.map((gapCount) => {
       const gap = Math.floor(width / gapCount)
       return { name: `${gapCount} 列网格`, value: gap }
@@ -247,7 +247,7 @@ Page({
       qrcode: 'https://wx2.sinaimg.cn/orj360/9f7ff7afgy1g95lugzeu0j209k09k403.jpg',
       name: app.globalData.userInfo.nickName,
       title: this.data.title || '抖音像素画',
-      description: this.data.description || '画一副像素画，送给你画一副像素画，送给你',
+      description: this.data.description || '画一副像素画，送给你',
       time: time,
     }
 
