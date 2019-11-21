@@ -258,7 +258,7 @@ class TestApplication {
     // 绘制标题
     this.ctx.font = 'normal normal 14px sans-serif';
     this.ctx.setTextAlign('left');
-    this.ctx.setFillStyle('#4e7dc2')
+    this.ctx.setFillStyle(fontColor)
     const nameWidth = this.ctx.measureText(title).width;
     this.ctx.fillText(title, 75, 35, nameWidth + 5);
 
@@ -296,7 +296,7 @@ class TestApplication {
     // 绘制二维码
     this.ctx.drawImage(qrcode, this.canvas.width - 80, bottomBox + 12, 44, 44);
     this.ctx.setFontSize(10);
-    this.ctx.setFillStyle('#bbbbbb')
+    this.ctx.setFillStyle(fontColor)
     const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
     this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
 
