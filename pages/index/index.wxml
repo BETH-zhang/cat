@@ -32,9 +32,19 @@
   <button class="cu-btn shadow save-picture" bindtap="savePicture">生成</button>
   <button
     class="cu-btn shadow color-picture"
-    style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}});"
-    bindtap="openColorPanel"
+    style="background-color: {{pixelColor}};"
+    bindtap="openPixelColorPanel"
   >色板</button>
+  <button
+    class="cu-btn shadow color-picture"
+    style="background-color: {{bgColor}}; right: 80px;"
+    bindtap="openBgColorPanel"
+  >背景</button>
+  <button
+    class="cu-btn shadow color-picture"
+    style="background-color: {{fontColor}}; right: 140px;"
+    bindtap="openTextColorPanel"
+  >文字</button>
   <!--
   <view hidden="{{!show}}" class="view-canvas-info"> 
      Coordinates: ({{x}}, {{y}})

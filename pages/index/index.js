@@ -11,11 +11,11 @@ Page({
       b: 43,
       a: 1
     },
-    pixelColor: '#000000',
+    pixelColor: 'rgba(240,113, 43, 1)',
     gap: 25,
     gapItems: [],
-    bgColor:  '#ffffff',
-    fontColor: '#333333'
+    bgColor:  'rgba(255, 255, 255, 1)',
+    fontColor: 'rgba(50, 50, 50, 1)'
   },
   onLoad() {
     console.log('onLoad')
@@ -168,15 +168,41 @@ Page({
       showTitlePanel: false,
     })
   },
-  openColorPanel() {
+  getRgba(value) {
+    const arys = value.replace('rgba(', '').replace(')', '').split(',')
+    const rgba = {
+      r: arys[0],
+      g: arys[1],
+      b: arys[2],
+      a: arys[3],
+    }
+    return rgba
+  },
+  openPixelColorPanel() {
+    const rgba = this.getRgba(this.data.pixelColor)
     this.setData({
-      showColorPanel: true,
+      rgba,
+      showColorPanel: 'pixelColor',
+    })
+  },
+  openBgColorPanel() {
+    const rgba = this.getRgba(this.data.bgColor)
+    this.setData({
+      rgba,
+      showColorPanel: 'bgColor',
+    })
+  },
+  openTextColorPanel() {
+    const rgba = this.getRgba(this.data.fontColor)
+    this.setData({
+      rgba,
+      showColorPanel: 'fontColor',
     })
   },
   selectColor() {
     this.closeSetting()
     this.setData({
-      pixelColor: `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`,
+      [this.data.showColorPanel]: `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`,
       showColorPanel: false,
     })
   },
