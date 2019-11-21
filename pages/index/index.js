@@ -234,15 +234,36 @@ Page({
     this.closeSetting()
     this.appCanvas.clear()
   },
-  savePicture() {
-    this.closeSetting()
+  cancelLogin() {
     this.setData({
-      loading: true
+      openLoginPanel: false,
     })
-    wx.showLoading({
-      title: '图片生成中',
+  },
+  onGotUserInfo (e) {
+    console.log(e.detail.errMsg)
+    console.log(e.detail.userInfo)
+    console.log(e.detail.rawData)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      openLoginPanel: false,
     })
-    this.optPictureData()
+    this.savePicture()
+  },
+  savePicture() {
+    if (!app.globalData.userInfo) {
+      this.setData({
+        openLoginPanel: true
+      })
+    } else {
+      this.closeSetting()
+      this.setData({
+        loading: true
+      })
+      wx.showLoading({
+        title: '图片生成中',
+      })
+      this.optPictureData()
+    }
   },
 
   hideModal() {

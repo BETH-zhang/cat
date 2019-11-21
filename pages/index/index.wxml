@@ -59,13 +59,13 @@
   </view>
 </view>
 
-<view class='open-seting-bg' wx:if='{{openSet}}' catchtap='cancleSet'>
+<view class='open-setting-bg' wx:if='{{openSet}}' catchtap='cancleSet'>
   <view class='open-set-inner'>
     <view class='set-title'>是否打开授权设置？</view>
     <view class='btn-openset'>
       <view catchtap='cancleSet'>取消</view>
         <view>
-          <button open-type='openSetting' class='button-style' catchtap='cancleSet'>确定</button>
+          <button open-type='openSetting' type="primary" class='button-style' catchtap='cancleSet'>确定</button>
         </view>
     </view>
   </view>
@@ -119,6 +119,20 @@
       </radio>
   </radio-group>
 </view>
+
+<!-- 登录授权 -->
+<view wx:if='{{openSetting && openLoginPanel}}' class="open-setting-bg">
+  <view class='open-set-inner'>
+    <view class='set-title'>登录后，方便生成专属的像素画图片哦！</view>
+    <view class='btn-openset'>
+      <view catchtap='cancelLogin'>取消</view>
+      <view>
+        <button open-type="getUserInfo" type="primary" class='button-style' bindgetuserinfo="onGotUserInfo">点击登录</button>
+      </view>
+    </view>
+  </view>
+</view>
+
 
 <!-- 设置标题 -->
 <view wx:if='{{openSetting && showTitlePanel}}' class="open-setting">
