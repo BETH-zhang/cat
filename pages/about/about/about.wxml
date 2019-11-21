@@ -2,7 +2,7 @@
 <view class='margin-xl bg-white padding-xl radius shadow-lg'>
   <view class='text-center margin-bottom text-lg  text-grey'>关于程小元像素画</view>
   <view class='text-content'>
-    <view>Hi！开发者~欢迎使用程小元像素画！</view>
-    <view class='margin-top-sm'>更多功能敬请期待！</view>
+    <view>Hi！~欢迎使用程小元像素画！</view>
+    <view class='margin-top-sm'>这里时像素画爱好者的聚集地，未来会上线更多有趣的功能。赶快和程小元一起，玩转像素画吧。</view>
   </view>
 </view>
