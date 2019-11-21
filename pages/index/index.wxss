@@ -1,6 +1,20 @@
 //wxss
+.share-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+}
+
 .bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   background: #ffffff;
+  border-bottom: 1px solid #ccc;
+  z-index: 1;
 }
 
 .main-canvas {
@@ -8,8 +22,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 50vh;
-  z-index: 1;
+  z-index: 2;
 }
 
 .open-seting-bg,
@@ -86,7 +99,8 @@ button::after {
 
 .save-picture,
 .clear-picture,
-.color-picture {
+.color-picture,
+.set-grid-gap {
   position: absolute;
   right: 20px;
   bottom: 60px;
@@ -97,20 +111,31 @@ button::after {
   background-color: #e54d42;
 }
 
-.clear-picture {
-  bottom: 180px;
-}
-
 .save-picture {
   bottom: 120px;
 }
 
+.clear-picture {
+  bottom: 180px;
+}
+
+.set-grid-gap {
+  bottom: 240px;
+}
+
 .show-canvas {
   display: block;
+  translate: 1s all;
 }
 
 .hide-canvas {
   display: none;
+  translate: 1s all;
+}
+
+.setting-pane {
+  width: 100%;
+  height: 100vh;
 }
 
 .view-canvas-info {
@@ -119,6 +144,27 @@ button::after {
   bottom: 60px;
   z-index: 1;
   background: #ffffff;
+}
+
+.open-setting {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 99999;
+  padding: 20px;
+  background: #fff;
+  width: 100%;
+  height: 100vh;
+}
+
+.open-setting .radio {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.open-setting .radio text {
+  margin-left: 12px;
 }
 
 .open-setting-color {

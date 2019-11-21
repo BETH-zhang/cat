@@ -174,18 +174,6 @@ class TestApplication {
   }
 
   init = () => {
-    // this.checkApi(['save', 'strokeStyle', 'lineWidth', 'beginPath', 'moveTo', 'lineTo', 'stroke', 'restore', 'fillStyle', 'arc', 'fill'])
-    // console.log(this.ctx)
-
-    // this.ctx.setFillStyle('red')
-    // this.ctx.fillRect(10, 10, 150, 75)
-    // this.ctx.draw(false, function (e) {
-    //   console.log('draw callback')
-    // })
-
-    // this.strokeLine(0, 0, 200, 200)
-    // this.fillCircle(100, 100, 20, 'green')
-    // this.strokeCoord(100, 100, 100, 100)
     this.strokeGrid('grey', this.interval)
     this.ctx.draw()
   }
@@ -199,13 +187,15 @@ class TestApplication {
   }
 
   calCoord = (x, y) => {
-    return `${Math.floor(x / this.interval) * this.interval},${Math.floor(y / this.interval) * this.interval}`
+    const i = Math.floor(x / this.interval)
+    const j = Math.floor(y / this.interval)
+    return `${i}, ${j}`
   }
 
   draw = () => {
     this.data.forEach((item) => {
       const ary = item[0].split(',')
-      this.fillRect(ary[0], ary[1], this.interval, this.interval, item[1])
+      this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, item[1])
     })
     this.ctx.draw()
   }
@@ -225,8 +215,13 @@ class TestApplication {
 
   updateGrid = (x, y, color, allowDraw) => {    
     const coord = this.calCoord(x, y)
-    this.data.push([coord, color])
+    if (x || y) {
+      this.data.push([coord, color])
+    }
     if (allowDraw) {
+      if (allowDraw === 'grid') {
+        this.strokeGrid('grey', this.interval)
+      }
       this.draw()
     }
   }
@@ -244,32 +239,34 @@ class TestApplication {
 
     this.ctx.save()
 
-    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height - 50);
 
     //绘制logo
     this.ctx.drawImage(avatar, 16, 16, 45, 45);
 
     this.ctx.restore();
+    
     this.ctx.save();
-
+    // 绘制标题
     this.ctx.font = 'normal normal 14px sans-serif';
     this.ctx.setTextAlign('left');
     this.ctx.setFillStyle('#4e7dc2')
-    const nameWidth = this.ctx.measureText(title).width;   //时间文字的所占宽度
+    const nameWidth = this.ctx.measureText(title).width;
     this.ctx.fillText(title, 75, 35, nameWidth + 5);
 
     this.ctx.restore();
 
     this.ctx.save();
 
-    // 绘制时间
+    // 名称 + 时间
     this.ctx.setFontSize(12);
     this.ctx.setTextAlign('right');
     this.ctx.setFillStyle('#bbbbbb')
-    const metrics = this.ctx.measureText(name + ' ' + time).width;   //时间文字的所占宽度
+    const metrics = this.ctx.measureText(name + ' ' + time).width;
     this.ctx.fillText(name + ' ' + time, metrics + 75, 55, metrics + 5);
 
-    const bottomBox = this.canvas.height - 100
+    const bottomBox = this.canvas.height - 150
+
     // 二维码描述  及图片
     this.ctx.setStrokeStyle('#eeeeee');
     this.ctx.strokeRect(16, bottomBox, this.canvas.width - 36, 80);

@@ -1,28 +1,32 @@
 <component wx:if="{{PageCur=='component'}}"></component>
 <about wx:if="{{PageCur=='about'}}"></about>
 
-<cover-view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
+<view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
     canvas-id="shareFrends"
-    class="main-canvas"
-    style="width: 100%; height: 100vh; z-index: 0"
+    class="share-canvas"
+    style="width: {{width}}px; height: {{height}}px; display: {{openSetting ? 'none' : 'black'}}"
   />
   <canvas
     canvas-id="bgCanvas"
-    class="main-canvas bg-canvas"
-    style="width: 100%; height: 100vh"
+    class="bg-canvas"
+    style="width: {{width}}px; height: {{height}}px; display: {{openSetting ? 'none' : 'black'}}"
   />
   <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
-    style="width: 100%; height: 100vh"
+    style="width: {{width}}px; height: {{height}}px; display: {{openSetting ? 'none' : 'black'}}"
     bindtouchstart="dispatchTouchStart"
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
   />
-</cover-view>
+</view>
+<view class="{{ openSetting && shareImg ? 'show-canvas' : 'hide-canvas' }}">
+ <image src='{{shareImg}}' style="width: {{width}}px; height: {{height}}px; background: #ffffff"></image>
+</view>
 
-<view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
+<view class="setting-panel" style="display: {{ openSetting ? 'block' : 'none' }}">
+  <button class="cu-btn shadow set-grid-gap" type="default" bindtap="setGridGap">网格</button>
   <button class="cu-btn shadow clear-picture" type="default" bindtap="clearPicture">清除</button>
   <button class="cu-btn shadow save-picture" bindtap="savePicture">生成</button>
   <button
@@ -30,12 +34,14 @@
     style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}}); color: {{fontColor}}"
     bindtap="openColorPanel"
   >色板</button>
+  <!--
   <view hidden="{{!show}}" class="view-canvas-info"> 
      Coordinates: ({{x}}, {{y}})
   </view>
+  -->
 </view>
 
-<view class='share-modal-bg' wx:if='{{showModal}}' bindtap='hideModal'>
+<view class='share-modal-bg' wx:if='{{openSetting && showModal}}' bindtap='hideModal'>
   <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
      <view><image src='{{shareImg}}' class='share-img'></image></view>
      <view class="share-msg" bindtap='hideModal'>长按保存</view>
@@ -54,7 +60,7 @@
   </view>
 </view>
 
-<view wx:if='{{showColorPanel}}' class="open-setting-color">
+<view wx:if='{{openSetting && showColorPanel}}' class="open-setting-color">
     <view class="open-setting-color__bd">
         <view class="section section_gap">
             <text class="section__title">Red</text>
@@ -93,17 +99,23 @@
     </view>
 </view>
 
+<view wx:if='{{openSetting && showGridPanel}}' class="open-setting">
+  <radio-group class="radio-group" bindchange="radioChange">
+      <radio class="radio" wx:for-items="{{gapItems}}" wx:key="value" value="{{item.value}}" checked="{{gap === item.value}}">
+        <text>{{item.name}}</text>
+      </radio>
+  </radio-group>
+</view>
+
 <view class="cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="basics">
-    <image src="/images/tabbar/logo-icon{{PageCur=='basics'?'-action':''}}.png"></image>
-    <view class="{{PageCur=='basics'?'text-blue':'text-gray'}}">像素画</view>
+    <image src="/images/tabbar/logo-icon{{PageCur=='basics' && !openSetting?'-action':''}}.png"></image>
+    <view class="{{PageCur=='basics' && !openSetting?'text-blue':'text-gray'}}">像素画</view>
   </view>
-  <!--
-  <view class="action" bindtap="NavChange" data-cur="component">
-    <image src="/images/tabbar/logo-icon{{PageCur=='component'?'-action':''}}.png"></image>
-    <view class="{{PageCur=='component'?'text-blue':'text-gray'}}">文饼</view>
+  <view class="action" style="display: {{ PageCur=='basics' ? 'block' : 'none' }}" bindtap="openSetting" data-cur="component">
+    <image src="/images/tabbar/logo-icon{{openSetting?'-action':''}}.png"></image>
+    <view class="{{openSetting?'text-blue':'text-gray'}}">设置</view>
   </view>
-  --->
   <view class="action" bindtap="NavChange" data-cur="about">
     <image src="/images/tabbar/logo-icon{{PageCur=='about'?'-action':''}}.png"></image>
     <view class="{{PageCur=='about'?'text-blue':'text-gray'}}">关于</view>
