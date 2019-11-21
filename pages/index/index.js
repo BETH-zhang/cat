@@ -201,8 +201,12 @@ Page({
   },
   selectColor() {
     this.closeSetting()
+    const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
+    if (this.data.showColorPanel === 'bgColor') {
+      this.bgCanvas.init(color)
+    }
     this.setData({
-      [this.data.showColorPanel]: `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`,
+      [this.data.showColorPanel]: color,
       showColorPanel: false,
     })
   },
@@ -306,6 +310,7 @@ Page({
       avatar: app.globalData.userInfo.avatarUrl,
       cover: this.data.shareImg,
       qrcode: 'https://wx2.sinaimg.cn/orj360/9f7ff7afgy1g95lugzeu0j209k09k403.jpg',
+      logo: '',
       name: app.globalData.userInfo.nickName,
       title: this.data.title || '程小元像素画',
       description: this.data.description || '画一副像素画，送给你',
