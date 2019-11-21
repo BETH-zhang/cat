@@ -226,7 +226,7 @@ class TestApplication {
     }
   }
 
-  createSharePicture = ({ cover, avatar, qrcode, name, title, description, time }) => {
+  createSharePicture = ({ cover, avatar, qrcode, name, title, description, time, color = '#ffffff', fontColor = '#333333' }) => {
     // 截取昵称 超出省略。。。
     if (name.length > 16) {   //用户昵称显示一行 截取
       name = name.slice(0, 9) + '...'
@@ -235,7 +235,7 @@ class TestApplication {
       title = title.slice(0, 9) + '...'
     }
 
-    this.fillRect(0, 0, this.canvas.width, this.canvas.height, 'white')
+    this.fillRect(0, 0, this.canvas.width, this.canvas.height, color)
 
     this.ctx.save()
 
@@ -261,30 +261,36 @@ class TestApplication {
     // 名称 + 时间
     this.ctx.setFontSize(12);
     this.ctx.setTextAlign('right');
-    this.ctx.setFillStyle('#bbbbbb')
+    this.ctx.setFillStyle(fontColor)
     const metrics = this.ctx.measureText(name + ' ' + time).width;
     this.ctx.fillText(name + ' ' + time, metrics + 75, 55, metrics + 5);
 
     const bottomBox = this.canvas.height - 150
 
+    this.ctx.restore();
+
+    this.ctx.save();
     // 二维码描述  及图片
-    this.ctx.setStrokeStyle('#eeeeee');
+    this.ctx.setStrokeStyle(fontColor);
     this.ctx.strokeRect(16, bottomBox, this.canvas.width - 36, 80);
-    this.ctx.setFillStyle('#333333')
+    this.ctx.setFillStyle(color);
+    this.ctx.fillRect(16, bottomBox, this.canvas.width - 36, 80);
+    this.ctx.setFillStyle(fontColor)
+    this.ctx.setFontSize(12);
     const d1 = description.slice(0, 11)
     const d2 = description.slice(11, 20)
     const d1Width = this.ctx.measureText(d1).width;
     const d2Width = this.ctx.measureText(d2).width;
     
-    this.ctx.fillText(d1, d1Width + 40, bottomBox + 30, d1Width + 5);   // 描述截取换行
-    this.ctx.fillText(d2, d2Width + 40, bottomBox + 60, d2Width + 5);
+    this.ctx.fillText(d1, 40, bottomBox + 30, d1Width + 5);   // 描述截取换行
+    this.ctx.fillText(d2, 40, bottomBox + 60, d2Width + 5);
 
     // 绘制二维码
     this.ctx.drawImage(qrcode, this.canvas.width - 80, bottomBox + 12, 44, 44);
     this.ctx.setFontSize(10);
     this.ctx.setFillStyle('#bbbbbb')
     const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
-    this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth + 45, bottomBox + 70, logoWidth + 5);
+    this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
 
     this.ctx.draw()
     console.log('绘制完成')
