@@ -1,5 +1,6 @@
 const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
+import WxUtils from '../../utils/wxUtils'
 
 Page({
   data: {
@@ -19,12 +20,18 @@ Page({
   },
   onLoad() {
     console.log('onLoad')
-    this.initCanvas()
+    this.initData()
+    // this.initCanvas()
+    this.testCanvas()
     this.selectColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
   },
   onReady() {
     console.log('onReady')
     console.log(app.globalData)
+  },
+  initData() {
+    this.wxUtils = new WxUtils(wx, app)
+    this.wxUtils.data
   },
   setGapItemsDefault() {
     const width = this.systemInfo.windowWidth
@@ -99,7 +106,7 @@ Page({
   onShareAppMessage() {
     return {
       title: '程小元像素画',
-      imageUrl: '/images/share.jpg',
+      imageUrl: '/images/share.png',
       path: '/pages/index/index',
       success: function(res) {
         console.log('转发成功', res)
@@ -137,6 +144,28 @@ Page({
       this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.pixelColor, true)
       // this.bgCanvas.updateLine(0, 0, 0, 0)
     }
+  },
+  testCanvas() {
+    this.systemInfo = null
+    wx.getSystemInfo({
+      success: (res) => {
+        this.systemInfo = res
+        this.setGapItemsDefault()
+      }
+    })
+    const width = this.systemInfo.windowWidth
+    const height = width
+    const ctx = wx.createCanvasContext('mainCanvas')
+    this.setData({ width, height })
+
+    this.appCanvas = new TestApplication(ctx, { width, height })
+    wx.getImageInfo({
+      src: 'https://wx2.sinaimg.cn/orj360/9f7ff7afgy1g9ac546ennj20qu0kk1kx.jpg',
+      success: res => {
+        console.log('res: ', res)
+        this.appCanvas.smartExtractPixel(res, wx)
+      }
+    })
   },
   initCanvas() {
     this.systemInfo = null
@@ -309,7 +338,7 @@ Page({
     const data = {
       avatar: app.globalData.userInfo.avatarUrl,
       cover: this.data.shareImg,
-      qrcode: 'https://wx2.sinaimg.cn/orj360/9f7ff7afgy1g95lugzeu0j209k09k403.jpg',
+      qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
       logo: '',
       name: app.globalData.userInfo.nickName,
       title: this.data.title || '程小元像素画',

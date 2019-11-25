@@ -325,9 +325,71 @@ class TestApplication {
 
   createColorCard = () => {}
 
-  smartExtractPixel = () => {
+  formatImageData = (imageData, interval) => {
+    const data = imgData.data
+    let rgbaCount = data.length / 4
+    console.log(rgbaCount, data)
+    for (let i = 0; i< rgbaCount; i++) {
+      // 注意下面索引的计算方式
+      imgData.data[i * 4 + 0] = 255
+      imgData.data[i * 4 + 1] = 0
+      imgData.data[i * 4 + 2] = 0
+      imgData.data[i * 4 + 3] = 255
+    }
+  }
+
+  smartExtractPixel = (pictureData, wx) => {
+    console.log('pictureData: ', pictureData)
+    this.drawImage(
+      pictureData.path,
+      { x: 0, y: 0, width: pictureData.width, height: pictureData.height },
+      { x: (this.canvas.width - pictureData.width) / 2, y: 0, width: pictureData.width * (this.canvas.height / pictureData.height), height: this.canvas.height },
+    )
+
+    this.ctx.draw(false, () => {
+      wx.canvasGetImageData({
+        canvasId: 'mainCanvas',
+        width: this.canvas.width,
+        height: this.canvas.height,
+        x: 0,
+        y: 0,
+        success: (res) => {
+          console.log("res:",res)
+          this.formatImageData(res)
+        },
+        fail: (res) => {
+          console.log("faild",res)
+        }
+      })
+    })
+
+    // 将图片平铺到画布中
     // 读取图片像素值
     // 设置程相关数据
+
+    // this.drawImage(colorCanvas, Rectangle.create(100, 100, colorCanvas.width, colorCanvas.height))
+    // // 接上面的代码继续往下来替换颜色
+    // // 使用createImageData方法，大小为size * size 个像素
+    // // 每个像素又有4个分量[r, g, b, a]
+    // const imgData: ImageData = context.createImageData(size, size)
+    // // imgData有三个属性，其中data属性存储的是一个Uint8ClampedArray类型数组对象
+    // // 该数组中存储方式为：[r, g, b, a, r, g, b, a, ...]
+    // // 所以imgData.data.length = size * size * 4
+    // // 上面也提到过，imgData.data.length 表示的是所有分量的个数
+    // // 而为了方便寻址，希望使用像素个数进行遍历，因此要除以4（一个像素由r，g，b，a这4个分量组成）
+    // const data = imgData.data
+    // let rgbaCount: number = data.length / 4
+    // console.log(rgbaCount, data)
+    // for (let i = 0; i< rgbaCount; i++) {
+    //   // 注意下面索引的计算方式
+    //   imgData.data[i * 4 + 0] = 255
+    //   imgData.data[i * 4 + 1] = 0
+    //   imgData.data[i * 4 + 2] = 0
+    //   imgData.data[i * 4 + 3] = 255
+    // }
+
+    // // 一定要调用putImageData方法来替换context中的像素数据
+    // context.putImageData(imgData, size * rColum, size * rRow, 0, 0, size, size)
   }
 }
 
