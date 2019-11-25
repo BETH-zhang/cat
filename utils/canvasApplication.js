@@ -322,6 +322,13 @@ class TestApplication {
       }
     }
   }
+
+  createColorCard = () => {}
+
+  smartExtractPixel = () => {
+    // 读取图片像素值
+    // 设置程相关数据
+  }
 }
 
 export default TestApplication

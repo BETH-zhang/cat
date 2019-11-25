@@ -72,6 +72,10 @@ const throttle = (method, delay, duration) => {
   }
 }
 
+const fetchApi = () => {
+  // http://zhongguose.com/colors.json
+}
+
 module.exports = {
   formatTime: formatTime,
   isEmpty: isEmpty,
