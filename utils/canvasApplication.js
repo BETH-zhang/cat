@@ -2,9 +2,11 @@ import { throttle } from './util.js'
 
 const EImageFillType = {
   STRETCH: 'STRETCH',
+  STRETCH_CENTER: 'STRETCH_CENTER',
   REPEAT: 'REPEAT',
   REPEAT_X: 'REPEAT_X',
   REPEAT_Y: 'REPEAT_Y',
+  CENTER: 'CENTER',
 }
 
 class TestApplication {
@@ -75,8 +77,12 @@ class TestApplication {
   drawImage = (img, destRect = {}, srcRect = {}, fillType = EImageFillType.STRETCH) =>  {
     this.check()
 
-    // 分为stretch和repeat两种法方式
-    if (fillType === EImageFillType.STRETCH) {
+    if (fillType === EImageFillType.STRETCH_CENTER) {
+      console.log('stretch_center')
+    } else if (fillType === EImageFillType.CENTER) {
+      console.log('center')
+    } else if (fillType === EImageFillType.STRETCH) {
+      // 分为stretch和repeat两种法方式
       console.log('stretch')
       this.ctx.drawImage(img,
         srcRect.x,

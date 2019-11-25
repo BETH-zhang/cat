@@ -1,0 +1,9 @@
+@function rpx($value) {
+  @return $value*1rpx;
+}
+
+button {
+  width: rpx(700);
+  height: rpx(92);
+  background-color: #ffddab !important;
+}
