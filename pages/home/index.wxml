@@ -1,8 +1,3 @@
-<about wx:if="{{PageCur==='about'}}"></about>
-<color wx:if="{{PageCur==='color'}}"></color>
-<convert wx:if="{{PageCur==='convert'}}"></convert>
-<home wx:if="{{PageCur==='home'}}"></home>
-
 <view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
     canvas-id="shareFrends"
@@ -171,23 +166,3 @@
   <image src="/images/tabbar/logo-icon{{openSetting?'-active':''}}.png"></image>
   <view class="{{openSetting?'text-blue':'text-gray'}}">设置</view>
 </view>
-
-<view class="cu-bar tabbar bg-white shadow foot">
-  <view class="action" bindtap="NavChange" data-cur="basics">
-    <image src="/images/tabbar/logo-icon{{PageCur=='basics' && !openSetting?'-active':''}}.png"></image>
-    <view class="{{PageCur=='basics' && !openSetting?'text-blue':'text-gray'}}">像素画</view>
-  </view>
-  <view class="action" bindtap="NavChange" data-cur="convert">
-    <image src="/images/tabbar/logo-icon{{PageCur=='convert'?'-active':''}}.png"></image>
-    <view class="{{PageCur=='convert'?'text-blue':'text-gray'}}">AI画</view>
-  </view>
-  <view class="action" bindtap="NavChange" data-cur="color">
-    <image src="/images/tabbar/logo-icon{{PageCur=='color'?'-active':''}}.png"></image>
-    <view class="{{PageCur=='color'?'text-blue':'text-gray'}}">色卡</view>
-  </view>
-  <view class="action" bindtap="NavChange" data-cur="about">
-    <image src="/images/tabbar/logo-icon{{PageCur=='about'?'-active':''}}.png"></image>
-    <view class="{{PageCur=='about'?'text-blue':'text-gray'}}">关于</view>
-  </view>
-</view>
-

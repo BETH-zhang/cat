@@ -1,6 +1,8 @@
-<scroll-view scroll-y class="scrollPage">
+<view>
   <view class="UCenter-bg">
-    <image src="/images/logo.png" class="png" mode="widthFix"></image>
+    <view class="logo-box">
+      <image src="/images/logo.png" class="png" mode="widthFix"></image>
+    </view>
     <view class="text-xl">程小元像素画
       <text class="text-df">v1.0</text>
     </view>
@@ -37,10 +39,11 @@
       </view>
     </view>
     -->
-    <view class="cu-item arrow">
+    <view class="cu-item">
       <navigator class="content" url="/pages/about/about/about" hover-class="none">
         <image src="/images/logo.png" class="png" mode="aspectFit"></image>
-        <text class="text-grey" style="margin-left: 12px">关于程小元像素画</text>
+        <text class="text-grey" style="margin-left: 5px">关于程小元像素画</text>
+        <text class="iconfont icon-jiantou text-grey float-right"></text>
       </navigator>
     </view>
     <!--
@@ -51,12 +54,13 @@
       </navigator>
     </view>
     -->
-    <view class="cu-item arrow">
+    <view class="cu-item">
       <view class="content" bindtap="showQrcode">
         <text class="iconfont icon-zan text-red"></text>
         <text class="text-grey" style="margin-left: 12px">赞赏支持</text>
+        <text class="iconfont icon-jiantou text-grey float-right"></text>
       </view>
     </view>
   </view>
   <view class="cu-tabbar-height"></view>
-</scroll-view>
+</view>

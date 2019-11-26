@@ -1,0 +1,23 @@
+{
+  "name": "cat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BETH-zhang/cat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BETH-zhang/cat/issues"
+  },
+  "homepage": "https://github.com/BETH-zhang/cat#readme",
+  "dependencies": {
+    "vant-weapp": "^0.5.23",
+    "weui-miniprogram": "^0.2.0"
+  }
+}

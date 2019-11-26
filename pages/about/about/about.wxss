@@ -19,6 +19,8 @@
 .UCenter-bg image {
   width: 250rpx;
   height: 250rpx;
+  background: #ffffff;
+  border-raduis: 50%;
 }
 
 .UCenter-bg .animation-wave {

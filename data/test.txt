@@ -7,3 +7,32 @@ button {
   height: rpx(92);
   background-color: #ffddab !important;
 }
+
+// "cu-custom": "/colorui/components/cu-custom",
+
+"tabBar": {
+    "custom": true,
+    "color": "#cccccc",
+    "selectedColor": "#000000",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "iconPath": "images/tabbar/logo-icon.png",
+      "selectedIconPath": "images/tabbar/logo-icon-active.png",
+      "text": "像素画"
+    }, {
+      "pagePath": "pages/convert/index",
+      "iconPath": "images/tabbar/logo-icon.png",
+      "selectedIconPath": "images/tabbar/logo-icon-active.png",
+      "text": "AI画"
+    }, {
+      "pagePath": "pages/color/index",
+      "iconPath": "images/tabbar/logo-icon.png",
+      "selectedIconPath": "images/tabbar/logo-icon-active.png",
+      "text": "色卡"
+    }, {
+      "pagePath": "pages/about/home/home",
+      "iconPath": "images/tabbar/logo-icon.png",
+      "selectedIconPath": "images/tabbar/logo-icon-active.png",
+      "text": "我的"
+    }]
+  },

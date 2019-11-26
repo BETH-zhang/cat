@@ -28,7 +28,7 @@ App({
     // 登录
     wx.login({
       success: res => {
-        console.log(res)
+        // console.log(res)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
@@ -57,7 +57,7 @@ App({
   customSystemBarStyle: function() {
     wx.getSystemInfo({
       success: e => {
-        console.log('wx.getSystemInfo:', e)
+        // console.log('wx.getSystemInfo:', e)
         this.globalData.StatusBar = e.statusBarHeight;
         let capsule = wx.getMenuButtonBoundingClientRect();
         if (capsule) {

@@ -1,0 +1,3 @@
+<view>
+  <canvas canvas-id="cvCanvas" class="cv-canvas" />
+</view>

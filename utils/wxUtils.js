@@ -48,17 +48,20 @@ class WxUtils {
   }
 
   createCtx = (id) => {
-    this.wx.createCanvasContext(id);
+    return this.wx.createCanvasContext(id);
   }
 
   chooseImage = () => {
     this.wx.chooseImage({
       count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
       success: (res) => {
-        let imgUrl = res.tempFilePaths[0]
-        // 获取图片大小
-        const imgData = this.downLoadImg(imgUrl)
-        console.log('choose-imgData: ', imgData)
+        console.log('res: ', res)
+        // let imgUrl = res.tempFilePaths[0]
+        // // 获取图片大小
+        // const imgData = this.downLoadImg(imgUrl)
+        // console.log('choose-imgData: ', imgData)
       }
     })
   }

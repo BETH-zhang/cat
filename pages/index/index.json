@@ -1,8 +1,8 @@
 {
   "usingComponents": {
-    "basics": "/pages/basics/home/home",
-    "component": "/pages/component/home/home",
-    "plugin": "/pages/plugin/home/home",
+    "home": "/pages/home/index",
+    "color": "/pages/color/index",
+    "convert": "/pages/convert/index",
     "about": "/pages/about/home/home"
   }
 }

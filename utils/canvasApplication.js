@@ -332,16 +332,17 @@ class TestApplication {
   createColorCard = () => {}
 
   formatImageData = (imageData, interval) => {
-    const data = imgData.data
+    console.log('imageData: ', imageData, interval)
+    const data = imageData.data
     let rgbaCount = data.length / 4
     console.log(rgbaCount, data)
-    for (let i = 0; i< rgbaCount; i++) {
-      // 注意下面索引的计算方式
-      imgData.data[i * 4 + 0] = 255
-      imgData.data[i * 4 + 1] = 0
-      imgData.data[i * 4 + 2] = 0
-      imgData.data[i * 4 + 3] = 255
-    }
+    // for (let i = 0; i< rgbaCount; i++) {
+    //   // 注意下面索引的计算方式
+    //   imageData.data[i * 4 + 0] = 255
+    //   imageData.data[i * 4 + 1] = 0
+    //   imageData.data[i * 4 + 2] = 0
+    //   imageData.data[i * 4 + 3] = 255
+    // }
   }
 
   smartExtractPixel = (pictureData, wx) => {
