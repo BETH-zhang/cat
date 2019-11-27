@@ -1,11 +1,11 @@
 <about wx:if="{{PageCur==='about'}}"></about>
 <color wx:if="{{PageCur==='color'}}"></color>
 <convert wx:if="{{PageCur==='convert'}}"></convert>
-<home PageCur="{{PageCur}}" wx:if="{{PageCur==='home'}}"></home>
+<home bindmyevent="myEventListener" wx:if="{{PageCur==='home'}}"></home>
 
 <view wx:if="{{PageCur!=='home'}}" class="cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="home">
-    <i class="iconfont icon-noun__cc {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
+    <i class="iconfont icon-noun__cc {{PageCur=='home'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='home' && !openSetting?'text-blue':'text-gray'}}">像素画</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="convert">
@@ -13,11 +13,11 @@
     <view class="{{PageCur=='convert'?'text-blue':'text-gray'}}">AI画</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="color">
-    <i class="iconfont icon-seqia {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
+    <i class="iconfont icon-seqia {{PageCur=='color'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='color'?'text-blue':'text-gray'}}">色卡</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="about">
-    <i class="iconfont icon-houzi {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
+    <i class="iconfont icon-houzi {{PageCur=='about'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='about'?'text-blue':'text-gray'}}">程小元</view>
   </view>
 </view>

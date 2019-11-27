@@ -1559,6 +1559,11 @@ button.icon.lg {
 	top: -10rpx;
 }
 
+.cu-bar.tabbar .iconfont {
+	display: inline-block;
+	margin-bottom: 12rpx;
+}
+
 .cu-bar.tabbar .action {
 	margin: 0 auto;
 }
