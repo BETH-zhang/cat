@@ -5,13 +5,11 @@ Page({
     PageCur: 'home',
   },
   onLoad() {
-    console.log('basics')
+    console.log('basics', this.data.PageCur)
   },
   NavChange(e) {
     this.setData({
       PageCur: e.currentTarget.dataset.cur,
-      openSetting: false,
-      loading: false,
     })
   },
 })

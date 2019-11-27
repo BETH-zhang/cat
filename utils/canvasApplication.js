@@ -17,7 +17,7 @@ class TestApplication {
     this.data = []
     this.color = 'red'
     // this.print()
-    this.checkAllApi()
+    // this.checkAllApi()
   }
 
   check = () => {

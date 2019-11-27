@@ -5,9 +5,20 @@ import WxUtils from '../../utils/wxUtils'
 Component({
   options: {
     addGlobalClass: true,
+    // styleIsolation: 'shared',
+  },
+  properties: {
+    PageCur: {
+      type: "String",
+      value: "home",
+      observer:function(news, olds, path){
+        console.log('properties: ', news, olds, path)
+      }
+    }
   },
   data: {
-    PageCur: 'basics',
+    currentType: 'canvas',
+    toolType: 'brush', // back, clearn, brush, eraser, straw, generate
     shareImg: '',
     rgba: {
       r: 240,
@@ -29,7 +40,7 @@ Component({
       console.log("attached")
     },
     ready() {
-      console.log('ready')
+      console.log('ready', this.data.PageCur, this.data.currentType)
       this.initCanvas()
       this.selectColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
     },
@@ -41,6 +52,31 @@ Component({
     },
   },
   methods: {
+    ToolChange(e) {
+      const key = e.currentTarget.dataset.cur
+      // back, clean, brush, eraser, straw, generate
+      switch(key) {
+        case 'back':
+          break
+        case 'clean':
+          break
+        case 'eraser':
+          break
+        case 'generate':
+          this.setData({ currentType: 'canvas' })
+          break
+      }
+    },
+    setCurrentType() {
+      this.setData({
+        currentType: 'setting',
+      })
+    },
+    NavChange(e) {
+      this.setData({
+        PageCur: e.currentTarget.dataset.cur,
+      })
+    },
     setGapItemsDefault() {
       const width = this.systemInfo.windowWidth
       const gapCounts = [5, 10, 15, 20, 25, 40]
@@ -80,14 +116,6 @@ Component({
         description: e.detail.value
       })
     },
-    NavChange(e) {
-      // this.appCanvas.updateGrid(0, 0, '', true)
-      this.setData({
-        PageCur: e.currentTarget.dataset.cur,
-        openSetting: false,
-        loading: false,
-      })
-    },
     openSetting() {
       // this.appCanvas.updateGrid(0, 0, '', 'grid')
       wx.canvasToTempFilePath({
@@ -99,7 +127,7 @@ Component({
           console.log('shareImg: ', shareImg)
           this.setData({
             shareImg: shareImg,
-            openSetting: true,
+            currentType: 'setting',
           })
         },
         fail: function (res) {
@@ -108,7 +136,7 @@ Component({
     },
     closeSetting() {
       this.setData({
-        openSetting: false,
+        currentType: 'canvas',
       })
     },
     onShareAppMessage() {
@@ -364,7 +392,7 @@ Component({
                           showShareModal: false,
                           loading: false,
                           showModal: true,
-                          openSetting: true,
+                          currentType: 'setting',
                         })
                         wx.hideLoading()
                       },
