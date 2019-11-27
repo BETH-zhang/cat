@@ -17,6 +17,7 @@ class TestApplication {
     this.data = []
     this.color = 'red'
     // this.print()
+    this.checkAllApi()
   }
 
   check = () => {
@@ -35,6 +36,7 @@ class TestApplication {
         }
       })
       console.log(api, '-- 映射 --', names)
+      return names
     } else {
       console.log('apis', apis)
     }
@@ -42,10 +44,41 @@ class TestApplication {
 
   checkApi = (names) => {
     if (names) {
+      const data = []
       names.forEach((name) => {
-        this.print(name)
+        data.push(` | ${name} | ${this.print(name)}`)
       })
+      console.log(data.join('\n'))
     }
+  }
+
+  checkAllApi = () => {
+    this.checkApi([
+      'save',
+      'lineWidth',
+      'lineCap',
+      'lineJoin',
+      'lineDashOffset',
+      'font',
+      'strokeStyle',
+      'fillStyle',
+      'rect',
+      'arc',
+      'beginPath',
+      'moveTo',
+      'lineTo',
+      'closePath',
+      'stroke',
+      'fill',
+      'rotate',
+      'translate',
+      'scale',
+      'restore',
+      'drawImage',
+      'createImageData',
+      'putImageData',
+      'clearRect',
+    ])
   }
 
   strokeLine = (x0, y0, x1, y1) => {
