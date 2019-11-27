@@ -229,12 +229,12 @@ class TestApplication {
   calCoord = (x, y) => {
     const i = Math.floor(x / this.interval)
     const j = Math.floor(y / this.interval)
-    return `${i}, ${j}`
+    return [i, j]
   }
 
   draw = () => {
     this.data.forEach((item) => {
-      const ary = item[0].split(',')
+      const ary = item[0]
       this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, item[1])
     })
     this.ctx.draw()
@@ -253,16 +253,12 @@ class TestApplication {
     this.ctx.draw()
   }
 
-  updateGrid = (x, y, color, allowDraw) => {    
+  updateGrid = (x, y, color) => {    
     const coord = this.calCoord(x, y)
     if (x || y) {
       this.data.push([coord, color])
-    }
-    if (allowDraw) {
-      if (allowDraw === 'grid') {
-        this.strokeGrid('grey', this.interval)
-      }
-      this.draw()
+      this.fillRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval, color)
+      this.ctx.draw(true)
     }
   }
 

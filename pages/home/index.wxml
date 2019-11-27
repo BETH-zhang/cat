@@ -1,12 +1,7 @@
-<view class="{{ PageCur=='basics' ? 'show-canvas' : 'hide-canvas' }}">
+<view class="{{ PageCur=='basics' ? '' : 'hide-canvas' }}">
   <canvas
     canvas-id="shareFrends"
     class="share-canvas"
-    style="width: {{width}}px; height: {{height}}px; display: {{openSetting ? 'none' : 'black'}}"
-  />
-  <canvas
-    canvas-id="bgCanvas"
-    class="bg-canvas"
     style="width: {{width}}px; height: {{height}}px; display: {{openSetting ? 'none' : 'black'}}"
   />
   <canvas

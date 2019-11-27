@@ -131,7 +131,7 @@ Component({
           x0: e.touches[0].x,
           y0: e.touches[0].y
         })
-        this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor, true)
+        this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }
     },
     dispatchTouchMove(e) {
@@ -140,8 +140,7 @@ Component({
           x: e.touches[0].x,
           y: e.touches[0].y
         })
-        this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor, false)
-        // this.bgCanvas.updateLine(this.data.x0, this.data.y0, e.touches[0].x, e.touches[0].y)
+        this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }
     },
     dispatchTouchEnd(e) {
@@ -149,8 +148,7 @@ Component({
         this.setData({
           show: false,
         })
-        this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.pixelColor, true)
-        // this.bgCanvas.updateLine(0, 0, 0, 0)
+        this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.pixelColor)
       }
     },
     initCanvas() {
@@ -164,15 +162,10 @@ Component({
       const width = this.systemInfo.windowWidth
       const height = Math.floor((this.systemInfo.windowHeight - 50) / this.data.gap) * this.data.gap
       this.setData({ width, height })
-      const ctx = wx.createCanvasContext('mainCanvas', this)
-      const ctxbg = wx.createCanvasContext('bgCanvas', this)
-      this.bgCanvas = new TestApplication(ctxbg, { width, height })
-      console.log('this.bgCanvas: ', ctxbg, '---', this.bgCanvas)
-      this.bgCanvas.setGap(this.data.gap)
-      this.bgCanvas.init(this.data.bgColor)
-      
+      const ctx = wx.createCanvasContext('mainCanvas', this)      
       this.appCanvas = new TestApplication(ctx, { width, height })
       this.appCanvas.setGap(this.data.gap)
+      this.appCanvas.init(this.data.bgColor)
     },
     setShareTitle() {
       this.setData({
@@ -219,7 +212,9 @@ Component({
       this.closeSetting()
       const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
       if (this.data.showColorPanel === 'bgColor') {
-        this.bgCanvas.init(color)
+        // this.bgCanvas.init(color)
+        this.appCanvas.init(color)
+        this.appCanvas.draw()
       }
       this.setData({
         [this.data.showColorPanel]: color,
