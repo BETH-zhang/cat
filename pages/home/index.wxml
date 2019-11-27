@@ -1,31 +1,30 @@
-<view>
+<authSetting bindauthsettingevent="SettingEventListener" wx:if="{{authSetting==='login'}}"></authSetting>
+
+<view class="{{ !hideCanvas ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
     canvas-id="shareFrends"
     class="share-canvas"
-    style="width: {{width}}px; height: {{height}}px; display: {{currentType=='setting' ? 'none' : 'black'}}"
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}"
   />
   <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
-    style="width: {{width}}px; height: {{height}}px; display: {{currentType=='setting' ? 'none' : 'black'}}"
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}"
     bindtouchstart="dispatchTouchStart"
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
   />
 </view>
-<view class="{{ currentType=='setting' && shareImg ? 'show-canvas' : 'hide-canvas' }}">
- <image src='{{shareImg}}' style="width: {{width}}px; height: {{height}}px; background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"></image>
+<view class="{{ hideCanvas && shareImg ? 'show-canvas' : 'hide-canvas' }}">
+  <image
+    src='{{shareImg}}'
+    style="width: {{width}}px; height: {{height}}px; background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"
+  ></image>
 </view>
 
 <view class="setting-panel" style="display: {{ currentType=='setting' ? 'block' : 'none' }}">
-<button bindtap="chooseImg">选择图片</button>
- <van-button type="primary">按钮</van-button>
-<view class="canvas-box">
-    <canvas class="canvas" canvas-id="shareCanvas" bindlongtap="saveShareImage"></canvas>
-</view>
   <button class="cu-btn shadow set-share-title" type="default" bindtap="setShareTitle"><i class="iconfont icon-wode"></i></button>
   <button class="cu-btn shadow set-grid-gap" type="default" bindtap="setGridGap">网格</button>
-  <button class="cu-btn shadow clear-picture" type="default" bindtap="clearPicture">清除</button>
   <button class="cu-btn shadow save-picture" bindtap="savePicture">生成</button>
   <button
     class="cu-btn shadow color-picture"
@@ -42,29 +41,12 @@
     style="background-color: {{fontColor}}; right: 140px;"
     bindtap="openTextColorPanel"
   >文字</button>
-  <!--
-  <view hidden="{{!show}}" class="view-canvas-info"> 
-     Coordinates: ({{x}}, {{y}})
-  </view>
-  -->
 </view>
 
 <view class='share-modal-bg' wx:if="{{showModal}}" bindtap='hideModal'>
   <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
      <view><image src='{{shareImg}}' class='share-img'></image></view>
      <view class="share-msg" bindtap='hideModal'>长按图片保存</view>
-  </view>
-</view>
-
-<view class='open-setting-bg' wx:if='{{openSet}}' catchtap='cancleSet'>
-  <view class='open-set-inner'>
-    <view class='set-title'>是否打开授权设置？</view>
-    <view class='btn-openset'>
-      <view catchtap='cancleSet'>取消</view>
-        <view>
-          <button type="primary" class='button-style' catchtap='cancleSet'>确定</button>
-        </view>
-    </view>
   </view>
 </view>
 
@@ -115,19 +97,6 @@
         <text>{{item.name}}</text>
       </radio>
   </radio-group>
-</view>
-
-<!-- 登录授权 -->
-<view wx:if='{{openLoginPanel}}' class="open-setting-bg">
-  <view class='open-set-inner'>
-    <view class='set-title'>登录后，方便生成专属的像素画图片哦！</view>
-    <view class='btn-openset'>
-      <view catchtap='cancelLogin'>取消</view>
-      <view>
-        <button open-type="getUserInfo" type="primary" class='button-style' bindgetuserinfo="onGotUserInfo">点击登录</button>
-      </view>
-    </view>
-  </view>
 </view>
 
 

@@ -16,4 +16,17 @@ Page({
       PageCur: e.currentTarget.dataset.cur,
     })
   },
+  onShareAppMessage() {
+    return {
+      title: '程小元像素画',
+      imageUrl: '/images/share.png',
+      path: '/pages/index/index',
+      success: function(res) {
+        console.log('转发成功', res)
+      },
+      fail: function(res) {
+        console.log('转发失败', res)
+      },
+    }
+  },
 })

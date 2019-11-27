@@ -6,7 +6,7 @@
 <view wx:if="{{PageCur!=='home'}}" class="cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="home">
     <i class="iconfont icon-noun__cc {{PageCur=='home'?'text-blue':'text-gray'}}"></i>
-    <view class="{{PageCur=='home' && !openSetting?'text-blue':'text-gray'}}">像素画</view>
+    <view class="{{PageCur=='home'?'text-blue':'text-gray'}}">像素画</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="convert">
     <i class="iconfont icon-wuguan {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>

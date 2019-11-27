@@ -1,3 +1,9 @@
 <view>
   <canvas canvas-id="cvCanvas" class="cv-canvas" />
+
+  <button bindtap="chooseImg">选择图片</button>
+  <van-button type="primary">按钮</van-button>
+  <view class="canvas-box">
+      <canvas class="canvas" canvas-id="shareCanvas" bindlongtap="saveShareImage"></canvas>
+  </view>
 </view>

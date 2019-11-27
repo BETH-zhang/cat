@@ -1,4 +1,6 @@
 {
   "component": true,
-  "usingComponents": { }
+  "usingComponents": {
+    "authSetting": "/pages/authSetting/index"
+  }
 }

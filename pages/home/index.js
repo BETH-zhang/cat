@@ -5,7 +5,6 @@ import WxUtils from '../../utils/wxUtils'
 Component({
   options: {
     addGlobalClass: true,
-    // styleIsolation: 'shared',
   },
   properties: {
     PageCur: {
@@ -17,8 +16,13 @@ Component({
     }
   },
   data: {
+    hideCanvas: false,
     currentType: 'setting',
     toolType: 'brush', // back, clearn, brush, eraser, straw, generate
+    allowDraw: false,
+
+    authSetting: 'login',
+
     shareImg: '',
     rgba: {
       r: 240,
@@ -40,7 +44,6 @@ Component({
       console.log("attached")
     },
     ready() {
-      console.log('ready', this.data.PageCur, this.data.currentType)
       this.initCanvas()
       this.selectColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
     },
@@ -52,6 +55,10 @@ Component({
     },
   },
   methods: {
+    SettingEventListener(e) {
+      console.log(e.detail, '..SettingEventListener...')
+      this.setData(e.detail)
+    },
     ToolChange(e) {
       const key = e.currentTarget.dataset.cur
       // back, clean, brush, eraser, straw, generate
@@ -59,14 +66,22 @@ Component({
         case 'back':
           break
         case 'clean':
+          this.appCanvas.clear()
           break
         case 'brush':
+          this.setData({ toolType: 'brush' })
           break
         case 'eraser':
+          this.setData({ toolType: 'eraser' })
           break
         case 'generate':
+          this.setData({ toolType: 'generate' })
           break
       }
+
+      this.setData({
+        hideCanvas: key === 'generate',
+      })
     },
     setCurrentType(e) {
       this.setData({
@@ -80,8 +95,10 @@ Component({
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('myevent', myEventDetail, myEventOption)
     },
+
+
     setGapItemsDefault() {
-      const width = this.systemInfo.windowWidth
+      const width = app.globalData.systemInfo.windowWidth
       const gapCounts = [5, 10, 15, 20, 25, 40]
       const gapItems = gapCounts.map((gapCount) => {
         const gap = Math.floor(width / gapCount)
@@ -93,7 +110,6 @@ Component({
       })
     },
     radioChange(e) {
-      this.closeSetting()
       const gap = Number(e.detail.value)
       this.bgCanvas.setGap(gap)
       this.bgCanvas.init(this.data.bgColor)
@@ -102,11 +118,6 @@ Component({
       this.setData({
         gap,
         showGridPanel: false,
-      })
-    },
-    updateState(key, value) {
-      this.setData({
-        [key]: value,
       })
     },
     titleInputChange(e) {
@@ -119,46 +130,18 @@ Component({
         description: e.detail.value
       })
     },
-    openSetting() {
-      // this.appCanvas.updateGrid(0, 0, '', 'grid')
-      wx.canvasToTempFilePath({
-        x: 0,
-        y: 0,
-        canvasId: 'mainCanvas',
-        success: (res) => {
-          let shareImg = res.tempFilePath;
-          console.log('shareImg: ', shareImg)
-          this.setData({
-            shareImg: shareImg,
-            currentType: 'setting',
-          })
-        },
-        fail: function (res) {
-        }
+    tempCanvas() {
+      this.wxUtils.canvasToTempFilePath('mainCanvas').then((shareImg) => {
+        this.setData({
+          shareImg: shareImg,
+          currentType: 'setting',
+        })
       })
-    },
-    closeSetting() {
-      this.setData({
-        currentType: 'canvas',
-      })
-    },
-    onShareAppMessage() {
-      return {
-        title: '程小元像素画',
-        imageUrl: '/images/share.png',
-        path: '/pages/index/index',
-        success: function(res) {
-          console.log('转发成功', res)
-        },
-        fail: function(res) {
-          console.log('转发失败', res)
-        },
-      }
     },
     dispatchTouchStart(e) {
-      if (!this.data.loading) {
+      if (!this.data.allowDraw) {
         this.setData({
-          show: true,
+          allowDraw: true,
           x0: e.touches[0].x,
           y0: e.touches[0].y
         })
@@ -166,7 +149,7 @@ Component({
       }
     },
     dispatchTouchMove(e) {
-      if (!this.data.loading) {
+      if (!this.data.allowDraw) {
         this.setData({
           x: e.touches[0].x,
           y: e.touches[0].y
@@ -175,29 +158,23 @@ Component({
       }
     },
     dispatchTouchEnd(e) {
-      if (!this.data.loading) {
+      if (!this.data.allowDraw) {
         this.setData({
-          show: false,
+          allowDraw: false,
         })
         this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.pixelColor)
       }
     },
     initCanvas() {
-      this.systemInfo = null
-      wx.getSystemInfo({
-        success: (res) => {
-          this.systemInfo = res
-          this.setGapItemsDefault()
-        }
-      })
-      const width = this.systemInfo.windowWidth
-      const height = Math.floor((this.systemInfo.windowHeight - 50) / this.data.gap) * this.data.gap
+      const width = app.globalData.systemInfo.windowWidth
+      const height = Math.floor((app.globalData.systemInfo.windowHeight - 50) / this.data.gap) * this.data.gap
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this)      
       this.appCanvas = new TestApplication(ctx, { width, height })
       this.appCanvas.setGap(this.data.gap)
       this.appCanvas.init(this.data.bgColor)
     },
+    
     setShareTitle() {
       this.setData({
         showTitlePanel: true,
@@ -240,7 +217,6 @@ Component({
       })
     },
     selectColor() {
-      this.closeSetting()
       const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
       if (this.data.showColorPanel === 'bgColor') {
         // this.bgCanvas.init(color)
@@ -276,32 +252,13 @@ Component({
         showGridPanel: true,
       })
     },
-    clearPicture() {
-      this.closeSetting()
-      this.appCanvas.clear()
-    },
-    cancelLogin() {
-      this.setData({
-        openLoginPanel: false,
-      })
-    },
-    onGotUserInfo (e) {
-      console.log(e.detail.errMsg)
-      console.log(e.detail.userInfo)
-      console.log(e.detail.rawData)
-      app.globalData.userInfo = e.detail.userInfo
-      this.setData({
-        openLoginPanel: false,
-      })
-      this.savePicture()
-    },
+
     savePicture() {
       if (!app.globalData.userInfo) {
         this.setData({
-          openLoginPanel: true
+          authSetting: 'login'
         })
       } else {
-        this.closeSetting()
         this.setData({
           loading: true
         })
@@ -313,7 +270,6 @@ Component({
     },
   
     hideModal() {
-      this.closeSetting()
       const shareCtx = wx.createCanvasContext('shareFrends', this);
       shareCtx.draw()
       this.setData({
@@ -321,26 +277,13 @@ Component({
         showShareModal: false,
       })
     },
-  
-    takePhoto() {
-      console.log(1)
-      const ctx = wx.createCameraContext()
-      ctx.takePhoto({
-        quality: 'high',
-        success: (res) => {
-          this.setData({
-            src: res.tempImagePath
-          })
-        }
-      })
-    },
-  
+    
     optPictureData() {
       console.log('读取图片')
       let that = this;
   
       const shareFrendsCtx = wx.createCanvasContext('shareFrends', this);    //绘图上下文
-      const shareFrendsApp = new TestApplication(shareFrendsCtx, { width: this.systemInfo.windowWidth, height: this.systemInfo.windowHeight })
+      const shareFrendsApp = new TestApplication(shareFrendsCtx, { width: app.globalData.systemInfo.windowWidth, height: app.globalData.systemInfo.windowHeight })
   
       const date = new Date;
       const year = date.getFullYear();
@@ -420,64 +363,6 @@ Component({
   
     // 长按保存事件
     saveImg() {
-      let that = this;
-      // 获取用户是否开启用户授权相册
-      wx.getSetting({
-        success(res) {
-          // 如果没有则获取授权
-          if (!res.authSetting['scope.writePhotosAlbum']) {
-            wx.authorize({
-              scope: 'scope.writePhotosAlbum',
-              success() {
-                wx.saveImageToPhotosAlbum({
-                  filePath: that.data.shareImg,
-                  success() {
-                    wx.showToast({
-                      title: '保存成功'
-                    })
-                  },
-                  fail() {
-                    wx.showToast({
-                      title: '保存失败',
-                      icon: 'none'
-                    })
-                  }
-                })
-              },
-              fail() {
-              // 如果用户拒绝过或没有授权，则再次打开授权窗口
-              //（ps：微信api又改了现在只能通过button才能打开授权设置，以前通过openSet就可打开，下面有打开授权的button弹窗代码）
-                that.setData({
-                  openSet: true
-                })
-              }
-            })
-          } else {
-            // 有则直接保存
-            wx.saveImageToPhotosAlbum({
-              filePath: that.data.shareImg,
-              success() {
-                wx.showToast({
-                  title: '保存成功'
-                })
-              },
-              fail() {
-                wx.showToast({
-                  title: '保存失败',
-                  icon: 'none'
-                })
-              }
-            })
-          }
-        }
-      })
-    },
-  
-    // 授权
-    cancleSet() {
-      this.setData({
-        openSet: false
-      })
     },
   }
 })

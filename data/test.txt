@@ -8,6 +8,10 @@ button {
   background-color: #ffddab !important;
 }
 
+
+    "vant-weapp": "^0.5.23",
+    "weui-miniprogram": "^0.2.0"
+    
 // "cu-custom": "/colorui/components/cu-custom",
 
 "tabBar": {

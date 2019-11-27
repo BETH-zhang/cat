@@ -130,6 +130,39 @@ class WxUtils {
       urls: filePaths,
     })
   }
+
+  // 拍照
+  takePhoto = (callback) => {
+    const ctx = this.wx.createCameraContext()
+    ctx.takePhoto({
+      quality: 'high',
+      success: (res) => {
+        if (callback) {
+          callback(res.tempImagePath, res)
+        }
+      }
+    })
+  }
+
+  // 生成图片
+  canvasToTempFilePath = (canvasId) => {
+    return new Promise((resolve, reject) => {
+      this.wx.canvasToTempFilePath({
+        x: 0,
+        y: 0,
+        width: this.canvas.width,
+        height: this.canvas.height,
+        canvasId,
+        complete: res => {
+          if (res.errMsg === 'canvasToTempFilePath:ok') {
+            resolve(res.tempFilePath, res)
+          } else if (failure) {
+            reject(res)
+          }
+        }
+      })
+    })
+  }
 }
 
 export default WxUtils
