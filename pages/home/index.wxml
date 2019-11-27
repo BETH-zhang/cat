@@ -159,11 +159,11 @@
 
 <view wx:if="{{PageCur==='home' && currentType=='canvas'}}" class="cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="setCurrentType" data-cur="setting">
-    <i class="iconfont icon-wode text-gray"></i>
+    <i class="iconfont icon-gongju text-gray"></i>
     <view class="text-gray">画板工具</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="about">
-    <i class="iconfont icon-wode text-gray"></i>
+    <i class="iconfont icon-houzi text-gray"></i>
     <view class="text-gray">程小元</view>
   </view>
 </view>
@@ -174,20 +174,24 @@
     <view class="text-gray">撤销</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="clean">
-    <i class="iconfont icon-wode text-gray"></i>
+    <i class="iconfont icon-qingchu1 text-gray"></i>
     <view class="text-gray">清除</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="brush">
-    <i class="iconfont icon-wode text-gray"></i>
+    <i class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="eraser">
-    <i class="iconfont icon-wode text-gray"></i>
+    <i class="iconfont icon-icon-test {{toolType=='eraser'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='eraser'?'text-blue':'text-gray'}}">橡皮</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
-    <i class="iconfont icon-wode text-gray"></i>
+    <i class="iconfont icon-iconfontyijiantuiguang text-gray"></i>
     <view class="text-gray">生成</view>
+  </view>
+  <view class="action" bindtap="setCurrentType" data-cur="canvas">
+    <i class="iconfont icon-huabanfuben text-gray"></i>
+    <view class="text-gray">隐藏</view>
   </view>
 </view>
 

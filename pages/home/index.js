@@ -17,7 +17,7 @@ Component({
     }
   },
   data: {
-    currentType: 'canvas',
+    currentType: 'setting',
     toolType: 'brush', // back, clearn, brush, eraser, straw, generate
     shareImg: '',
     rgba: {
@@ -60,16 +60,17 @@ Component({
           break
         case 'clean':
           break
+        case 'brush':
+          break
         case 'eraser':
           break
         case 'generate':
-          this.setData({ currentType: 'canvas' })
           break
       }
     },
-    setCurrentType() {
+    setCurrentType(e) {
       this.setData({
-        currentType: 'setting',
+        currentType: e.currentTarget.dataset.cur,
       })
     },
     NavChange(e) {
