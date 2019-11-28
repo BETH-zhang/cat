@@ -10,16 +10,18 @@ const EImageFillType = {
 }
 
 class TestApplication {
-  constructor(ctx, canvas) {
+  constructor(ctx, canvas, wx) {
     this.ctx = ctx
     this.canvas = canvas
+    this.wx = wx
     this.interval = 12
+    this.arr = []
     this.data = ''
     this.color = 'red'
     this.bgColor = 'white'
     this.colors = [this.color]
     // this.print()
-    // this.checkAllApi()
+    this.checkAllApi()
   }
 
   check = () => {
@@ -50,6 +52,7 @@ class TestApplication {
       names.forEach((name) => {
         data.push(` | ${name} | ${this.print(name)}`)
       })
+      console.log(this.ctx, this.canvas)
       console.log(data.join('\n'))
     }
   }
@@ -77,7 +80,8 @@ class TestApplication {
       'scale',
       'restore',
       'drawImage',
-      'createImageData',
+      'imageData',
+      'getImageData',
       'putImageData',
       'clearRect',
     ])
@@ -227,6 +231,7 @@ class TestApplication {
     this.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bgColor)
     this.strokeGrid('grey', this.interval)
     this.strokeGrid('grey', Math.floor(this.interval * 5))
+    console.log('init-draw-true')
     this.ctx.draw(true)
   }
 
@@ -245,20 +250,39 @@ class TestApplication {
       const ary = item.split('-')
       this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
     })
+    console.log('draw-false')
     this.ctx.draw()
   }
 
-  back = () => {
+  undo = () => {
     if (this.data) {
       const str = this.getStr(this.data.length - 2, -1)
       console.log('str: ', str)
       this.data = this.data.replace(str + ' ', '')
-      this.ctx.draw()
-      this.draw()
+
+      this.arr.pop()
+      // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      // if (this.arr.length > 0) {
+      //   this.wx.canvasPutImageData({
+      //     canvasId: this.canvas.id,
+      //     x: 0,
+      //     y: 0,
+      //     width: this.canvas.width,
+      //     height: this.canvas.height,
+      //     data: this.arr,
+      //     success(res) {
+      //       console.log('put-res: ', res)
+      //       console.log('undo-draw-true')
+      //       this.ctx.draw(true)
+      //     },
+      //     fail(res){console.log(res)}
+      //   })
+      // }
     }
   }
 
-  clear = () => {
+  clean = () => {
+    this.arr = []
     this.data = ''
     this.colors = [this.color]
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -296,16 +320,36 @@ class TestApplication {
       const coordAry = coord.split('-')
       const x0 = coordAry[0] * this.interval
       const y0 = coordAry[1] * this.interval
-      const x1 = coordAry[0] * this.interval + this.interval
-      const y1 = coordAry[1] * this.interval + this.interval
       this.ctx.clearRect(x0, y0, this.interval, this.interval)
       this.fillRect(x0, y0, this.interval, this.interval, this.bgColor)
       this.strokeRect(x0 + 0.5, y0 + 0.5, this.interval, this.interval)
+      console.log('eraser-draw-true')
       this.ctx.draw(true)
     }
   }
 
+  updateArr = () => {
+    // console.log('---', this.canvas.id, this.wx)
+    // const that = this
+    // this.wx.canvasGetImageData({
+    //   canvasId: this.canvas.id,
+    //   x: 0,
+    //   y: 0,
+    //   width: this.canvas.width,
+    //   height: this.canvas.height,
+    //   success(res) {
+    //     console.log("res:", res)
+    //     that.data.push(res)
+    //   },
+    //   fail(res) {
+    //     console.log("faild",res)
+    //   }
+    // })
+  }
+
   throttleDraw = throttle(this.draw, 0, 1000)
+
+  throttleUpdateArr = throttle(this.updateArr, 0, 100)
 
   updateGrid = (x, y, color) => {    
     if (x || y) {
@@ -318,6 +362,7 @@ class TestApplication {
       this.data += `${coord}-${colorIndex} `
       const coordAry = coord.split('-')
       this.fillRect(coordAry[0] * this.interval, coordAry[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
+      console.log('update-draw-true')
       this.ctx.draw(true)
     }
   }
@@ -395,6 +440,7 @@ class TestApplication {
     const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
     this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
 
+    console.log('share-draw-true')
     this.ctx.draw(true)
     console.log('绘制完成')
   }
@@ -442,9 +488,10 @@ class TestApplication {
       { x: (this.canvas.width - pictureData.width) / 2, y: 0, width: pictureData.width * (this.canvas.height / pictureData.height), height: this.canvas.height },
     )
 
+    console.log('smartpixel-draw-true')
     this.ctx.draw(truefalse, () => {
       wx.canvasGetImageData({
-        canvasId: 'mainCanvas',
+        canvasId: this.canvas.id,
         width: this.canvas.width,
         height: this.canvas.height,
         x: 0,

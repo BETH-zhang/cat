@@ -69,9 +69,10 @@ Component({
       // back, clean, brush, eraser, straw, generate
       switch(key) {
         case 'back':
+          this.appCanvas.undo()
           break
         case 'clean':
-          this.appCanvas.clear()
+          this.appCanvas.clean()
           this.appCanvas.init(this.data.bgColor)
           break
         case 'brush':
@@ -145,8 +146,9 @@ Component({
       const height = app.globalData.systemInfo.windowHeight
       console.log(width, height)
       this.setData({ width, height })
-      const ctx = wx.createCanvasContext('mainCanvas', this)      
-      this.appCanvas = new TestApplication(ctx, { width, height })
+      const ctx = wx.createCanvasContext('mainCanvas', this) 
+      this.wxUtils = new WxUtils(wx, app)     
+      this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
       this.appCanvas.setColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
       this.appCanvas.init(this.data.bgColor)
     },
