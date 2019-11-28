@@ -1,5 +1,8 @@
 <authSetting bindauthsettingevent="SettingEventListener" wx:if="{{setting==='login'}}"></authSetting>
-<colorSetting bindcolorsettingevent="SettingEventListener" wx:if="{{toolType==='color'}}"></colorSetting>
+<colorSetting
+  bindcolorsettingevent="SettingEventListener"
+  wx:if="{{toolType==='color'}}"
+></colorSetting>
 <shareSetting
   wx:if="{{toolType==='generate'}}"
   toolType="{{toolType}}"
@@ -32,21 +35,23 @@
 </view>
 
 <view wx:if="{{PageCur==='home'}}" class="cu-bar tabbar bg-white shadow foot">
+  <!--
   <view class="action" bindtap="ToolChange" data-cur="back">
     <i class="iconfont icon-wode text-gray"></i>
     <view class="text-gray">撤销</view>
   </view>
+  --->
   <view class="action" bindtap="ToolChange" data-cur="clean">
     <i class="iconfont icon-qingchu1 text-gray"></i>
     <view class="text-gray">清除</view>
   </view>
-  <view class="action" bindtap="ToolChange" data-cur="brush">
-    <i class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
-    <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
-  </view>
   <view class="action" bindtap="ToolChange" data-cur="eraser">
     <i class="iconfont icon-icon-test {{toolType=='eraser'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='eraser'?'text-blue':'text-gray'}}">橡皮</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="brush">
+    <i class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
     <i class="iconfont icon-iconfontyijiantuiguang text-gray"></i>

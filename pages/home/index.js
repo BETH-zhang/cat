@@ -17,8 +17,8 @@ Component({
   },
   data: {
     hideCanvas: false,
-    // toolType: 'brush', // back, clearn, brush, eraser, straw, generate
-    toolType: 'generate',
+    toolType: 'brush', // back, clearn, brush, eraser, straw, generate
+    // toolType: 'generate',
     allowDraw: false,
 
     setting: '',

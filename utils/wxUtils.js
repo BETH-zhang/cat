@@ -20,7 +20,6 @@ class WxUtils {
 
   downLoadImg = (url, storageKeyUrl) => {
     return new Promise((resolve, reject) => {
-      console.log('downLoadImg-', url, storageKeyUrl)
       const data = this.getImagePath(storageKeyUrl)
       if (data) {
         resolve(data)
@@ -28,7 +27,6 @@ class WxUtils {
         this.wx.getImageInfo({
           src: url,
           success: (res) => {
-            console.log('downLoadImg-res: ', res)
             this.wx.setStorage({
               key: storageKeyUrl,
               data: {
@@ -48,9 +46,7 @@ class WxUtils {
   }
 
   getImagePath = (storageKeyUrl, key) => {
-    console.log('getImagePath-', key, storageKeyUrl)
     const imageData = this.wx.getStorageSync(storageKeyUrl);
-    console.log('imageData: ', imageData)
     
     if (key) {
       return imageData[key] || ''
@@ -169,7 +165,6 @@ class WxUtils {
   // 生成图片
   canvasToTempFilePath = (canvasId, that) => {
     return new Promise((resolve, reject) => {
-      console.log('000', this.wx, this.canvas, canvasId, that)
       this.wx.canvasToTempFilePath({
         x: 0,
         y: 0,
@@ -177,7 +172,6 @@ class WxUtils {
         height: this.canvas.height,
         canvasId,
         complete: res => {
-          console.log('res: ', res)
           if (res.errMsg === 'canvasToTempFilePath:ok') {
             resolve(res)
           } else if (failure) {
