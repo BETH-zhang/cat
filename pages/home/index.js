@@ -119,7 +119,7 @@ Component({
           x0: e.touches[0].x,
           y0: e.touches[0].y
         })
-        this.updateCanvas(e.touches[0].x, e.touches[1].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }
     },
     dispatchTouchMove(e) {
@@ -128,7 +128,7 @@ Component({
           x: e.touches[0].x,
           y: e.touches[0].y
         })
-        this.updateCanvas(e.touches[0].x, e.touches[1].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }
     },
     dispatchTouchEnd(e) {
