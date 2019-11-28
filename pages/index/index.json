@@ -1,5 +1,6 @@
 {
-  "enablePullDownRefresh":true,
+  "disableScroll": true,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "home": "/pages/home/index",
     "color": "/pages/color/index",

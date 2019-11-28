@@ -17,13 +17,13 @@ Component({
   },
   data: {
     hideCanvas: false,
-    currentType: 'setting',
     toolType: 'brush', // back, clearn, brush, eraser, straw, generate
     allowDraw: false,
 
-    authSetting: 'login',
+    setting: '',
 
     shareImg: '',
+
     rgba: {
       r: 240,
       g: 113,
@@ -31,8 +31,6 @@ Component({
       a: 1
     },
     pixelColor: 'rgba(240,113, 43, 1)',
-    gap: 25,
-    gapItems: [],
     bgColor:  'rgba(255, 255, 255, 1)',
     fontColor: 'rgba(50, 50, 50, 1)'
   },
@@ -57,6 +55,14 @@ Component({
   methods: {
     SettingEventListener(e) {
       console.log(e.detail, '..SettingEventListener...')
+      switch(this.data.setting) {
+        case 'login':
+          break
+        case 'color':
+          break
+        case 'share':
+          break
+      }
       this.setData(e.detail)
     },
     ToolChange(e) {
@@ -67,6 +73,7 @@ Component({
           break
         case 'clean':
           this.appCanvas.clear()
+          this.appCanvas.init(this.data.bgColor)
           break
         case 'brush':
           this.setData({ toolType: 'brush' })
@@ -83,11 +90,6 @@ Component({
         hideCanvas: key === 'generate',
       })
     },
-    setCurrentType(e) {
-      this.setData({
-        currentType: e.currentTarget.dataset.cur,
-      })
-    },
     NavChange(e) {
       var myEventDetail = {
         PageCur: e.currentTarget.dataset.cur,
@@ -96,45 +98,11 @@ Component({
       this.triggerEvent('myevent', myEventDetail, myEventOption)
     },
 
-
-    setGapItemsDefault() {
-      const width = app.globalData.systemInfo.windowWidth
-      const gapCounts = [5, 10, 15, 20, 25, 40]
-      const gapItems = gapCounts.map((gapCount) => {
-        const gap = Math.floor(width / gapCount)
-        return { name: `${gapCount} 列网格`, value: gap }
-      })
-      gapItems.push({ name: '默认网格', value: 25 })
-      this.setData({
-        gapItems,
-      })
-    },
-    radioChange(e) {
-      const gap = Number(e.detail.value)
-      this.bgCanvas.setGap(gap)
-      this.bgCanvas.init(this.data.bgColor)
-      this.appCanvas.setGap(gap)
-      this.appCanvas.updateGrid(0, 0, '', true)
-      this.setData({
-        gap,
-        showGridPanel: false,
-      })
-    },
-    titleInputChange(e) {
-      this.setData({
-        title: e.detail.value,
-      })
-    },
-    desInputChange(e) {
-      this.setData({
-        description: e.detail.value
-      })
-    },
     tempCanvas() {
       this.wxUtils.canvasToTempFilePath('mainCanvas').then((shareImg) => {
         this.setData({
           shareImg: shareImg,
-          currentType: 'setting',
+          hideCanvas: true,
         })
       })
     },
@@ -149,7 +117,7 @@ Component({
       }
     },
     dispatchTouchMove(e) {
-      if (!this.data.allowDraw) {
+      if (this.data.allowDraw) {
         this.setData({
           x: e.touches[0].x,
           y: e.touches[0].y
@@ -158,7 +126,7 @@ Component({
       }
     },
     dispatchTouchEnd(e) {
-      if (!this.data.allowDraw) {
+      if (this.data.allowDraw) {
         this.setData({
           allowDraw: false,
         })
@@ -166,60 +134,18 @@ Component({
       }
     },
     initCanvas() {
+      console.log('app.globalData: ', app.globalData)
       const width = app.globalData.systemInfo.windowWidth
-      const height = Math.floor((app.globalData.systemInfo.windowHeight - 50) / this.data.gap) * this.data.gap
+      const height = app.globalData.systemInfo.windowHeight
+      console.log(width, height)
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this)      
       this.appCanvas = new TestApplication(ctx, { width, height })
-      this.appCanvas.setGap(this.data.gap)
       this.appCanvas.init(this.data.bgColor)
-    },
-    
-    setShareTitle() {
-      this.setData({
-        showTitlePanel: true,
-      })
-    },
-    inputTitle() {
-      this.setData({
-        showTitlePanel: false,
-      })
-    },
-    getRgba(value) {
-      const arys = value.replace('rgba(', '').replace(')', '').split(',')
-      const rgba = {
-        r: arys[0],
-        g: arys[1],
-        b: arys[2],
-        a: arys[3],
-      }
-      return rgba
-    },
-    openPixelColorPanel() {
-      const rgba = this.getRgba(this.data.pixelColor)
-      this.setData({
-        rgba,
-        showColorPanel: 'pixelColor',
-      })
-    },
-    openBgColorPanel() {
-      const rgba = this.getRgba(this.data.bgColor)
-      this.setData({
-        rgba,
-        showColorPanel: 'bgColor',
-      })
-    },
-    openTextColorPanel() {
-      const rgba = this.getRgba(this.data.fontColor)
-      this.setData({
-        rgba,
-        showColorPanel: 'fontColor',
-      })
     },
     selectColor() {
       const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
       if (this.data.showColorPanel === 'bgColor') {
-        // this.bgCanvas.init(color)
         this.appCanvas.init(color)
         this.appCanvas.draw()
       }
@@ -228,35 +154,10 @@ Component({
         showColorPanel: false,
       })
     },
-    sliderRedChange(e) {
-      this.updateRgba('r', e.detail.value)
-    },
-    sliderGreenChange(e) {
-      this.updateRgba('g', e.detail.value)
-    },
-    sliderBlueChange(e) {
-      this.updateRgba('b', e.detail.value)
-    },
-    sliderOpcityChange(e) {
-      this.updateRgba('a', e.detail.value.toFixed(2))
-    },
-    updateRgba(type, value) {
-      const rgba = {
-        ...this.data.rgba,
-        [type]: value
-      }
-      this.setData({ rgba })
-    },
-    setGridGap() {
-      this.setData({
-        showGridPanel: true,
-      })
-    },
-
     savePicture() {
       if (!app.globalData.userInfo) {
         this.setData({
-          authSetting: 'login'
+          setting: 'login'
         })
       } else {
         this.setData({
@@ -270,7 +171,7 @@ Component({
     },
   
     hideModal() {
-      const shareCtx = wx.createCanvasContext('shareFrends', this);
+      const shareCtx = wx.createCanvasContext('mainCanvas', this);
       shareCtx.draw()
       this.setData({
         showModal: false,
@@ -282,7 +183,7 @@ Component({
       console.log('读取图片')
       let that = this;
   
-      const shareFrendsCtx = wx.createCanvasContext('shareFrends', this);    //绘图上下文
+      const shareFrendsCtx = wx.createCanvasContext('mainCanvas', this);    //绘图上下文
       const shareFrendsApp = new TestApplication(shareFrendsCtx, { width: app.globalData.systemInfo.windowWidth, height: app.globalData.systemInfo.windowHeight })
   
       const date = new Date;
@@ -336,9 +237,8 @@ Component({
                         that.setData({
                           shareImg: shareImg,
                           showShareModal: false,
-                          loading: false,
                           showModal: true,
-                          currentType: 'setting',
+                          hideCanvas: true,
                         })
                         wx.hideLoading()
                       },

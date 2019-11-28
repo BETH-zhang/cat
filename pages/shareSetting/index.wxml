@@ -1,0 +1,29 @@
+<view bindtap="updateProps" data-cur="sharesetting">
+  sharesetting {{toolType}}
+</view>
+
+<!-- 设置标题 -->
+<view wx:if='{{showTitlePanel}}' class="open-setting">
+  <view class="page-section">
+    <view class="weui-cells__title">填写标题</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="titleInputChange" placeholder-style="color:#F76260" placeholder="标题：程小元像素画" />
+      </view>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="weui-cells__title">填写想说的话</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="desInputChange" placeholder-style="color:#F76260" placeholder="描述：画一副像素画，送给你" />
+      </view>
+    </view>
+  </view>
+   <view class="open-setting-color__fo">
+    <button
+      class="cu-btn shadow bg-green lg block shadow radius margin-xl"
+      bindtap="inputTitle"
+    >确定</button>
+  </view>
+</view>

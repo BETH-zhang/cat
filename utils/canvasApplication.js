@@ -13,7 +13,7 @@ class TestApplication {
   constructor(ctx, canvas) {
     this.ctx = ctx
     this.canvas = canvas
-    this.interval = 10
+    this.interval = 50
     this.data = []
     this.color = 'red'
     // this.print()
@@ -215,11 +215,12 @@ class TestApplication {
   init = (color) => {
     this.fillRect(0, 0, this.canvas.width, this.canvas.height, color)
     this.strokeGrid('grey', this.interval)
-    this.ctx.draw()
+    this.strokeGrid('grey', Math.floor(this.interval / 5))
+    this.ctx.draw(true)
   }
 
   setGap = (value) => {
-    this.interval = value || 10
+    this.interval = value || 50
   }
 
   setColor = (color) => {
@@ -242,16 +243,10 @@ class TestApplication {
 
   clear = () => {
     this.data = []
-    this.draw()
+    this.ctx.draw()
   }
 
   throttleDraw = throttle(this.draw, 0, 1000)
-
-  updateLine = (x0, y0, x1, y1) => {
-    this.strokeGrid('grey', this.interval)
-    this.strokeLine(x0, y0, x1, y1)
-    this.ctx.draw()
-  }
 
   updateGrid = (x, y, color) => {    
     const coord = this.calCoord(x, y)
@@ -335,7 +330,7 @@ class TestApplication {
     const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
     this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
 
-    this.ctx.draw()
+    this.ctx.draw(true)
     console.log('绘制完成')
   }
 
@@ -382,7 +377,7 @@ class TestApplication {
       { x: (this.canvas.width - pictureData.width) / 2, y: 0, width: pictureData.width * (this.canvas.height / pictureData.height), height: this.canvas.height },
     )
 
-    this.ctx.draw(false, () => {
+    this.ctx.draw(truefalse, () => {
       wx.canvasGetImageData({
         canvasId: 'mainCanvas',
         width: this.canvas.width,

@@ -52,6 +52,12 @@ App({
         }
       }
     })
+
+    wx.getSystemInfo({
+      success: e => {
+        this.globalData.systemInfo = e
+      }
+    })
   },
 
   customSystemBarStyle: function() {
@@ -59,7 +65,6 @@ App({
       success: e => {
         // console.log('wx.getSystemInfo:', e)
         this.globalData.StatusBar = e.statusBarHeight;
-        that.globalData.systemInfo = res
         let capsule = wx.getMenuButtonBoundingClientRect();
         if (capsule) {
           this.globalData.Custom = capsule;

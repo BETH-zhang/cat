@@ -1,46 +1,23 @@
-<authSetting bindauthsettingevent="SettingEventListener" wx:if="{{authSetting==='login'}}"></authSetting>
+<authSetting bindauthsettingevent="SettingEventListener" wx:if="{{setting==='login'}}"></authSetting>
+<colorSetting bindcolorsettingevent="SettingEventListener" wx:if="{{setting==='color'}}"></colorSetting>
+<shareSetting bindsharesettingevent="SettingEventListener" wx:if="{{setting==='generate'}}"></shareSetting>
 
 <view class="{{ !hideCanvas ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
-    canvas-id="shareFrends"
-    class="share-canvas"
-    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}"
-  />
-  <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
-    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}"
+    style="width: 100%; height: calc(100vh - 100rpx); display: {{hideCanvas ? 'none' : 'black'}}"
     bindtouchstart="dispatchTouchStart"
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
   />
 </view>
+
 <view class="{{ hideCanvas && shareImg ? 'show-canvas' : 'hide-canvas' }}">
   <image
     src='{{shareImg}}'
-    style="width: {{width}}px; height: {{height}}px; background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"
+    style="background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"
   ></image>
-</view>
-
-<view class="setting-panel" style="display: {{ currentType=='setting' ? 'block' : 'none' }}">
-  <button class="cu-btn shadow set-share-title" type="default" bindtap="setShareTitle"><i class="iconfont icon-wode"></i></button>
-  <button class="cu-btn shadow set-grid-gap" type="default" bindtap="setGridGap">网格</button>
-  <button class="cu-btn shadow save-picture" bindtap="savePicture">生成</button>
-  <button
-    class="cu-btn shadow color-picture"
-    style="background-color: {{pixelColor}};"
-    bindtap="openPixelColorPanel"
-  >色板</button>
-  <button
-    class="cu-btn shadow color-picture"
-    style="background-color: {{bgColor}}; right: 80px;"
-    bindtap="openBgColorPanel"
-  >背景</button>
-  <button
-    class="cu-btn shadow color-picture"
-    style="background-color: {{fontColor}}; right: 140px;"
-    bindtap="openTextColorPanel"
-  >文字</button>
 </view>
 
 <view class='share-modal-bg' wx:if="{{showModal}}" bindtap='hideModal'>
@@ -50,94 +27,7 @@
   </view>
 </view>
 
-<!-- 颜色工具 -->
-<view wx:if="{{showColorPanel}}" class="open-setting-color">
-    <view class="open-setting-color__bd">
-        <view class="section section_gap">
-            <text class="section__title">Red</text>
-            <view class="body-view">
-                <slider value="{{rgba.r}}" bindchange="sliderRedChange" min="0" max="255" show-value/>
-            </view>
-        </view>
-
-        <view class="section section_gap">
-            <text class="section__title">Green</text>
-            <view class="body-view">
-                <slider value="{{rgba.g}}" bindchange="sliderGreenChange" min="0" max="255" show-value/>
-            </view>
-        </view>
-
-        <view class="section section_gap">
-            <text class="section__title">Blue</text>
-            <view class="body-view">
-                <slider value="{{rgba.b}}" bindchange="sliderBlueChange" min="0" max="255" show-value/>
-            </view>
-        </view>
-
-        <view class="section section_gap">
-            <text class="section__title">Opacity</text>
-            <view class="body-view">
-                <slider value="{{rgba.a}}" bindchange="sliderOpcityChange" min="0" max="1" step="0.01" show-value/>
-            </view>
-        </view>
-    </view>
-    <view class="open-setting-color__fo">
-      <button
-        class="cu-btn shadow bg-green lg block shadow radius margin-xl"
-        style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}});"
-        bindtap="selectColor"
-      >确定 ({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}})</button>
-    </view>
-</view>
-
-<!-- 网格工具 -->
-<view wx:if="{{showGridPanel}}" class="open-setting">
-  <radio-group class="radio-group" bindchange="radioChange">
-      <radio class="radio" wx:for-items="{{gapItems}}" wx:key="value" value="{{item.value}}" checked="{{gap === item.value}}">
-        <text>{{item.name}}</text>
-      </radio>
-  </radio-group>
-</view>
-
-
-<!-- 设置标题 -->
-<view wx:if='{{showTitlePanel}}' class="open-setting">
-  <view class="page-section">
-    <view class="weui-cells__title">填写标题</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <input class="weui-input" bindinput="titleInputChange" placeholder-style="color:#F76260" placeholder="标题：程小元像素画" />
-      </view>
-    </view>
-  </view>
-  <view class="page-section">
-    <view class="weui-cells__title">填写想说的话</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <input class="weui-input" bindinput="desInputChange" placeholder-style="color:#F76260" placeholder="描述：画一副像素画，送给你" />
-      </view>
-    </view>
-  </view>
-   <view class="open-setting-color__fo">
-    <button
-      class="cu-btn shadow bg-green lg block shadow radius margin-xl"
-      bindtap="inputTitle"
-    >确定</button>
-  </view>
-</view>
-
-<view wx:if="{{PageCur==='home' && currentType=='canvas'}}" class="cu-bar tabbar bg-white shadow foot">
-  <view class="action" bindtap="setCurrentType" data-cur="setting">
-    <i class="iconfont icon-gongju text-gray"></i>
-    <view class="text-gray">画板工具</view>
-  </view>
-  <view class="action" bindtap="NavChange" data-cur="about">
-    <i class="iconfont icon-houzi text-gray"></i>
-    <view class="text-gray">程小元</view>
-  </view>
-</view>
-
-<view wx:if="{{PageCur==='home' && currentType=='setting'}}" class="cu-bar tabbar bg-white shadow foot">
+<view wx:if="{{PageCur==='home'}}" class="cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="ToolChange" data-cur="back">
     <i class="iconfont icon-wode text-gray"></i>
     <view class="text-gray">撤销</view>
@@ -158,9 +48,9 @@
     <i class="iconfont icon-iconfontyijiantuiguang text-gray"></i>
     <view class="text-gray">生成</view>
   </view>
-  <view class="action" bindtap="setCurrentType" data-cur="canvas">
-    <i class="iconfont icon-huabanfuben text-gray"></i>
-    <view class="text-gray">隐藏</view>
+  <view class="action" bindtap="NavChange" data-cur="about">
+    <i class="iconfont icon-houzi text-gray"></i>
+    <view class="text-gray">程小元</view>
   </view>
 </view>
 
