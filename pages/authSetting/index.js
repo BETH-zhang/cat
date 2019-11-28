@@ -5,7 +5,7 @@ Component({
     addGlobalClass: true,
   },
   properties: {
-    authSetting: {
+    setting: {
       type: "String",
       value: "",
       observer:function(news, olds, path){

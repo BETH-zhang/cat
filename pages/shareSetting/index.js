@@ -16,14 +16,16 @@ Component({
   data: {
   },
   attached() {
-    console.log("sharesetting")
+    console.log("sharesetting", this.data, this)
   },
   methods: {
     updateProps(e) {
       var myEventDetail = {
-        share: e.currentTarget.dataset.cur,
-      } // detail对象，提供给事件监听函数
-      var myEventOption = {} // 触发事件的选项
+        title: this.data.title,
+        description: this.data.description,
+        showGrid: this.data.showGrid,
+      }
+      var myEventOption = {}
       this.triggerEvent('sharesettingevent', myEventDetail, myEventOption)
     },
 
@@ -37,18 +39,10 @@ Component({
         description: e.detail.value
       })
     },
-
-    setShareTitle() {
+    gridSelectChange(e) {
       this.setData({
-        showTitlePanel: true,
+        showGrid: e.detail.value
       })
-    },
-    
-    inputTitle() {
-      this.setData({
-        showTitlePanel: false,
-      })
-    },
-
+    }
   }
 })

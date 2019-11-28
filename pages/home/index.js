@@ -17,7 +17,8 @@ Component({
   },
   data: {
     hideCanvas: false,
-    toolType: 'brush', // back, clearn, brush, eraser, straw, generate
+    // toolType: 'brush', // back, clearn, brush, eraser, straw, generate
+    toolType: 'generate',
     allowDraw: false,
 
     setting: '',
@@ -59,7 +60,15 @@ Component({
           break
         case 'color':
           break
-        case 'share':
+      }
+      switch(this.data.toolType) {
+        case 'generate':
+          this.setData({
+            ...e.detail,
+            toolType: 'generate-update',
+            hideCanvas: false,
+          })
+          this.savePicture()
           break
       }
       this.setData(e.detail)
@@ -70,10 +79,11 @@ Component({
       switch(key) {
         case 'back':
           this.appCanvas.undo()
+          this.setData({ toolType: 'brush' })
           break
         case 'clean':
-          this.appCanvas.clean()
           this.appCanvas.init(this.data.bgColor)
+          this.setData({ toolType: 'brush' })
           break
         case 'brush':
           this.setData({ toolType: 'brush' })
@@ -82,7 +92,9 @@ Component({
           this.setData({ toolType: 'eraser' })
           break
         case 'generate':
-          this.setData({ toolType: 'generate' })
+          this.tempCanvas(() => {
+            this.setData({ toolType: 'generate' })
+          })
           break
       }
 
@@ -97,11 +109,11 @@ Component({
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('myevent', myEventDetail, myEventOption)
     },
-
-    tempCanvas() {
-      this.wxUtils.canvasToTempFilePath('mainCanvas').then((shareImg) => {
+    tempCanvas(callback) {
+      this.wxUtils.canvasToTempFilePath('mainCanvas', this).then((res) => {
+        callback()
         this.setData({
-          shareImg: shareImg,
+          shareImg: res.tempFilePath,
           hideCanvas: true,
         })
       })
@@ -141,26 +153,25 @@ Component({
       }
     },
     initCanvas() {
-      console.log('app.globalData: ', app.globalData)
+      console.log('globalData', app.globalData)
       const width = app.globalData.systemInfo.windowWidth
-      const height = app.globalData.systemInfo.windowHeight
+      const height = app.globalData.systemInfo.windowHeight - app.globalData.CustomBar + app.globalData.StatusBar
       console.log(width, height)
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this) 
-      this.wxUtils = new WxUtils(wx, app)     
       this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
       this.appCanvas.setColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
       this.appCanvas.init(this.data.bgColor)
+
+      this.wxUtils = new WxUtils(wx, app, { width, height })    
     },
     selectColor() {
       const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
       if (this.data.showColorPanel === 'bgColor') {
         this.appCanvas.init(color)
-        this.appCanvas.draw()
       }
       this.setData({
-        [this.data.showColorPanel]: color,
-        showColorPanel: false,
+        setting: '',
       })
     },
     savePicture() {
@@ -180,30 +191,25 @@ Component({
     },
   
     hideModal() {
-      const shareCtx = wx.createCanvasContext('mainCanvas', this);
-      shareCtx.draw()
+      this.appCanvas.init(this.data.bgColor)
       this.setData({
         showModal: false,
-        showShareModal: false,
+        hideCanvas: false,
+        toolType: 'brush'
       })
     },
     
     optPictureData() {
-      console.log('读取图片')
-      let that = this;
-  
-      const shareFrendsCtx = wx.createCanvasContext('mainCanvas', this);    //绘图上下文
-      const shareFrendsApp = new TestApplication(shareFrendsCtx, { width: app.globalData.systemInfo.windowWidth, height: app.globalData.systemInfo.windowHeight })
-  
+      console.log('读取图片', this.data.shareImg)    
       const date = new Date;
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDate();
       const time = year + '.' + month + '.' + day;   // 绘图的时间
-  
+
       const data = {
-        avatar: app.globalData.userInfo.avatarUrl,
         cover: this.data.shareImg,
+        avatar: app.globalData.userInfo.avatarUrl,
         qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
         logo: '',
         name: app.globalData.userInfo.nickName,
@@ -211,67 +217,39 @@ Component({
         description: this.data.description || '画一副像素画，送给你',
         time: time,
       }
-  
-      wx.getImageInfo({
-        src: data.cover,
-        success: res => {
-          data.cover = res.path
-  
-          console.log('绘制图片')
-          
-          wx.getImageInfo({ // 封面图
-            src: data.avatar,
-            success: res => {
-              data.avatar = res.path
-              wx.getImageInfo({
-                src: data.qrcode,
-                success: res => {
-                  data.qrcode = res.path
-  
-                  shareFrendsApp.createSharePicture(data, {
-                    color: this.data.bgColor,
-                    fontColor: this.data.fontColor,
-                  })
-                  // canvas画图需要时间而且还是异步的，所以加了个定时器
-                  setTimeout(() => {
-                    // 将生成的canvas图片，转为真实图片
-                    console.log('生成图片')
-                    wx.canvasToTempFilePath({
-                      x: 0,
-                      y: 0,
-                      canvasId: 'shareFrends',
-                      success: (res) => {
-                        console.log('生成分享图')
-                        let shareImg = res.tempFilePath;
-                        that.setData({
-                          shareImg: shareImg,
-                          showShareModal: false,
-                          showModal: true,
-                          hideCanvas: true,
-                        })
-                        wx.hideLoading()
-                      },
-                      fail: function (res) {
-                        console.log('res', res)
-                      }
-                    })
-                  }, 500)
-                }
+
+      this.wxUtils.downLoadImg(data.cover, 'cover').then((res) => {
+        data.cover = res.path
+        this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
+          data.avatar = res.path
+          this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
+            data.qrcode = res.path
+            console.log('data: ', data)
+
+            this.appCanvas.createSharePicture(data, {
+              color: this.data.bgColor,
+              fontColor: this.data.fontColor,
+            })
+            // canvas画图需要时间而且还是异步的，所以加了个定时器
+            setTimeout(() => {
+              // 将生成的canvas图片，转为真实图片
+              console.log('生成图片')
+              this.tempCanvas(() => {
+                console.log('生成分享图')
+                this.setData({ showModal: true })
+                wx.hideLoading()
               })
-            },
-            fail(err) {
-              console.log(err)
-            }
+            }, 500)
           })
-        },
-        fail(err) {
-          console.log('avatar-err: ', err)
-        }
+        })
       })
     },
   
     // 长按保存事件
     saveImg() {
+      this.wxUtils.saveImage(this.data.shareImg, this).then(() => {
+        this.hideModal()
+      })
     },
   }
 })

@@ -15,13 +15,13 @@ class TestApplication {
     this.canvas = canvas
     this.wx = wx
     this.interval = 12
-    this.arr = []
+    // this.arr = []
     this.data = ''
     this.color = 'red'
     this.bgColor = 'white'
     this.colors = [this.color]
     // this.print()
-    this.checkAllApi()
+    // this.checkAllApi()
   }
 
   check = () => {
@@ -228,9 +228,11 @@ class TestApplication {
 
   init = (color) => {
     this.bgColor = color
+    this.clean()
     this.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bgColor)
     this.strokeGrid('grey', this.interval)
     this.strokeGrid('grey', Math.floor(this.interval * 5))
+    this.draw()
     console.log('init-draw-true')
     this.ctx.draw(true)
   }
@@ -246,12 +248,13 @@ class TestApplication {
   }
 
   draw = () => {
-    this.data.split(' ').forEach((item) => {
-      const ary = item.split('-')
-      this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
-    })
-    console.log('draw-false')
-    this.ctx.draw()
+    const data = this.data.split(' ')
+    if (this.data && data.length) {
+      data.forEach((item) => {
+        const ary = item.split('-')
+        this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+      })
+    }
   }
 
   undo = () => {
@@ -260,7 +263,7 @@ class TestApplication {
       console.log('str: ', str)
       this.data = this.data.replace(str + ' ', '')
 
-      this.arr.pop()
+      // this.arr.pop()
       // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
       // if (this.arr.length > 0) {
       //   this.wx.canvasPutImageData({
@@ -282,7 +285,7 @@ class TestApplication {
   }
 
   clean = () => {
-    this.arr = []
+    // this.arr = []
     this.data = ''
     this.colors = [this.color]
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -380,7 +383,7 @@ class TestApplication {
 
     this.ctx.save()
 
-    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height - 50);
+    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height);
     //绘制logo
     this.ctx.drawImage(avatar, 16, 16, 46, 44);
     // this.ctx.globalCompositeOperation="destination-in"
@@ -413,7 +416,7 @@ class TestApplication {
     const metrics = this.ctx.measureText(name + ' ' + time).width;
     this.ctx.fillText(name + ' ' + time, metrics + 75, 55, metrics + 5);
 
-    const bottomBox = this.canvas.height - 150
+    const bottomBox = this.canvas.height - 100
 
     this.ctx.restore();
 

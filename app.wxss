@@ -20,3 +20,8 @@
 .float-right {
   float: right;
 }
+
+.open-setting {
+  width: 100%;
+  height: 100vh;
+}

@@ -1,12 +1,16 @@
 <authSetting bindauthsettingevent="SettingEventListener" wx:if="{{setting==='login'}}"></authSetting>
-<colorSetting bindcolorsettingevent="SettingEventListener" wx:if="{{setting==='color'}}"></colorSetting>
-<shareSetting bindsharesettingevent="SettingEventListener" wx:if="{{setting==='generate'}}"></shareSetting>
+<colorSetting bindcolorsettingevent="SettingEventListener" wx:if="{{toolType==='color'}}"></colorSetting>
+<shareSetting
+  wx:if="{{toolType==='generate'}}"
+  toolType="{{toolType}}"
+  bindsharesettingevent="SettingEventListener"
+></shareSetting>
 
 <view class="{{ !hideCanvas ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
-    style="width: 100%; height: calc(100vh - 100rpx); display: {{hideCanvas ? 'none' : 'black'}}"
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}"
     bindtouchstart="dispatchTouchStart"
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
@@ -16,13 +20,13 @@
 <view class="{{ hideCanvas && shareImg ? 'show-canvas' : 'hide-canvas' }}">
   <image
     src='{{shareImg}}'
-    style="background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"
+    style="width: {{width}}px; height: {{height}}px; background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"
   ></image>
 </view>
 
 <view class='share-modal-bg' wx:if="{{showModal}}" bindtap='hideModal'>
   <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
-     <view><image src='{{shareImg}}' class='share-img'></image></view>
+     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
      <view class="share-msg" bindtap='hideModal'>长按图片保存</view>
   </view>
 </view>
