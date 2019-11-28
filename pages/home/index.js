@@ -43,7 +43,6 @@ Component({
     },
     ready() {
       this.initCanvas()
-      this.selectColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
     },
     moved() {
       console.log('moved')
@@ -106,6 +105,13 @@ Component({
         })
       })
     },
+    updateCanvas(x, y, color) {
+      if (this.data.toolType === 'brush') {
+        this.appCanvas.updateGrid(x, y, color)
+      } else if (this.data.toolType === 'eraser') {
+        this.appCanvas.eraser(x, y)
+      }
+    },
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
         this.setData({
@@ -113,7 +119,7 @@ Component({
           x0: e.touches[0].x,
           y0: e.touches[0].y
         })
-        this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[1].y, this.data.pixelColor)
       }
     },
     dispatchTouchMove(e) {
@@ -122,7 +128,7 @@ Component({
           x: e.touches[0].x,
           y: e.touches[0].y
         })
-        this.appCanvas.updateGrid(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[1].y, this.data.pixelColor)
       }
     },
     dispatchTouchEnd(e) {
@@ -130,7 +136,7 @@ Component({
         this.setData({
           allowDraw: false,
         })
-        this.appCanvas.updateGrid(this.data.x, this.data.y, this.data.pixelColor)
+        this.updateCanvas(this.data.x, this.data.y, this.data.pixelColor)
       }
     },
     initCanvas() {
@@ -141,6 +147,7 @@ Component({
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this)      
       this.appCanvas = new TestApplication(ctx, { width, height })
+      this.appCanvas.setColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
       this.appCanvas.init(this.data.bgColor)
     },
     selectColor() {

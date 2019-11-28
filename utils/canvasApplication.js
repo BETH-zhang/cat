@@ -14,8 +14,9 @@ class TestApplication {
     this.ctx = ctx
     this.canvas = canvas
     this.interval = 50
-    this.data = []
+    this.data = ''
     this.color = 'red'
+    this.colors = [this.color]
     // this.print()
     // this.checkAllApi()
   }
@@ -230,29 +231,61 @@ class TestApplication {
   calCoord = (x, y) => {
     const i = Math.floor(x / this.interval)
     const j = Math.floor(y / this.interval)
-    return [i, j]
+    return `${i}-${j}`
   }
 
   draw = () => {
-    this.data.forEach((item) => {
-      const ary = item[0]
-      this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, item[1])
+    this.data.split(' ').forEach((item) => {
+      const ary = item.split('-')
+      this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
     })
     this.ctx.draw()
   }
 
+  back = () => {
+
+  }
+
   clear = () => {
-    this.data = []
+    this.data = ''
+    this.colors = [this.color]
     this.ctx.draw()
+  }
+
+  getStr = (startIndex) => {
+    let str = ''
+    for (let i = startIndex; i < this.data.length; i++) {
+      str += this.data[i]
+      if (this.data[i] === ' ') {
+        return str
+      }
+    }
+  }
+
+  eraser = (x, y) => {
+    const coord = this.calCoord(x, y).split('-')
+    const startIndex = this.data.indexOf(coord)
+    // if (startIndex > -1) {
+    //   const str = this.getStr(startIndex)
+    //   console.log(str, '===')
+    //   this.data.replace(str, '')
+    // }
+    console.log(coord, '---', startIndex)
+    this.obj.clearRect(coord[0], coord[1], this.interval, this.interval)
+    this.ctx.draw(true)
   }
 
   throttleDraw = throttle(this.draw, 0, 1000)
 
   updateGrid = (x, y, color) => {    
-    const coord = this.calCoord(x, y)
+    const coord = this.calCoord(x, y).split('-')
     if (x || y) {
-      this.data.push([coord, color])
-      this.fillRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval, color)
+      const colorIndex = this.colors.indexOf(color || this.color)
+      if (colorIndex === -1) {
+        this.colors.push(color)
+      }
+      this.data += `${coord}-${colorIndex} `
+      this.fillRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
       this.ctx.draw(true)
     }
   }
