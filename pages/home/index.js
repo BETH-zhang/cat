@@ -150,10 +150,12 @@ Component({
     },
 
     updateCanvas(x, y, color) {
-      if (this.data.toolType === 'brush') {
-        this.appCanvas.updateGrid(x, y, color)
-      } else if (this.data.toolType === 'eraser') {
-        this.appCanvas.eraser(x, y)
+      if (this.appCanvas) {
+        if (this.data.toolType === 'brush') {
+          this.appCanvas.updateGrid(x, y, color)
+        } else if (this.data.toolType === 'eraser') {
+          this.appCanvas.eraser(x, y)
+        }
       }
     },
 

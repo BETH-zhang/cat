@@ -172,9 +172,10 @@ class WxUtils {
         height: this.canvas.height,
         canvasId,
         complete: res => {
+          console.log('canvasToTempFilePath-res: ', res)
           if (res.errMsg === 'canvasToTempFilePath:ok') {
             resolve(res)
-          } else if (failure) {
+          } else {
             reject(res)
           }
         }
