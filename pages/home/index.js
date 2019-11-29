@@ -219,13 +219,13 @@ Component({
     },
   
     hideModal() {
-      this.appCanvas.reDraw()
       this.setData({
         shareImg: '',
         showModal: false,
         hideCanvas: false,
         toolType: 'brush'
       })
+      this.appCanvas.reDraw()
     },
     
     optPictureData() {

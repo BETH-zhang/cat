@@ -201,8 +201,7 @@ class TestApplication {
     this.ctx.restore()
   }
 
-  strokeGrid = (color = 'grey', interval = 10, showCoord) => {
-    console.log('---strokeGrid---')
+  strokeGrid = (color = 'rgba(0, 0, 0, 0.3)', interval = 10, showCoord) => {
     this.check()
 
     this.ctx.save()
