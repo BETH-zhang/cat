@@ -1,8 +1,8 @@
 <scroll-view scroll-y class="scrollPage">
   <view class="cu-card">
-    <view class="cu-item bg-img shadow-blur" style="background-color: #ccc">
+    <view class="cu-item shadow-blur" style="background: {{ role === 'master' ? '#f37b1d' : '#0081ff' }}">
       <view class="cardTitle">
-        我的作品
+        {{role === 'master' ? '大师作品' : '我的作品'}}
       </view>
     </view>
     <view class="cu-item bg-img shadow-blur work-item" style="background-image:url({{item.path}})" bindtap="viewImages" data-url="{{item.path}}" wx:for="{{works}}" wx:key>

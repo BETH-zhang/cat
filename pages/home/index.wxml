@@ -73,8 +73,8 @@
     <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
-    <i class="iconfont icon-iconfontyijiantuiguang text-gray"></i>
-    <view class="text-gray">生成</view>
+    <i class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='generate'?'text-blue':'text-gray'}}">生成</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="about">
     <i class="iconfont icon-houzi text-gray"></i>

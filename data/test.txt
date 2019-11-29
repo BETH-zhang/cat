@@ -34,6 +34,11 @@ button {
       "selectedIconPath": "images/tabbar/logo-icon-active.png",
       "text": "色卡"
     }, {
+      "pagePath": "pages/about/work/index",
+      "iconPath": "images/tabbar/logo-icon.png",
+      "selectedIconPath": "images/tabbar/logo-icon-active.png",
+      "text": "作品"
+    }, {
       "pagePath": "pages/about/home/home",
       "iconPath": "images/tabbar/logo-icon.png",
       "selectedIconPath": "images/tabbar/logo-icon-active.png",

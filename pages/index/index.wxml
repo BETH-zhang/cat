@@ -1,6 +1,7 @@
 <about wx:if="{{PageCur==='about'}}"></about>
 <color wx:if="{{PageCur==='color'}}"></color>
 <convert wx:if="{{PageCur==='convert'}}"></convert>
+<work role="master" wx:if="{{PageCur==='work'}}"></work>
 <home bindmyevent="myEventListener" wx:if="{{PageCur==='home'}}"></home>
 
 <view wx:if="{{PageCur!=='home'}}" class="cu-bar tabbar bg-white shadow foot">
@@ -18,6 +19,10 @@
     <view class="{{PageCur=='color'?'text-blue':'text-gray'}}">色卡</view>
   </view>
   -->
+  <view class="action" bindtap="NavChange" data-cur="work">
+    <i class="iconfont icon-icon- {{PageCur=='work'?'text-blue':'text-gray'}}"></i>
+    <view class="{{PageCur=='work'?'text-blue':'text-gray'}}">大师作品</view>
+  </view>
   <view class="action" bindtap="NavChange" data-cur="about">
     <i class="iconfont icon-houzi {{PageCur=='about'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='about'?'text-blue':'text-gray'}}">程小元</view>

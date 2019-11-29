@@ -5,6 +5,7 @@
     "home": "/pages/home/index",
     "color": "/pages/color/index",
     "convert": "/pages/convert/index",
-    "about": "/pages/about/home/home"
+    "about": "/pages/about/home/home",
+    "work": "/pages/about/work/index"
   }
 }
