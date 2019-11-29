@@ -26,7 +26,15 @@ Component({
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('colorsettingevent', myEventDetail, myEventOption)
     },
-    
+    selectColor() {
+      const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
+      if (this.data.showColorPanel === 'bgColor') {
+        this.appCanvas.init(color)
+      }
+      this.setData({
+        setting: '',
+      })
+    },
     getRgba(value) {
       const arys = value.replace('rgba(', '').replace(')', '').split(',')
       const rgba = {

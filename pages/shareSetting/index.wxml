@@ -7,7 +7,7 @@
     </view>
     <view class="cu-form-group">
       <view class="title">是否显示网格</view>
-      <switch class="sm" bindchange="gridSelectChange"></switch>
+      <switch checked="{{showGrid}}" class="sm" bindchange="gridSelectChange"></switch>
     </view>
     <view class="cu-form-group margin-top">
       <textarea value="{{description}}" bindinput="desInputChange" maxlength="-1" placeholder="为自己的作品添加一段描述文字吧！^_^"></textarea>

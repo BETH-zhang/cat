@@ -202,6 +202,7 @@ class TestApplication {
   }
 
   strokeGrid = (color = 'grey', interval = 10, showCoord) => {
+    console.log('---strokeGrid---')
     this.check()
 
     this.ctx.save()
@@ -226,19 +227,26 @@ class TestApplication {
     }
   }
 
+  createBg = () => {
+    this.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bgColor)
+  }
+
   init = (color) => {
+    console.log('init')
     this.bgColor = color
     this.clean()
-    this.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bgColor)
+    this.createBg()
     this.strokeGrid('grey', this.interval)
     this.strokeGrid('grey', Math.floor(this.interval * 5))
-    this.draw()
-    console.log('init-draw-true')
-    this.ctx.draw(true)
+    this.ctx.draw()
   }
 
   setColor = (color) => {
     this.color = color || this.color
+  }
+
+  setGap = (interval) => {
+    this.interval = interval || this.interval
   }
 
   calCoord = (x, y) => {
@@ -255,6 +263,7 @@ class TestApplication {
         this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
       })
     }
+    this.ctx.draw(true)
   }
 
   undo = () => {
@@ -324,9 +333,9 @@ class TestApplication {
       const x0 = coordAry[0] * this.interval
       const y0 = coordAry[1] * this.interval
       this.ctx.clearRect(x0, y0, this.interval, this.interval)
-      this.fillRect(x0, y0, this.interval, this.interval, this.bgColor)
-      this.strokeRect(x0 + 0.5, y0 + 0.5, this.interval, this.interval)
-      console.log('eraser-draw-true')
+      // this.fillRect(x0, y0, this.interval, this.interval, this.bgColor)
+      // this.strokeRect(x0 + 0.5, y0 + 0.5, this.interval, this.interval)
+      // console.log('eraser-draw-true')
       this.ctx.draw(true)
     }
   }
@@ -354,6 +363,11 @@ class TestApplication {
 
   throttleUpdateArr = throttle(this.updateArr, 0, 100)
 
+  reDraw = () => {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.draw()    
+  }
+
   updateGrid = (x, y, color) => {    
     if (x || y) {
       const coord = this.calCoord(x, y)
@@ -365,12 +379,11 @@ class TestApplication {
       this.data += `${coord}-${colorIndex} `
       const coordAry = coord.split('-')
       this.fillRect(coordAry[0] * this.interval, coordAry[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
-      console.log('update-draw-true')
       this.ctx.draw(true)
     }
   }
 
-  createSharePicture = ({ cover, avatar, qrcode, name, title, description, time}, { color = '#ffffff', fontColor = '#333333' }) => {
+  createSharePicture = ({ avatar, qrcode, name, title, description, time}, { showGrid, color = '#ffffff', fontColor = '#333333' }) => {
     // 截取昵称 超出省略。。。
     if (name.length > 16) {   //用户昵称显示一行 截取
       name = name.slice(0, 9) + '...'
@@ -379,22 +392,17 @@ class TestApplication {
       title = title.slice(0, 9) + '...'
     }
 
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.fillRect(0, 0, this.canvas.width, this.canvas.height, color)
+    if (showGrid) {
+      this.strokeGrid('grey', this.interval)
+      this.strokeGrid('grey', Math.floor(this.interval * 5))
+    }
+    this.draw()
 
     this.ctx.save()
-
-    this.ctx.drawImage(cover, 0, 0, this.canvas.width, this.canvas.height);
     //绘制logo
     this.ctx.drawImage(avatar, 16, 16, 46, 44);
-    // this.ctx.globalCompositeOperation="destination-in"
-    // this.ctx.arc(39, 38, 23, 0, Math.PI * 2, true);
-    // this.ctx.fill();
-
-    // this.ctx.setStrokeStyle('#ffff')
-    // this.ctx.setLineWidth(2)
-    // this.ctx.arc(39, 38, 23, 0, Math.PI * 2, true);
-    // this.ctx.stroke();
-
     this.ctx.restore();
     
     this.ctx.save();
@@ -443,7 +451,6 @@ class TestApplication {
     const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
     this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
 
-    console.log('share-draw-true')
     this.ctx.draw(true)
     console.log('绘制完成')
   }

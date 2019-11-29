@@ -11,7 +11,10 @@ Component({
       observer:function(news, olds, path){
         console.log('properties: ', news, olds, path)
       }
-    }
+    },
+    showGrid: { type: 'Boolean', value: false },
+    title: { type: 'String', value: '程小元像素画' },
+    description: { type: 'String', value: '' },
   },
   data: {
   },

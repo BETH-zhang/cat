@@ -25,6 +25,10 @@ Component({
 
     shareImg: '',
 
+    showGrid: false,
+    title: '程小元像素画',
+    description: '画一副像素画，送给你',
+
     rgba: {
       r: 240,
       g: 113,
@@ -67,12 +71,14 @@ Component({
             ...e.detail,
             toolType: 'generate-update',
             hideCanvas: false,
+          }, () => {
+            this.savePicture()
           })
-          this.savePicture()
           break
       }
       this.setData(e.detail)
     },
+
     ToolChange(e) {
       const key = e.currentTarget.dataset.cur
       // back, clean, brush, eraser, straw, generate
@@ -82,7 +88,7 @@ Component({
           this.setData({ toolType: 'brush' })
           break
         case 'clean':
-          this.appCanvas.init(this.data.bgColor)
+          this.appCanvas.clean()
           this.setData({ toolType: 'brush' })
           break
         case 'brush':
@@ -92,9 +98,7 @@ Component({
           this.setData({ toolType: 'eraser' })
           break
         case 'generate':
-          this.tempCanvas(() => {
-            this.setData({ toolType: 'generate' })
-          })
+          this.setData({ toolType: 'generate' })
           break
       }
 
@@ -102,6 +106,7 @@ Component({
         hideCanvas: key === 'generate',
       })
     },
+
     NavChange(e) {
       var myEventDetail = {
         PageCur: e.currentTarget.dataset.cur,
@@ -109,15 +114,16 @@ Component({
       var myEventOption = {} // 触发事件的选项
       this.triggerEvent('myevent', myEventDetail, myEventOption)
     },
+
     tempCanvas(callback) {
       this.wxUtils.canvasToTempFilePath('mainCanvas', this).then((res) => {
-        callback()
         this.setData({
           shareImg: res.tempFilePath,
           hideCanvas: true,
-        })
+        }, callback)
       })
     },
+
     updateCanvas(x, y, color) {
       if (this.data.toolType === 'brush') {
         this.appCanvas.updateGrid(x, y, color)
@@ -125,6 +131,7 @@ Component({
         this.appCanvas.eraser(x, y)
       }
     },
+
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
         this.setData({
@@ -135,6 +142,7 @@ Component({
         this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }
     },
+
     dispatchTouchMove(e) {
       if (this.data.allowDraw) {
         this.setData({
@@ -144,6 +152,7 @@ Component({
         this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }
     },
+
     dispatchTouchEnd(e) {
       if (this.data.allowDraw) {
         this.setData({
@@ -152,6 +161,7 @@ Component({
         this.updateCanvas(this.data.x, this.data.y, this.data.pixelColor)
       }
     },
+
     initCanvas() {
       console.log('globalData', app.globalData)
       const width = app.globalData.systemInfo.windowWidth
@@ -159,39 +169,29 @@ Component({
       console.log(width, height)
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this) 
+      const ctxBg = wx.createCanvasContext('bgCanvas', this)
+
+      this.bgCanvas = new TestApplication(ctxBg, { width, height, id: 'bgCanvas' }, wx)
+      this.bgCanvas.init(this.data.bgColor)
+
       this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
       this.appCanvas.setColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
-      this.appCanvas.init(this.data.bgColor)
 
       this.wxUtils = new WxUtils(wx, app, { width, height })    
     },
-    selectColor() {
-      const color = `rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`
-      if (this.data.showColorPanel === 'bgColor') {
-        this.appCanvas.init(color)
-      }
-      this.setData({
-        setting: '',
-      })
-    },
+    
     savePicture() {
       if (!app.globalData.userInfo) {
         this.setData({
           setting: 'login'
         })
       } else {
-        this.setData({
-          loading: true
-        })
-        wx.showLoading({
-          title: '图片生成中',
-        })
         this.optPictureData()
       }
     },
   
     hideModal() {
-      this.appCanvas.init(this.data.bgColor)
+      this.appCanvas.reDraw()
       this.setData({
         showModal: false,
         hideCanvas: false,
@@ -200,6 +200,9 @@ Component({
     },
     
     optPictureData() {
+      wx.showLoading({
+        title: '图片生成中',
+      })
       console.log('读取图片', this.data.shareImg)    
       const date = new Date;
       const year = date.getFullYear();
@@ -208,39 +211,36 @@ Component({
       const time = year + '.' + month + '.' + day;   // 绘图的时间
 
       const data = {
-        cover: this.data.shareImg,
         avatar: app.globalData.userInfo.avatarUrl,
         qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
         logo: '',
         name: app.globalData.userInfo.nickName,
-        title: this.data.title || '程小元像素画',
-        description: this.data.description || '画一副像素画，送给你',
+        title: this.data.title,
+        description: this.data.description,
         time: time,
       }
 
-      this.wxUtils.downLoadImg(data.cover, 'cover').then((res) => {
-        data.cover = res.path
-        this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
-          data.avatar = res.path
-          this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
-            data.qrcode = res.path
-            console.log('data: ', data)
+      this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
+        data.avatar = res.path
+        this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
+          data.qrcode = res.path
+          console.log('data: ', data)
 
-            this.appCanvas.createSharePicture(data, {
-              color: this.data.bgColor,
-              fontColor: this.data.fontColor,
-            })
-            // canvas画图需要时间而且还是异步的，所以加了个定时器
-            setTimeout(() => {
-              // 将生成的canvas图片，转为真实图片
-              console.log('生成图片')
-              this.tempCanvas(() => {
-                console.log('生成分享图')
-                this.setData({ showModal: true })
-                wx.hideLoading()
-              })
-            }, 500)
+          this.appCanvas.createSharePicture(data, {
+            color: this.data.bgColor,
+            fontColor: this.data.fontColor,
+            showGrid: this.data.showGrid
           })
+          // canvas画图需要时间而且还是异步的，所以加了个定时器
+          setTimeout(() => {
+            // 将生成的canvas图片，转为真实图片
+            console.log('生成图片')
+            this.tempCanvas(() => {
+              console.log('生成分享图')
+              this.setData({ showModal: true })
+              wx.hideLoading()
+            })
+          }, 500)
         })
       })
     },

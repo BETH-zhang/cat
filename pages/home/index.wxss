@@ -1,11 +1,20 @@
 //wxss
-.main-canvas {
+.bg-canvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: calc(100vh - 100rpx);
   z-index: 1;
+}
+
+.main-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 100rpx);
+  z-index: 3;
 }
 
 .show-canvas {

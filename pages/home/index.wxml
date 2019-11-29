@@ -5,15 +5,23 @@
 ></colorSetting>
 <shareSetting
   wx:if="{{toolType==='generate'}}"
-  toolType="{{toolType}}"
   bindsharesettingevent="SettingEventListener"
+  toolType="{{toolType}}"
+  showGrid="{{showGrid}}"
+  title="{{title}}"
+  description="{{description}}"
 ></shareSetting>
 
 <view class="{{ !hideCanvas ? 'show-canvas' : 'hide-canvas' }}">
   <canvas
+    canvas-id="bgCanvas"
+    class="bg-canvas"
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+  />
+  <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
-    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}"
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
     bindtouchstart="dispatchTouchStart"
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
