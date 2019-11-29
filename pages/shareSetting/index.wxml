@@ -12,6 +12,10 @@
     <view class="cu-form-group margin-top">
       <textarea value="{{description}}" bindinput="desInputChange" maxlength="-1" placeholder="为自己的作品添加一段描述文字吧！^_^"></textarea>
     </view>
+    <view class="cu-form-group">
+      <view class="title">是否保存作品</view>
+      <switch checked="{{isSave}}" class="sm" bindchange="isSaveChange"></switch>
+    </view>
   </form>
 
   <view class="open-setting-color__fo">

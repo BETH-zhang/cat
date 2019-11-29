@@ -118,6 +118,7 @@ Component({
           })
           break
         case 'generate':
+          this.tempCanvas()
           this.setData({
             toolType: 'generate',
             hideCanvas: true,
@@ -154,10 +155,11 @@ Component({
 
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
+        // app.globalData.canvasId = Math.random().toFixed(8).slice(2)
         this.setData({
           allowDraw: true,
           x0: e.touches[0].x,
-          y0: e.touches[0].y
+          y0: e.touches[0].y,
         })
         this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
       }

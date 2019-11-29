@@ -1,13 +1,10 @@
 <view>
   <view class="UCenter-bg">
     <view class="logo-box">
-      <image src="/images/logo.png" class="png" mode="widthFix"></image>
+      <image src="{{ avatarUrl || '/images/logo.png' }}" class="png" mode="widthFix"></image>
     </view>
-    <view class="text-xl">程小元像素画
-      <text class="text-df">v1.0</text>
-    </view>
-    <view class="margin-top-sm">
-      <text>By:Beth</text>
+    <view class="text-xl">
+      {{nickName || '程小元像素画'}}
     </view>
     <image src="https://raw.githubusercontent.com/weilanwl/ColorUI/master/demo/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
@@ -39,6 +36,13 @@
       </view>
     </view>
     -->
+    <view class="cu-item">
+      <navigator class="content" url="/pages/about/work/index" hover-class="none">
+        <text class="iconfont icon-rizhi text-blue"></text>
+        <text class="text-grey" style="margin-left: 5px">我的作品</text>
+        <text class="iconfont icon-jiantou text-grey float-right"></text>
+      </navigator>
+    </view>
     <view class="cu-item">
       <navigator class="content" url="/pages/about/about/about" hover-class="none">
         <image src="/images/logo.png" class="png" mode="aspectFit"></image>

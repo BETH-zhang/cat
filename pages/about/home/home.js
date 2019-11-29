@@ -1,3 +1,5 @@
+const app = getApp();
+
 Component({
   options: {
     addGlobalClass: true,
@@ -8,7 +10,9 @@ Component({
     visitTotal: 0,
   },
   attached() {
-    console.log("success")
+    console.log("about")
+    this.setData(app.globalData.userInfo)
+    
     let that = this;
     wx.showLoading({
       title: '数据加载中',

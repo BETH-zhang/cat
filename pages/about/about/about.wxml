@@ -1,6 +1,15 @@
-<cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">关于</view></cu-custom>
+<view class="UCenter-bg">
+  <view class="logo-box">
+    <image src="/images/logo.png" class="png" mode="widthFix"></image>
+  </view>
+  <view class="text-xl">程小元像素画
+    <text class="text-df">v1.0</text>
+  </view>
+  <view class="margin-top-sm">
+    <text>By:Beth</text>
+  </view>
+</view>
 <view class='margin-xl bg-white padding-xl radius shadow-lg'>
-  <view class='text-center margin-bottom text-lg  text-grey'>关于程小元像素画</view>
   <view class='text-content'>
     <view>Hi！~欢迎使用程小元像素画！</view>
     <view class='margin-top-sm'>这里是像素画爱好者的聚集地，未来会上线更多有趣的功能。赶快和程小元一起，玩转像素画吧。</view>

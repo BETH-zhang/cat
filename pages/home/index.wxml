@@ -18,6 +18,7 @@
   showGrid="{{showGrid}}"
   title="{{title}}"
   description="{{description}}"
+  shareImg="{{shareImg}}"
 ></shareSetting>
 
 <view class="show-canvas">

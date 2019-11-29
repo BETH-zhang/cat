@@ -1,0 +1,15 @@
+<scroll-view scroll-y class="scrollPage">
+  <view class="cu-card">
+    <view class="cu-item bg-img shadow-blur" style="background-color: #ccc">
+      <view class="cardTitle">
+        我的作品
+      </view>
+    </view>
+    <view class="cu-item bg-img shadow-blur" style="background-image:url({{item.path}})" bindtap="editImage" data-url="{{item.path}}" wx:for="{{myWork}}" wx:key>
+      <view class="cardTitle">
+        {{item.title}}
+      </view>
+    </view>
+  </view>
+  <view class="cu-tabbar-height"></view>
+</scroll-view>

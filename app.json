@@ -6,6 +6,7 @@
     "pages/convert/index",
     "pages/color/index",
     "pages/about/about/about",
+    "pages/about/work/index",
     "pages/about/log/log",
     "pages/about/home/home"
   ],
