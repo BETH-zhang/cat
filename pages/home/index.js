@@ -64,6 +64,7 @@ Component({
             setting: '',
             hideCanvas: false,
           })
+          this.bgCanvas.init(this.data.bgColor)
           this.appCanvas.reDraw()
           break
         default:
@@ -118,6 +119,9 @@ Component({
           })
           break
         case 'generate':
+          this.appCanvas.ctx.clearRect(0, 0, this.data.width, this.data.height)
+          this.appCanvas.fillRect(0, 0, this.data.width, this.data.height, this.data.bgColor)
+          this.appCanvas.draw()
           this.tempCanvas()
           this.setData({
             toolType: 'generate',
