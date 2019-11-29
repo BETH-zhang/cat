@@ -5,7 +5,7 @@
         我的作品
       </view>
     </view>
-    <view class="cu-item bg-img shadow-blur work-item" style="background-image:url({{item.path}})" bindtap="editImage" data-url="{{item.path}}" wx:for="{{works}}" wx:key>
+    <view class="cu-item bg-img shadow-blur work-item" style="background-image:url({{item.path}})" bindtap="viewImages" data-url="{{item.path}}" wx:for="{{works}}" wx:key>
       <view class="cardTitle">
         {{item.title}}
       </view>

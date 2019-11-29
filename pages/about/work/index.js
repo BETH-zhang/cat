@@ -4,15 +4,25 @@ Page({
     works: [],
   },
   onLoad: function () {
-    var works = wx.getStorageSync('myWork') || []
-    console.log('----', works)
-    this.setData({
-      works,
-    })
+    this.initData()
   },
   pageBack() {
     wx.navigateBack({
       delta: 1
     });
+  },
+  initData() {
+    var works = wx.getStorageSync('myWork') || []
+    const urls = works.map((item) => item && item.path)
+    this.setData({
+      works,
+      urls,
+    })
+  },
+  viewImages(e) {
+    wx.previewImage({
+      urls: this.data.urls,
+      current: e.currentTarget.dataset.cur,
+    })
   }
 });
