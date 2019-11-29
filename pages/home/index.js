@@ -61,22 +61,24 @@ Component({
       console.log(e.detail, '..SettingEventListener...')
       switch(this.data.setting) {
         case 'login':
+          this.setData({ setting: '', hideCanvas: false, })
+          this.savePicture()
           break
         case 'color':
+          this.setData({ setting: '' })
+          break
+        default:
+          if (this.data.toolType === 'generate') {
+            this.setData({
+              ...e.detail,
+              toolType: '',
+              hideCanvas: false,
+            }, () => {
+              this.savePicture()
+            })
+          }
           break
       }
-      switch(this.data.toolType) {
-        case 'generate':
-          this.setData({
-            ...e.detail,
-            toolType: 'generate-update',
-            hideCanvas: false,
-          }, () => {
-            this.savePicture()
-          })
-          break
-      }
-      this.setData(e.detail)
     },
 
     ToolChange(e) {
@@ -165,7 +167,7 @@ Component({
     initCanvas() {
       console.log('globalData', app.globalData)
       const width = app.globalData.systemInfo.windowWidth
-      const height = app.globalData.systemInfo.windowHeight - app.globalData.CustomBar + app.globalData.StatusBar
+      const height = app.globalData.systemInfo.windowHeight - app.globalData.Custom.bottom
       console.log(width, height)
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this) 
@@ -177,13 +179,16 @@ Component({
       this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
       this.appCanvas.setColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
 
-      this.wxUtils = new WxUtils(wx, app, { width, height })    
+      this.wxUtils = new WxUtils(wx, app, { width, height })   
     },
     
     savePicture() {
+      console.log('app.globalData: ', app.globalData)
       if (!app.globalData.userInfo) {
         this.setData({
-          setting: 'login'
+          setting: 'login',
+          shareImg: '',
+          hideCanvas: true,
         })
       } else {
         this.optPictureData()
@@ -193,6 +198,7 @@ Component({
     hideModal() {
       this.appCanvas.reDraw()
       this.setData({
+        shareImg: '',
         showModal: false,
         hideCanvas: false,
         toolType: 'brush'
