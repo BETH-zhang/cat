@@ -89,6 +89,7 @@ Component({
           this.setData({
             toolType: 'brush',
             hideCanvas: false,
+            setting: '',
           })
           break
         case 'clean':
@@ -96,25 +97,31 @@ Component({
           this.setData({
             toolType: 'brush',
             hideCanvas: false,
+            setting: '',
           })
           break
         case 'brush':
           this.setData({
             toolType: 'brush',
-            setting: 'color',
-            hideCanvas: true,
+            setting: this.data.setting === 'color' ? '' : 'color',
+            hideCanvas: this.data.setting === 'color' ? false : true,
           })
+          if (this.data.setting === 'color') {
+            this.appCanvas.reDraw()
+          }
           break
         case 'eraser':
           this.setData({
             toolType: 'eraser',
             hideCanvas: false,
+            setting: '',
           })
           break
         case 'generate':
           this.setData({
             toolType: 'generate',
             hideCanvas: true,
+            setting: '',
           })
           break
       }
@@ -171,7 +178,6 @@ Component({
         this.setData({
           allowDraw: false,
         })
-        this.updateCanvas(this.data.x, this.data.y, this.data.pixelColor)
       }
     },
 
