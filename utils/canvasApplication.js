@@ -259,11 +259,13 @@ class TestApplication {
     const data = this.data.split(' ')
     if (this.data && data.length) {
       data.forEach((item) => {
-        const ary = item.split('-')
-        this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+        if (item) {
+          const ary = item.split('-')
+          this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+        }
       })
+      this.ctx.draw(true)
     }
-    this.ctx.draw(true)
   }
 
   undo = () => {
@@ -322,7 +324,7 @@ class TestApplication {
   }
 
   eraser = (x, y) => {
-    if (x || y) {
+    if (x && y) {
       const coord = this.calCoord(x, y)
       const startIndex = this.data.indexOf(coord)
       if (startIndex > -1) {
@@ -369,7 +371,7 @@ class TestApplication {
   }
 
   updateGrid = (x, y, color) => {    
-    if (x || y) {
+    if (x && y) {
       const coord = this.calCoord(x, y)
       let colorIndex = this.colors.indexOf(color || this.color)
       if (colorIndex === -1) {
