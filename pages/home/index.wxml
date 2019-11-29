@@ -5,7 +5,11 @@
 ></authSetting>
 <colorSetting
   bindcolorsettingevent="SettingEventListener"
-  wx:if="{{toolType==='color'}}"
+  wx:if="{{setting==='color'}}"
+  setting="{{pixelColor}}"
+  pixelColor="{{pixelColor}}"
+  bgColor="{{bgColor}}"
+  fontColor="{{fontColor}}"
 ></colorSetting>
 <shareSetting
   wx:if="{{toolType==='generate'}}"
@@ -16,7 +20,7 @@
   description="{{description}}"
 ></shareSetting>
 
-<view class="{{ !hideCanvas ? 'show-canvas' : 'hide-canvas' }}">
+<view class="show-canvas">
   <canvas
     canvas-id="bgCanvas"
     class="bg-canvas"

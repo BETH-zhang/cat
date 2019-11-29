@@ -1,73 +1,44 @@
-
-.open-setting-bg,
-.share-modal-bg {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+.cu-card-font {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.share-modal-bg .share-img {
-  margin-left: 10%;
-  margin-top: 10vh;
-  background: #ffffff;
-  width: 80%;
-  height: 80vh;
-}
-
-.share-modal-bg .share-msg {
-  widh: 100%;
+.cu-card-font .cu-item {
+  border-radius: 0;
+  margin: 0;
+  padding: 30rpx 6rpx;
+  flex: 1;
   text-align: center;
-  color: #f9f9f9;
-  margin-top: 10px;
 }
 
-.btn-openset {
+.cu-card-font .cu-item-active {
+  background: #4e7dc2;
+  color: #ffffff;
+}
+
+.cu-card-font .cu-item .color-item {
+  display: inline-block;
+  margin-left: 3rpx;
+  border-radius: 50rpx;
+  background: #000;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.cu-card-color {
   display: flex;
-  justify-content: space-around;
-  font-size: 30rpx;
-  margin-top: 60rpx;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.set-title {
-  font-size: 30rpx;
-  margin-top: 40rpx;
+.cu-card-color .cu-item {
+  cursor: pointer;
+  float: left;
+  padding: 24rpx 12rpx;
+  flex: 8;
 }
 
-.open-set-inner {
-  width: 500rpx;
-  height: 300rpx;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto;
-  background: #ffffff;
-  padding: 30rpx;
-}
-
-.btn-openset > view:nth-child(1) {
-  color: #919191;
-}
-
-.button-style {
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 0 0;
-  padding: 14px;
-  font-size: 30rpx;
-  line-height: 0;
-  color: #666;
-}
-
-button::after {
-  border: 0;
+.cu-card-color .cu-tabbar-height {
+  clear: both;
 }

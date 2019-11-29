@@ -294,7 +294,7 @@ class TestApplication {
   }
 
   clean = () => {
-    // this.arr = []
+    console.log('clean')
     this.data = ''
     this.colors = [this.color]
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)

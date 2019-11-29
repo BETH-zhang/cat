@@ -1,6 +1,31 @@
-<view bindtap="updateProps" data-cur="color">
-  color {{toolType}}
-</view>
+<scroll-view scroll-y class="scrollPage">
+  <view class="cu-card cu-card-font">
+    <view class="cu-item {{ type === 'pixel' ? 'cu-item-active' : '' }}" bindtap="selectType" data-cur="pixel">
+      <view class="cardTitle">
+        画笔 <view class="color-item" style="background: {{pixelColor}}"></view>
+      </view>
+    </view>
+    <view class="cu-item {{ type === 'bg' ? 'cu-item-active' : '' }}" bindtap="selectType" data-cur="bg">
+      <view class="cardTitle">
+        背景 <view class="color-item" style="background: {{bgColor}}"></view>
+      </view>
+    </view>
+    <view class="cu-item {{ type === 'font' ? 'cu-item-active' : '' }}" bindtap="selectType" data-cur="font">
+      <view class="cardTitle">
+        文字 <view class="color-item" style="background: {{fontColor}}"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-card cu-card-color">
+    <view class="cu-item bg-img shadow-blur" style="background-color:{{item.color}}" bindtap="selectColor" data-cur="{{item.color}}" wx:for="{{colorList}}" wx:key>
+      <view class="cardTitle">
+        {{item.title}}
+      </view>
+    </view>
+  </view>
+  <view class="cu-tabbar-height"></view>
+</scroll-view>
 
 
 <!-- 颜色工具 -->

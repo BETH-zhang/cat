@@ -29,12 +29,6 @@ Component({
     title: '程小元像素画',
     description: '画一副像素画，送给你',
 
-    rgba: {
-      r: 240,
-      g: 113,
-      b: 43,
-      a: 1
-    },
     pixelColor: 'rgba(240,113, 43, 1)',
     bgColor:  'rgba(255, 255, 255, 1)',
     fontColor: 'rgba(50, 50, 50, 1)'
@@ -65,7 +59,12 @@ Component({
           this.savePicture()
           break
         case 'color':
-          this.setData({ setting: '' })
+          this.setData({
+            ...e.detail,
+            setting: '',
+            hideCanvas: false,
+          })
+          this.appCanvas.reDraw()
           break
         default:
           if (this.data.toolType === 'generate') {
@@ -87,26 +86,38 @@ Component({
       switch(key) {
         case 'back':
           this.appCanvas.undo()
-          this.setData({ toolType: 'brush' })
+          this.setData({
+            toolType: 'brush',
+            hideCanvas: false,
+          })
           break
         case 'clean':
           this.appCanvas.clean()
-          this.setData({ toolType: 'brush' })
+          this.setData({
+            toolType: 'brush',
+            hideCanvas: false,
+          })
           break
         case 'brush':
-          this.setData({ toolType: 'brush' })
+          this.setData({
+            toolType: 'brush',
+            setting: 'color',
+            hideCanvas: true,
+          })
           break
         case 'eraser':
-          this.setData({ toolType: 'eraser' })
+          this.setData({
+            toolType: 'eraser',
+            hideCanvas: false,
+          })
           break
         case 'generate':
-          this.setData({ toolType: 'generate' })
+          this.setData({
+            toolType: 'generate',
+            hideCanvas: true,
+          })
           break
       }
-
-      this.setData({
-        hideCanvas: key === 'generate',
-      })
     },
 
     NavChange(e) {
@@ -177,7 +188,7 @@ Component({
       this.bgCanvas.init(this.data.bgColor)
 
       this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
-      this.appCanvas.setColor(`rgba(${this.data.rgba.r}, ${this.data.rgba.g}, ${this.data.rgba.b}, ${this.data.rgba.a})`)
+      this.appCanvas.setColor(this.data.pixelColor)
 
       this.wxUtils = new WxUtils(wx, app, { width, height })   
     },
