@@ -53,7 +53,7 @@
   </view>
 </view>
 
-<view wx:if="{{PageCur==='home'}}" class="cu-bar tabbar bg-white shadow foot">
+<view wx:if="{{PageCur==='home'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
   <!--
   <view class="action" bindtap="ToolChange" data-cur="back">
     <text class="iconfont icon-wode text-gray"></text>

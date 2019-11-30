@@ -191,20 +191,23 @@ Component({
 
     initCanvas() {
       console.log('globalData', app.globalData)
-      const width = app.globalData.systemInfo.windowWidth
-      const height = app.globalData.systemInfo.windowHeight - app.globalData.Custom.bottom
-      console.log(width, height)
-      this.setData({ width, height })
-      const ctx = wx.createCanvasContext('mainCanvas', this) 
-      const ctxBg = wx.createCanvasContext('bgCanvas', this)
+      this.wxUtils = new WxUtils(wx, app)  
+      this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
+        const bottomBarStyle = rect.height
+        const width = app.globalData.systemInfo.windowWidth
+        const height = app.globalData.systemInfo.windowHeight - bottomBarStyle
+        this.setData({ width, height })
+        const ctx = wx.createCanvasContext('mainCanvas', this) 
+        const ctxBg = wx.createCanvasContext('bgCanvas', this)
+  
+        this.bgCanvas = new TestApplication(ctxBg, { width, height, id: 'bgCanvas' }, wx)
+        this.bgCanvas.init(this.data.bgColor)
+  
+        this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
+        this.appCanvas.setColor(this.data.pixelColor)
 
-      this.bgCanvas = new TestApplication(ctxBg, { width, height, id: 'bgCanvas' }, wx)
-      this.bgCanvas.init(this.data.bgColor)
-
-      this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
-      this.appCanvas.setColor(this.data.pixelColor)
-
-      this.wxUtils = new WxUtils(wx, app, { width, height })   
+        this.wxUtils.setStyle({ width, height })
+      })
     },
     
     savePicture() {

@@ -69,6 +69,7 @@ App({
         if (wx.getMenuButtonBoundingClientRect) {
           capsule = wx.getMenuButtonBoundingClientRect();
         }
+        console.log('capsule: ', capsule)
         if (capsule) {
           this.globalData.Custom = capsule;
           this.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;

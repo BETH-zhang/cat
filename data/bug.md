@@ -15,3 +15,9 @@ style="font-size: 32rpx;"
 
 ### `个别页面内容长了之后被挡住了，无法下滑查看`
 需要添加 scroll-view 组件
+
+### `获取页面元素中样式`
+在 Component 中必须传入 this
+```
+wx.createSelectorQuery().in(this)
+```
