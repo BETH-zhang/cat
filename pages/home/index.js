@@ -149,12 +149,12 @@ Component({
       })
     },
 
-    updateCanvas(x, y, color) {
+    updateCanvas(x, y, color, touchType) {
       if (this.appCanvas) {
         if (this.data.toolType === 'brush') {
-          this.appCanvas.updateGrid(x, y, color)
+          this.appCanvas.updateGrid(x, y, color, touchType)
         } else if (this.data.toolType === 'eraser') {
-          this.appCanvas.eraser(x, y)
+          this.appCanvas.eraser(x, y, touchType)
         }
       }
     },
@@ -167,7 +167,7 @@ Component({
           x0: e.touches[0].x,
           y0: e.touches[0].y,
         })
-        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor, 'start')
       }
     },
 
@@ -177,7 +177,7 @@ Component({
           x: e.touches[0].x,
           y: e.touches[0].y
         })
-        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor, 'move')
       }
     },
 
@@ -186,6 +186,7 @@ Component({
         this.setData({
           allowDraw: false,
         })
+        this.updateCanvas(this.data.x, this.data.y, this.data.pixelColor, 'end')
       }
     },
 

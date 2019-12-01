@@ -20,6 +20,8 @@ class TestApplication {
     this.color = 'red'
     this.bgColor = 'white'
     this.colors = [this.color]
+    this.tx = 0
+    this.ty = 0
     // this.print()
     // this.checkAllApi()
   }
@@ -369,8 +371,41 @@ class TestApplication {
     this.draw()    
   }
 
-  updateGrid = (x, y, color) => {    
+  getCoords = (x, y, touchType) => {
+    if (touchType !== 'end') {
+      const coord = this.calCoord(x, y)
+      const coordAry = coord.split('-')
+      this.tx = coordAry[0]
+      this.ty = coordAry[1]
+
+      console.log(this.tx, this.ty, coordAry[0], coordAry[1])
+
+      if (this.tx > -1 && this.ty > -1 && (this.tx !== x || this.ty !== y)) {
+        const ary = []
+        // 2 1 3 2 
+        // 3 2 5 5
+        // 5 5 9 11
+        // 9 11 13 16
+        // 13 16 19 28
+        // 19 28 27 44
+        // 27 44 29 48
+        // 29 48 33 51
+        // 33 51 34 51
+        // 34 51 36 51
+        return ary
+      }
+      return [coordAry]
+    } else {
+      this.tx = -1
+      this.ty = -1
+      return []
+    }
+  }
+
+  updateGrid = (x, y, color, touchType) => {    
     if (x && y) {
+      const coords = this.getCoords(x, y, touchType)
+      console.log('coords: ', coords)
       const coord = this.calCoord(x, y)
       let colorIndex = this.colors.indexOf(color || this.color)
       if (colorIndex === -1) {
