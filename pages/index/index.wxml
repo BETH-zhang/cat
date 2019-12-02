@@ -6,25 +6,25 @@
 
 <view wx:if="{{PageCur!=='home'}}" class="cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="home">
-    <i class="iconfont icon-noun__cc {{PageCur=='home'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-noun__cc {{PageCur=='home'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='home'?'text-blue':'text-gray'}}">像素画</view>
   </view>
   <!--
   <view class="action" bindtap="NavChange" data-cur="convert">
-    <i class="iconfont icon-wuguan {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-wuguan {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='convert'?'text-blue':'text-gray'}}">AI画</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="color">
-    <i class="iconfont icon-seqia {{PageCur=='color'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-seqia {{PageCur=='color'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='color'?'text-blue':'text-gray'}}">色卡</view>
   </view>
   -->
   <view class="action" bindtap="NavChange" data-cur="work">
-    <i class="iconfont icon-icon- {{PageCur=='work'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-icon- {{PageCur=='work'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='work'?'text-blue':'text-gray'}}">大师作品</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="about">
-    <i class="iconfont icon-houzi {{PageCur=='about'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-houzi {{PageCur=='about'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='about'?'text-blue':'text-gray'}}">程小元</view>
   </view>
 </view>

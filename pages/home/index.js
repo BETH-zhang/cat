@@ -149,11 +149,13 @@ Component({
       })
     },
 
-    updateCanvas(x, y, color) {
-      if (this.data.toolType === 'brush') {
-        this.appCanvas.updateGrid(x, y, color)
-      } else if (this.data.toolType === 'eraser') {
-        this.appCanvas.eraser(x, y)
+    updateCanvas(x, y, color, touchType) {
+      if (this.appCanvas) {
+        if (this.data.toolType === 'brush') {
+          this.appCanvas.updateGrid(x, y, color, touchType)
+        } else if (this.data.toolType === 'eraser') {
+          this.appCanvas.eraser(x, y, touchType)
+        }
       }
     },
 
@@ -165,7 +167,7 @@ Component({
           x0: e.touches[0].x,
           y0: e.touches[0].y,
         })
-        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor, 'start')
       }
     },
 
@@ -175,7 +177,7 @@ Component({
           x: e.touches[0].x,
           y: e.touches[0].y
         })
-        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor)
+        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor, 'move')
       }
     },
 
@@ -184,25 +186,29 @@ Component({
         this.setData({
           allowDraw: false,
         })
+        this.updateCanvas(this.data.x, this.data.y, this.data.pixelColor, 'end')
       }
     },
 
     initCanvas() {
       console.log('globalData', app.globalData)
-      const width = app.globalData.systemInfo.windowWidth
-      const height = app.globalData.systemInfo.windowHeight - app.globalData.Custom.bottom
-      console.log(width, height)
-      this.setData({ width, height })
-      const ctx = wx.createCanvasContext('mainCanvas', this) 
-      const ctxBg = wx.createCanvasContext('bgCanvas', this)
+      this.wxUtils = new WxUtils(wx, app)  
+      this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
+        const bottomBarStyle = rect.height
+        const width = app.globalData.systemInfo.windowWidth
+        const height = app.globalData.systemInfo.windowHeight - bottomBarStyle
+        this.setData({ width, height })
+        const ctx = wx.createCanvasContext('mainCanvas', this) 
+        const ctxBg = wx.createCanvasContext('bgCanvas', this)
+  
+        this.bgCanvas = new TestApplication(ctxBg, { width, height, id: 'bgCanvas' }, wx)
+        this.bgCanvas.init(this.data.bgColor)
+  
+        this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
+        this.appCanvas.setColor(this.data.pixelColor)
 
-      this.bgCanvas = new TestApplication(ctxBg, { width, height, id: 'bgCanvas' }, wx)
-      this.bgCanvas.init(this.data.bgColor)
-
-      this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
-      this.appCanvas.setColor(this.data.pixelColor)
-
-      this.wxUtils = new WxUtils(wx, app, { width, height })   
+        this.wxUtils.setStyle({ width, height })
+      })
     },
     
     savePicture() {

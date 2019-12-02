@@ -8,7 +8,8 @@
     "pages/about/work/index",
     "pages/about/about/about",
     "pages/about/log/log",
-    "pages/about/home/home"
+    "pages/about/home/home",
+    "pages/auth/auth"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -21,7 +22,6 @@
     "downloadFile": 10000
   },
   "usingComponents": {
-    "van-button": "vant-weapp/button"
   },
   "sitemapLocation": "sitemap.json"
 }

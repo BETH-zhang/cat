@@ -22,7 +22,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.0.0",
+	"libVersion": "2.6.0",
 	"appid": "wx44378f03ea3692aa",
 	"projectname": "cat",
 	"debugOptions": {

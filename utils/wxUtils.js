@@ -1,8 +1,12 @@
 class WxUtils {
-  constructor(wx, app, canvas) {
+  constructor(wx, app) {
     this.wx = wx
     this.app = app
-    this.canvas = canvas
+    this.canvas = {}
+  }
+
+  setStyle = (canvas) => {
+    this.canvass = canvas
   }
 
   getSystemInfo = () => {
@@ -172,13 +176,28 @@ class WxUtils {
         height: this.canvas.height,
         canvasId,
         complete: res => {
+          console.log('canvasToTempFilePath-res: ', res)
           if (res.errMsg === 'canvasToTempFilePath:ok') {
             resolve(res)
-          } else if (failure) {
+          } else {
             reject(res)
           }
         }
       }, that)
+    })
+  }
+
+  // 获取元素样式
+  createSelectorQuery = (element, that) => {
+    return new Promise((resolve, reject) => {
+      var query = wx.createSelectorQuery().in(that);
+      query.select(element).boundingClientRect((rect) => {
+        if (rect) {
+          resolve(rect)
+        } else {
+          reject() 
+        }
+      }).exec();
     })
   }
 }

@@ -53,31 +53,31 @@
   </view>
 </view>
 
-<view wx:if="{{PageCur==='home'}}" class="cu-bar tabbar bg-white shadow foot">
+<view wx:if="{{PageCur==='home'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
   <!--
   <view class="action" bindtap="ToolChange" data-cur="back">
-    <i class="iconfont icon-wode text-gray"></i>
+    <text class="iconfont icon-wode text-gray"></text>
     <view class="text-gray">撤销</view>
   </view>
   --->
   <view class="action" bindtap="ToolChange" data-cur="clean">
-    <i class="iconfont icon-qingchu1 text-gray"></i>
+    <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-gray"></text>
     <view class="text-gray">清除</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="eraser">
-    <i class="iconfont icon-icon-test {{toolType=='eraser'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-icon-test {{toolType=='eraser'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='eraser'?'text-blue':'text-gray'}}">橡皮</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="brush">
-    <i class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
-    <i class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='generate'?'text-blue':'text-gray'}}">生成</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="about">
-    <i class="iconfont icon-houzi text-gray"></i>
+    <i style="font-size: 32rpx;" class="iconfont icon-houzi text-gray"></i>
     <view class="text-gray">程小元</view>
   </view>
 </view>
