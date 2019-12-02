@@ -94,7 +94,6 @@ const gridConnectionPoints = (p0, p1) => {
   const dx = p1[0] - p0[0]
   const dy = p1[1] - p0[1]
 
-  console.log(dx, dy, '???')
   if (dx > 0 && dy > 0) {
     const step = Math.max(dx, dy)
     if (step > 2) {
