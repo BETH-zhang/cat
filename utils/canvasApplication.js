@@ -15,13 +15,22 @@ class TestApplication {
     this.canvas = canvas
     this.wx = wx
     this.interval = 12
+    this.numberGird = 25
     // this.arr = []
     this.data = ''
     this.color = 'red'
     this.bgColor = 'white'
     this.colors = [this.color]
+    
     // this.print()
     // this.checkAllApi()
+    this.initGridInterval()
+  }
+
+  initGridInterval = () => {
+    if (this.numberGird > 0 && this.canvas.width > 0) {
+      this.interval = Math.floor(this.canvas.width / this.numberGird)
+    }
   }
 
   check = () => {
@@ -244,8 +253,9 @@ class TestApplication {
     this.color = color || this.color
   }
 
-  setGap = (interval) => {
-    this.interval = interval || this.interval
+  setNumberGrid = (nGrid) => {
+    this.numberGird = nGrid || this.numberGird
+    this.initGridInterval()
   }
 
   calCoord = (x, y) => {
