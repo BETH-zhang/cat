@@ -1,4 +1,4 @@
-import { throttle } from './util.js'
+import { throttle, gridConnectionPoints } from './util.js'
 
 const EImageFillType = {
   STRETCH: 'STRETCH',
@@ -386,26 +386,19 @@ class TestApplication {
     if (touchType !== 'end') {
       const coord = this.calCoord(x, y)
       const coordAry = coord.split('-')
-      this.tx = coordAry[0]
-      this.ty = coordAry[1]
-
-      console.log(this.tx, this.ty, coordAry[0], coordAry[1])
+      const p1x = Number(coordAry[0])
+      const p1y = Number(coordAry[1])
 
       if (this.tx > -1 && this.ty > -1 && (this.tx !== x || this.ty !== y)) {
-        const ary = []
-        // 2 1 3 2 
-        // 3 2 5 5
-        // 5 5 9 11
-        // 9 11 13 16
-        // 13 16 19 28
-        // 19 28 27 44
-        // 27 44 29 48
-        // 29 48 33 51
-        // 33 51 34 51
-        // 34 51 36 51
+        const ary = gridConnectionPoints([this.tx, this.ty], [p1x, p1y])
+        this.tx = p1x
+        this.ty = p1y
         return ary
       }
-      return [coordAry]
+
+      this.tx = p1x
+      this.ty = p1y
+      return [[p1x, p1y]]
     } else {
       this.tx = -1
       this.ty = -1
@@ -416,17 +409,18 @@ class TestApplication {
   updateGrid = (x, y, color, touchType) => {    
     if (x && y) {
       const coords = this.getCoords(x, y, touchType)
-      console.log('coords: ', coords)
-      const coord = this.calCoord(x, y)
-      let colorIndex = this.colors.indexOf(color || this.color)
-      if (colorIndex === -1) {
-        this.colors.push(color)
-        colorIndex = this.colors.length - 1
+      if (coords && coords.length) {
+        coords.forEach((coord) => {
+          let colorIndex = this.colors.indexOf(color || this.color)
+          if (colorIndex === -1) {
+            this.colors.push(color)
+            colorIndex = this.colors.length - 1
+          }
+          this.data += `${coord.join('-')}-${colorIndex} `
+          this.fillRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
+        })
+        this.ctx.draw(true)
       }
-      this.data += `${coord}-${colorIndex} `
-      const coordAry = coord.split('-')
-      this.fillRect(coordAry[0] * this.interval, coordAry[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
-      this.ctx.draw(true)
     }
   }
 

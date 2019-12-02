@@ -88,9 +88,49 @@ const fetchApi = () => {
    })
 }
 
+const gridConnectionPoints = (p0, p1) => {
+  const a = (p1[1] - p0[1]) / (p1[0] - p0[0])
+  const b = p0[1] - a * p0[0]
+  const dx = p1[0] - p0[0]
+  const dy = p1[1] - p0[1]
+
+  console.log(dx, dy, '???')
+  if (dx > 0 && dy > 0) {
+    const step = Math.max(dx, dy)
+    if (step > 2) {
+      const points = Array(step).fill(0).map((item, index) => {
+        if (dx >= dy) {
+          const x = p0[0] + index
+          const y = Math.round(a * x + b)
+          return [x, y]
+        } else {
+          const y = p0[1] + index
+          const x = Math.round((y - b) / a)
+          return [x, y]
+        }
+      })
+      return points
+    }
+    return [p1]
+  } else if (dx > 0 && dy === 0) {
+    const points = Array(dx).fill(0).map((item, index) => {
+      return [p0[0] + index + 1, p0[1]]
+    })
+    return points
+  } else if (dy > 0 && dx === 0) {
+    const points = Array(dy).fill(0).map((item, index) => {
+      return [p0[0], p0[1] + index + 1]
+    })
+    return points
+  }
+  return [p1]
+}
+
+
 module.exports = {
   formatTime: formatTime,
   isEmpty: isEmpty,
   compareVersion: compareVersion,
   throttle: throttle,
+  gridConnectionPoints: gridConnectionPoints,
 }
