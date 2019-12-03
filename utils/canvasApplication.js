@@ -22,8 +22,8 @@ class TestApplication {
     this.bgColor = 'white'
     this.colors = [this.color]
     
-    this.tx = 0
-    this.ty = 0
+    this.tx = -1
+    this.ty = -1
     
     // this.print()
     // this.checkAllApi()
@@ -389,7 +389,7 @@ class TestApplication {
       const p1x = Number(coordAry[0])
       const p1y = Number(coordAry[1])
 
-      if (this.tx > -1 && this.ty > -1 && (this.tx !== x || this.ty !== y)) {
+      if (this.tx > -1 && this.ty > -1 && (this.tx !== p1x || this.ty !== p1y)) {
         const ary = gridConnectionPoints([this.tx, this.ty], [p1x, p1y])
         this.tx = p1x
         this.ty = p1y
