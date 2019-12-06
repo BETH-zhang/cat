@@ -282,18 +282,20 @@ class TestApplication {
   }
 
   draw = () => {
-    const data = this.data.split(' ')
-    if (this.data && data.length) {
-      data.forEach((item) => {
-        if (item) {
-          const ary = item.split('-')
-          if (this.colors[ary[2]]) {
-            this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+    if (this.data) {
+      const data = this.data.split(' ')
+      if (this.data && data.length) {
+        data.forEach((item) => {
+          if (item) {
+            const ary = item.split('-')
+            if (this.colors[ary[2]]) {
+              this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+            }
           }
-        }
-      })
-      this.ctx.draw(true)
+        })
+      }
     }
+    this.ctx.draw(true)
   }
 
   snapshot = () => {
@@ -308,7 +310,7 @@ class TestApplication {
   undo = () => {
     if (this.history.length) {
       this.data = this.history[this.history.length - 1]
-      this.draw()
+      this.reDraw()
       this.history.pop()
       return true
     }
@@ -317,7 +319,6 @@ class TestApplication {
   }
 
   clean = () => {
-    console.log('clean')
     this.data = ''
     this.colors = [this.color]
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -376,7 +377,7 @@ class TestApplication {
     } else {
       this.data += `${coord.join('-')}-${colorIndex} `
     }
-    console.log('this.data: ', this.data)
+    // console.log('this.data: ', this.data)
   }
 
   eraser = (x0, y0, x, y) => {

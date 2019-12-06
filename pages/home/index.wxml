@@ -64,13 +64,13 @@
     <i style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-gray"></i>
     <view class="text-gray">清除</view>
   </view>
-  <view class="action" bindtap="ToolChange" data-cur="brush">
-    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
-    <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
-  </view>
   <view class="action" bindtap="ToolChange" data-cur="eraser">
     <i style="font-size: 32rpx;" class="iconfont icon-icon-test {{toolType=='eraser'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='eraser'?'text-blue':'text-gray'}}">橡皮</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="brush">
+    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
     <i style="font-size: 32rpx;" class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>

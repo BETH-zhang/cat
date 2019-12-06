@@ -172,6 +172,8 @@ Component({
 
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
+        this.appCanvas.snapshot()
+        
         this.data.allowDraw = true
         this.data.arr.push([e.touches[0].x, e.touches[0].y])
         this.animate(30)
@@ -189,7 +191,6 @@ Component({
       if (this.data.allowDraw) {
         this.data.allowDraw = false
         this.render()
-        this.appCanvas.snapshot()
       }
     },
 
