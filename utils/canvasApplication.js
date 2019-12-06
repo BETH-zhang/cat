@@ -136,13 +136,11 @@ class TestApplication {
     this.ctx.restore()
   }
 
-  fillRect = (x, y, width, height, fillStyle = this.color) => {
+  fillRect = (x, y, width, height, fillStyle = this.color, autoUpdateStyle) => {
     this.check()
     this.ctx.save()
-    if (!fillStyle || fillStyle !== this.color) {
-      const color = this.color || 'red'
-      this.ctx.setFillStyle(color)
-      this.setColor(color)
+    if (!autoUpdateStyle) {
+      this.ctx.setFillStyle(fillStyle)
     }
     this.ctx.fillRect(x, y, width, height)
     this.ctx.restore()
