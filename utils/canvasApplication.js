@@ -16,14 +16,10 @@ class TestApplication {
     this.wx = wx
     this.interval = 12
     this.numberGird = 25
-    // this.arr = []
     this.data = ''
-    this.color = 'red'
+    this.color = ''
     this.bgColor = 'white'
     this.colors = [this.color]
-    
-    this.tx = -1
-    this.ty = -1
     
     // this.print()
     // this.checkAllApi()
@@ -39,6 +35,20 @@ class TestApplication {
   check = () => {
     if (this.ctx === null) {
       return
+    }
+  }
+
+  canvasWorkBreak = (maxWidth, fontSize, text) => {
+    const maxLength = maxWidth / fontSize
+    const textLength = text.length
+    let textRowArr = []
+    let tmp = 0
+    while (1) {
+      textRowArr.push(text.substr(tmp, maxLength))
+      tmp += maxLength
+      if (tmp >= textLength) {
+        return textRowArr
+      }
     }
   }
 
@@ -129,7 +139,11 @@ class TestApplication {
   fillRect = (x, y, width, height, fillStyle = this.color) => {
     this.check()
     this.ctx.save()
-    this.ctx.setFillStyle(fillStyle)
+    if (!fillStyle || fillStyle !== this.color) {
+      const color = this.color || 'red'
+      this.ctx.setFillStyle(color)
+      this.setColor(color)
+    }
     this.ctx.fillRect(x, y, width, height)
     this.ctx.restore()
   }
@@ -218,7 +232,10 @@ class TestApplication {
 
     this.ctx.save()
     this.ctx.setStrokeStyle(color)
-    this.ctx.setLineWidth(0.5)
+    if (!this.lineWidth) {
+      this.lineWidth = 0.5
+      this.ctx.setLineWidth(0.5)
+    }
     // 从左到右每隔interval个像素画一条垂直线
     for (let i = interval + 0.5; i < this.canvas.width; i += interval) {
       this.strokeLine(i, 0, i, this.canvas.height)
@@ -354,25 +371,6 @@ class TestApplication {
     }
   }
 
-  updateArr = () => {
-    // console.log('---', this.canvas.id, this.wx)
-    // const that = this
-    // this.wx.canvasGetImageData({
-    //   canvasId: this.canvas.id,
-    //   x: 0,
-    //   y: 0,
-    //   width: this.canvas.width,
-    //   height: this.canvas.height,
-    //   success(res) {
-    //     console.log("res:", res)
-    //     that.data.push(res)
-    //   },
-    //   fail(res) {
-    //     console.log("faild",res)
-    //   }
-    // })
-  }
-
   throttleDraw = throttle(this.draw, 0, 1000)
 
   throttleUpdateArr = throttle(this.updateArr, 0, 100)
@@ -382,33 +380,35 @@ class TestApplication {
     this.draw()    
   }
 
-  getCoords = (x, y, touchType) => {
-    if (touchType !== 'end') {
-      const coord = this.calCoord(x, y)
-      const coordAry = coord.split('-')
-      const p1x = Number(coordAry[0])
-      const p1y = Number(coordAry[1])
+  getCoords = (x0, y0, x, y) => {
+    const coord = this.calCoord(x, y)
+    const coordAry = coord.split('-')
+    const p1x = Number(coordAry[0])
+    const p1y = Number(coordAry[1])
 
-      if (this.tx > -1 && this.ty > -1 && (this.tx !== p1x || this.ty !== p1y)) {
-        const ary = gridConnectionPoints([this.tx, this.ty], [p1x, p1y])
-        this.tx = p1x
-        this.ty = p1y
-        return ary
-      }
+    if (x0 !== p1x || y0 !== p1y) {
+      const ary = gridConnectionPoints([x0, y0], [p1x, p1y])
+      return ary
+    }
 
-      this.tx = p1x
-      this.ty = p1y
-      return [[p1x, p1y]]
+    return [[p1x, p1y]]
+  }
+
+  updateData = (coord, colorIndex) => {
+    // console.log(this.data)
+    const coordData = coord.join('-')
+    const startIndex = this.data.indexOf(coordData)
+    if (startIndex > -1) {
+      const str = this.getStr(startIndex, 1)
+      this.data = this.data.replace(str, `${coord.join('-')}-${colorIndex} `)
     } else {
-      this.tx = -1
-      this.ty = -1
-      return []
+      this.data += `${coord.join('-')}-${colorIndex} `
     }
   }
 
-  updateGrid = (x, y, color, touchType) => {    
+  updateGrid = (x0, y0, x, y, color) => {
     if (x && y) {
-      const coords = this.getCoords(x, y, touchType)
+      const coords = this.getCoords(x0, y0, x, y)
       if (coords && coords.length) {
         coords.forEach((coord) => {
           let colorIndex = this.colors.indexOf(color || this.color)
@@ -416,7 +416,7 @@ class TestApplication {
             this.colors.push(color)
             colorIndex = this.colors.length - 1
           }
-          this.data += `${coord.join('-')}-${colorIndex} `
+          this.updateData(coord, colorIndex)
           this.fillRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
         })
         this.ctx.draw(true)

@@ -1,6 +1,10 @@
 const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
+import {
+  requestAnimationFrame,
+  cancelAnimationFrame
+} from '../../utils/util'
 
 Component({
   options: {
@@ -31,7 +35,8 @@ Component({
 
     pixelColor: 'rgba(240,113, 43, 1)',
     bgColor:  'rgba(255, 255, 255, 1)',
-    fontColor: 'rgba(50, 50, 50, 1)'
+    fontColor: 'rgba(50, 50, 50, 1)',
+    arr: [],
   },
   lifetimes: {
     created() {
@@ -65,6 +70,7 @@ Component({
             hideCanvas: false,
           })
           this.bgCanvas.init(this.data.bgColor)
+          this.appCanvas.setColor(e.detail.pixelColor)
           this.appCanvas.reDraw()
           break
         default:
@@ -161,32 +167,62 @@ Component({
 
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
-        // app.globalData.canvasId = Math.random().toFixed(8).slice(2)
-        this.setData({
-          allowDraw: true,
-          x0: e.touches[0].x,
-          y0: e.touches[0].y,
-        })
-        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor, 'start')
+        this.data.allowDraw = true
+        this.data.arr.push([e.touches[0].x, e.touches[0].y])
+        this.animate(30)
       }
     },
 
     dispatchTouchMove(e) {
       if (this.data.allowDraw) {
-        this.setData({
-          x: e.touches[0].x,
-          y: e.touches[0].y
-        })
-        this.updateCanvas(e.touches[0].x, e.touches[0].y, this.data.pixelColor, 'move')
+        this.data.arr.push([e.touches[0].x, e.touches[0].y])
+        this.render()
       }
     },
 
     dispatchTouchEnd(e) {
       if (this.data.allowDraw) {
-        this.setData({
-          allowDraw: false,
-        })
-        this.updateCanvas(this.data.x, this.data.y, this.data.pixelColor, 'end')
+        // this.stop()
+        this.data.allowDraw = false
+      }
+    },
+
+    animate(lastTime) {
+      this.animateId = requestAnimationFrame((t) => {
+        this.render()
+        if (this.animateId) {
+          this.animate(t)
+        }
+      }, lastTime)
+    },
+
+    stop() {
+      cancelAnimationFrame(this.animateId)
+      this.animateId = null
+    },
+
+    render() {
+      if (this.data.arr.length >= 2) {
+        this.updateCanvas(
+          this.data.arr[0][0],
+          this.data.arr[0][1],
+          this.data.arr[1][0],
+          this.data.arr[1][1],
+          this.data.pixelColor,
+        )
+        this.data.arr.splice(0, 1)
+      } else if (this.data.arr.length === 1) {
+        this.updateCanvas(
+          this.data.arr[0][0],
+          this.data.arr[0][1],
+          this.data.arr[0][0],
+          this.data.arr[0][1],
+          this.data.pixelColor,
+        )
+        this.data.arr.splice(0, 1)
+      } else if (!this.data.allowDraw) {
+        console.log('本次画完')
+        this.stop()
       }
     },
 

@@ -56,7 +56,7 @@ Component({
     viewImages(e) {
       wx.previewImage({
         urls: this.data.urls,
-        current: e.currentTarget.dataset.cur,
+        current: e.currentTarget.dataset.url,
       })
     }
   }

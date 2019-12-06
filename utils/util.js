@@ -125,6 +125,22 @@ const gridConnectionPoints = (p0, p1) => {
   return [p1]
 }
 
+const requestAnimationFrame = function (callback, lastTime) {
+  var lastTime;
+  if (typeof lastTime === 'undefined') {
+    lastTime = 0
+  }
+  var currTime = new Date().getTime();
+  var timeToCall = Math.max(0, 30 - (currTime - lastTime));
+  lastTime = currTime + timeToCall;
+  return setTimeout(function () {
+    callback(lastTime);
+  }, timeToCall);
+};
+
+const cancelAnimationFrame = function (id) {
+  clearTimeout(id);
+}
 
 module.exports = {
   formatTime: formatTime,
@@ -132,4 +148,6 @@ module.exports = {
   compareVersion: compareVersion,
   throttle: throttle,
   gridConnectionPoints: gridConnectionPoints,
+  requestAnimationFrame: requestAnimationFrame,
+  cancelAnimationFrame: cancelAnimationFrame,
 }

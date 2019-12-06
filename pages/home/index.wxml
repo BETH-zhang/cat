@@ -25,11 +25,13 @@
   <canvas
     canvas-id="bgCanvas"
     class="bg-canvas"
+    disable-scroll='{{true}}'
     style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
   />
   <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
+    disable-scroll='{{true}}'
     style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
     bindtouchstart="dispatchTouchStart"
     bindtouchmove="dispatchTouchMove"
