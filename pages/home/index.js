@@ -92,11 +92,18 @@ Component({
 
     ToolChange(e) {
       const key = e.currentTarget.dataset.cur
-      console.log(this.data)
+      // console.log(this.data)
       // undo, clean, brush, eraser, straw, generate
       switch(key) {
         case 'undo':
-          this.appCanvas.undo()
+          const undo = this.appCanvas.undo()
+          if (!undo) {
+            wx.showToast({
+              title: '没有历史记录了',
+              icon: 'none',
+              duration: 2000
+            })
+          }
           this.setData({
             toolType: 'brush',
             hideCanvas: false,
@@ -173,7 +180,7 @@ Component({
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
         this.appCanvas.snapshot()
-        
+
         this.data.allowDraw = true
         this.data.arr.push([e.touches[0].x, e.touches[0].y])
         this.animate(30)
