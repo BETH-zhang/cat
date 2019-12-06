@@ -1,6 +1,7 @@
 const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
+import GestureRecognition from '../../utils/gestureRecognition'
 import {
   requestAnimationFrame,
   cancelAnimationFrame
@@ -112,6 +113,7 @@ Component({
           })
           break
         case 'clean':
+          this.appCanvas.snapshot()
           this.appCanvas.clean()
           this.setData({
             hideCanvas: false,
@@ -179,11 +181,23 @@ Component({
 
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
-        this.appCanvas.snapshot()
-
-        this.data.allowDraw = true
-        this.data.arr.push([e.touches[0].x, e.touches[0].y])
-        this.animate(30)
+        const gesture = this.gestureRecognition.touchStart(e)
+        switch (gesture.type) {
+          case 'Single':
+            this.appCanvas.snapshot()
+    
+            this.data.allowDraw = true
+            this.data.arr.push([e.touches[0].x, e.touches[0].y])
+            this.animate(30)
+            break;
+          case 'Double':
+            wx.showToast({
+              title: '缩放画布',
+              icon: 'none',
+              duration: 2000
+            })
+            break;
+        }
       }
     },
 
@@ -242,7 +256,8 @@ Component({
 
     initCanvas() {
       console.log('globalData', app.globalData)
-      this.wxUtils = new WxUtils(wx, app)  
+      this.wxUtils = new WxUtils(wx, app)
+      this.gestureRecognition = new GestureRecognition()
       this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
         const bottomBarStyle = rect.height
         const width = app.globalData.systemInfo.windowWidth
