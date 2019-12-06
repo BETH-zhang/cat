@@ -26,7 +26,7 @@
     canvas-id="bgCanvas"
     class="bg-canvas"
     disable-scroll='{{true}}'
-    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}}; transform: scale({{scale}}) translateX({{translateX}}rpx) translateY({{translateY}}px);"
   />
   <canvas
     canvas-id="mainCanvas"
@@ -37,6 +37,13 @@
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
   />
+</view>
+
+<view style=" position: absolute; bottom: 100px; left: 0; z-index: 111; color: red; ">
+  <view>{{scale}}</view>
+  <view>{{translateX}}</view>
+  <view>{{translateY}}</view>
+  <view>{{distance}}</view>
 </view>
 
 <!--

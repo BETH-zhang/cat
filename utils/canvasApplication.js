@@ -27,6 +27,10 @@ class TestApplication {
     this.initGridInterval()
   }
 
+  setStyle = (canvas) => {
+    this.canvas = canvas
+  }
+
   initGridInterval = () => {
     if (this.numberGird > 0 && this.canvas.width > 0) {
       this.interval = Math.floor(this.canvas.width / this.numberGird)

@@ -13,12 +13,15 @@ class GestureRecognition {
     this.touch = {
       startX: 0,
       startY: 0,
+      distanceStart: 0,
+      distanceEnd: 0,
     }
   }
 
   touchStart = (e) => {
-    this.touch.startY = e.changedTouches[0].clientY;
-    this.touch.startX = e.changedTouches[0].clientX;
+    console.log('start-e: ', e.touches, e)
+    this.touch.startX = e.changedTouches[0].x;
+    this.touch.startY = e.changedTouches[0].y;
 
     this.isDouble = false
 
@@ -26,13 +29,14 @@ class GestureRecognition {
       //确定为双手指手势 
       this.isDouble = true
 
-      let x = Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2)
-      let y = Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2)
+      let x = Math.pow(e.touches[0].x - e.touches[1].x, 2)
+      let y = Math.pow(e.touches[0].y - e.touches[1].y, 2)
       this.touch.distanceStart = Math.sqrt(x + y)
       console.log('ss', this.touch.distance)
 
       return {
         type: gestures.Double,
+        distance: this.touch.distanceStart,
       }
     }
 
@@ -44,7 +48,9 @@ class GestureRecognition {
   }
 
   touchMove = (e) => {
-    if (!this.isDouble) {
+    console.log('1e: ', e.touches, e, this.isDouble, !this.isDouble && e.touches.length === 1)
+    if (!this.isDouble && e.touches.length === 1) {
+      console.log('111')
       return {
         type: gestures.Single,
         x: e.touches[0].x,
@@ -52,14 +58,16 @@ class GestureRecognition {
       }
     }
 
-    if (e.touches.length === 1 || this.touch.distanceEnd) {
-      // 如果为单手指手势或已经确定this.touch.distanceEnd，则不再执行以下函数。
-      return {}
+    if (e.touches.length === 2) {
+      this.isDouble = true
     }
 
-    let x = Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2)
-    let y = Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2)
-    console.log('Math.sqrt(x+y)', Math.sqrt(x + y))
+    let x = Math.pow(e.touches[0].x - e.touches[1].x, 2)
+    let y = Math.pow(e.touches[0].y - e.touches[1].y, 2)
+    console.log('Math.sqrt(x+y)', Math.sqrt(x + y), x, y)
+    if (!this.touch.distanceStart) {
+      this.touch.distanceStart =  Math.sqrt(x + y)
+    }
     let distance = Math.sqrt(x + y) - this.touch.distanceStart
     if (Math.abs(distance) > 20) {
       this.touch.distanceEnd = distance
@@ -67,13 +75,13 @@ class GestureRecognition {
 
     return {
       type: gestures.Double,
-      distance: distance,
+      distance: this.touch.distanceEnd,
     }
   }
 
   touchEnd = (e) => {
-    this.touch.endX = e.changedTouches[0].clientX;
-    this.touch.endY = e.changedTouches[0].clientY;
+    this.touch.endX = e.changedTouches[0].x;
+    this.touch.endY = e.changedTouches[0].y;
     let x = this.touch.endX - this.touch.startX
     let y = this.touch.endY - this.touch.startY
 
@@ -89,8 +97,15 @@ class GestureRecognition {
         console.log('this.touch.distanceEnd: ', this.touch.distanceEnd)
         // 缩小
       }
+      this.touch.distanceStart = 0
       this.touch.distanceEnd = 0
-      return
+      return {
+        type: gestures.Double
+      }
+    }
+
+    return {
+      type: gestures.Single
     }
   }
 }

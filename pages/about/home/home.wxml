@@ -66,6 +66,13 @@
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </view>
       </view>
+      <view class="cu-item">
+        <view class="content" bindtap="removeStorage">
+          <text style="font-size: 32rpx;" class="iconfont icon-zan text-red"></text>
+          <text class="text-grey" style="margin-left: 12px">清除缓存</text>
+          <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-grey float-right"></text>
+        </view>
+      </view>
     </view>
     <view class="cu-tabbar-height"></view>
   </view>

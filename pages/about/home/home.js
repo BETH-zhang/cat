@@ -78,5 +78,8 @@ Component({
         current: 'https://s2.ax1x.com/2019/09/18/n7cScF.jpg' // 当前显示图片的http链接      
       })
     },
+    removeStorage() {
+      
+    },
   }
 })

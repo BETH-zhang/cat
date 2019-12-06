@@ -39,6 +39,10 @@ Component({
     bgColor:  'rgba(255, 255, 255, 1)',
     fontColor: 'rgba(50, 50, 50, 1)',
     arr: [],
+
+    scale: 2,
+    translateX: 0,
+    translateY: 0,
   },
   lifetimes: {
     created() {
@@ -109,7 +113,7 @@ Component({
             toolType: 'brush',
             hideCanvas: false,
             setting: '',
-            brushPanel: true,
+            brushPanel: false,
           })
           break
         case 'clean':
@@ -119,15 +123,19 @@ Component({
             hideCanvas: false,
             toolType: 'brush',
             setting: '',
-            brushPanel: true,
+            brushPanel: false,
           })
           break
         case 'brush':
+          if (this.data.toolType === 'generate') {
+            this.appCanvas.reDraw()
+          }
+          console.log(this.data.brushPanel, this.data.toolType, !this.data.brushPanel && this.data.toolType === 'brush')
           this.setData({
             toolType: 'brush',
             brushPanel: !this.data.brushPanel, // true 显示笔刷颜色
-            setting: this.data.brushPanel ? '' : 'color',
-            hideCanvas: this.data.brushPanel ? false : true,
+            setting: !this.data.brushPanel && this.data.toolType === 'brush' ? 'color' : '',
+            hideCanvas: !this.data.brushPanel && this.data.toolType === 'brush' ? true : false,
           })
           break
         case 'eraser':
@@ -135,7 +143,6 @@ Component({
             toolType: 'eraser',
             hideCanvas: false,
             setting: '',
-            brushPanel: true,
           })
           break
         case 'generate':
@@ -181,14 +188,14 @@ Component({
 
     dispatchTouchStart(e) {
       if (!this.data.allowDraw) {
+        this.data.allowDraw = true
+
         const gesture = this.gestureRecognition.touchStart(e)
+        console.log('start', gesture)
         switch (gesture.type) {
           case 'Single':
             this.appCanvas.snapshot()
-    
-            this.data.allowDraw = true
             this.data.arr.push([e.touches[0].x, e.touches[0].y])
-            this.animate(30)
             break;
           case 'Double':
             wx.showToast({
@@ -203,15 +210,53 @@ Component({
 
     dispatchTouchMove(e) {
       if (this.data.allowDraw) {
-        this.data.arr.push([e.touches[0].x, e.touches[0].y])
-        this.render()
+        const gesture = this.gestureRecognition.touchMove(e)
+        console.log('move', gesture)
+        switch (gesture.type) {
+          case 'Single':
+            this.data.arr.push([e.touches[0].x, e.touches[0].y])
+            this.render()
+            break;
+          case 'Double':
+            console.log(gesture)
+            let newScale = this.data.scale + 0.005 * gesture.distance
+            if (newScale > 4) {
+              newScale = 4
+            } else if (newScale < 1) {
+              newScale = 1
+            }
+            this.bgCanvas.setStyle({
+              width: this.data.width * newScale,
+              height: this.data.height * newScale,
+            })
+            this.bgCanvas.init()
+            this.setData({
+              scale: newScale,
+              translateX: 0,
+              translateY: 0,
+              distance: gesture.distance,
+            })
+            // scale: 1,
+            // translateX: 0,
+            // translateY: 0,
+            break;
+        }
       }
     },
 
     dispatchTouchEnd(e) {
       if (this.data.allowDraw) {
         this.data.allowDraw = false
-        this.render()
+
+        const gesture = this.gestureRecognition.touchEnd(e)
+        switch (gesture.type) {
+          case 'Single':
+            this.render()
+            break;
+          case 'Double':
+            console.log(gesture)
+            break;
+        }
       }
     },
 
