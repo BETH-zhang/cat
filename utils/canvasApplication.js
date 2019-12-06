@@ -20,6 +20,7 @@ class TestApplication {
     this.color = ''
     this.bgColor = 'white'
     this.colors = [this.color]
+    this.history = []
     
     // this.print()
     // this.checkAllApi()
@@ -136,12 +137,10 @@ class TestApplication {
     this.ctx.restore()
   }
 
-  fillRect = (x, y, width, height, fillStyle = this.color, autoUpdateStyle) => {
+  fillRect = (x, y, width, height, fillStyle = this.color) => {
     this.check()
     this.ctx.save()
-    if (!autoUpdateStyle) {
-      this.ctx.setFillStyle(fillStyle)
-    }
+    this.ctx.setFillStyle(fillStyle)
     this.ctx.fillRect(x, y, width, height)
     this.ctx.restore()
   }
@@ -288,38 +287,33 @@ class TestApplication {
       data.forEach((item) => {
         if (item) {
           const ary = item.split('-')
-          this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+          if (this.colors[ary[2]]) {
+            this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+          }
         }
       })
       this.ctx.draw(true)
     }
   }
 
-  undo = () => {
-    if (this.data) {
-      const str = this.getStr(this.data.length - 2, -1)
-      console.log('str: ', str)
-      this.data = this.data.replace(str + ' ', '')
-
-      // this.arr.pop()
-      // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-      // if (this.arr.length > 0) {
-      //   this.wx.canvasPutImageData({
-      //     canvasId: this.canvas.id,
-      //     x: 0,
-      //     y: 0,
-      //     width: this.canvas.width,
-      //     height: this.canvas.height,
-      //     data: this.arr,
-      //     success(res) {
-      //       console.log('put-res: ', res)
-      //       console.log('undo-draw-true')
-      //       this.ctx.draw(true)
-      //     },
-      //     fail(res){console.log(res)}
-      //   })
-      // }
+  snapshot = () => {
+    // 每次画完就打一个快照
+    if (this.history.length > 10) {
+      this.history.splice(0, 1)
     }
+
+    this.history.push(this.data)
+  }
+
+  undo = () => {
+    if (this.history.length) {
+      this.data = this.history[this.history.length - 1]
+      this.draw()
+      this.history.pop()
+      return true
+    }
+
+    return false
   }
 
   clean = () => {
@@ -350,25 +344,6 @@ class TestApplication {
     }
   }
 
-  eraser = (x, y) => {
-    if (x && y) {
-      const coord = this.calCoord(x, y)
-      const startIndex = this.data.indexOf(coord)
-      if (startIndex > -1) {
-        const str = this.getStr(startIndex, 1)
-        this.data = this.data.replace(str, '')
-      }
-      const coordAry = coord.split('-')
-      const x0 = coordAry[0] * this.interval
-      const y0 = coordAry[1] * this.interval
-      this.ctx.clearRect(x0, y0, this.interval, this.interval)
-      // this.fillRect(x0, y0, this.interval, this.interval, this.bgColor)
-      // this.strokeRect(x0 + 0.5, y0 + 0.5, this.interval, this.interval)
-      // console.log('eraser-draw-true')
-      this.ctx.draw(true)
-    }
-  }
-
   throttleDraw = throttle(this.draw, 0, 1000)
 
   throttleUpdateArr = throttle(this.updateArr, 0, 100)
@@ -393,7 +368,6 @@ class TestApplication {
   }
 
   updateData = (coord, colorIndex) => {
-    // console.log(this.data)
     const coordData = coord.join('-')
     const startIndex = this.data.indexOf(coordData)
     if (startIndex > -1) {
@@ -401,6 +375,20 @@ class TestApplication {
       this.data = this.data.replace(str, `${coord.join('-')}-${colorIndex} `)
     } else {
       this.data += `${coord.join('-')}-${colorIndex} `
+    }
+    console.log('this.data: ', this.data)
+  }
+
+  eraser = (x0, y0, x, y) => {
+    if (x && y) {
+      const coords = this.getCoords(x0, y0, x, y)
+      if (coords && coords.length) {
+        coords.forEach((coord) => {
+          this.updateData(coord, 'e')
+          this.ctx.clearRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval)
+        })
+        this.ctx.draw(true)
+      }
     }
   }
 

@@ -21,7 +21,8 @@ Component({
   },
   data: {
     hideCanvas: false,
-    toolType: 'brush', // back, clearn, brush, eraser, straw, generate
+    toolType: 'brush', // undo, clearn, brush, eraser, straw, generate
+    brushPanel: false,
     // toolType: 'generate',
     allowDraw: false,
 
@@ -64,12 +65,14 @@ Component({
           this.savePicture()
           break
         case 'color':
+          if (this.data.bgColor !== e.detail.bgColor) {
+            this.bgCanvas.init(this.data.bgColor)
+          }
           this.setData({
             ...e.detail,
             setting: '',
             hideCanvas: false,
           })
-          this.bgCanvas.init(this.data.bgColor)
           this.appCanvas.setColor(e.detail.pixelColor)
           this.appCanvas.reDraw()
           break
@@ -89,39 +92,41 @@ Component({
 
     ToolChange(e) {
       const key = e.currentTarget.dataset.cur
-      // back, clean, brush, eraser, straw, generate
+      console.log(this.data)
+      // undo, clean, brush, eraser, straw, generate
       switch(key) {
-        case 'back':
+        case 'undo':
           this.appCanvas.undo()
           this.setData({
             toolType: 'brush',
             hideCanvas: false,
             setting: '',
+            brushPanel: true,
           })
           break
         case 'clean':
           this.appCanvas.clean()
           this.setData({
-            toolType: 'brush',
             hideCanvas: false,
+            toolType: 'brush',
             setting: '',
+            brushPanel: true,
           })
           break
         case 'brush':
           this.setData({
             toolType: 'brush',
-            setting: this.data.setting === 'color' ? '' : 'color',
-            hideCanvas: this.data.setting === 'color' ? false : true,
+            brushPanel: !this.data.brushPanel, // true 显示笔刷颜色
+            setting: this.data.brushPanel ? '' : 'color',
+            hideCanvas: this.data.brushPanel ? false : true,
           })
-          if (this.data.setting === 'color') {
-            this.appCanvas.reDraw()
-          }
           break
         case 'eraser':
           this.setData({
             toolType: 'eraser',
             hideCanvas: false,
             setting: '',
+            brushPanel: true,
           })
           break
         case 'generate':
@@ -155,12 +160,12 @@ Component({
       })
     },
 
-    updateCanvas(x, y, color, touchType) {
+    updateCanvas(x0, y0, x, y, color) {
       if (this.appCanvas) {
         if (this.data.toolType === 'brush') {
-          this.appCanvas.updateGrid(x, y, color, touchType)
+          this.appCanvas.updateGrid(x0, y0, x, y, color)
         } else if (this.data.toolType === 'eraser') {
-          this.appCanvas.eraser(x, y, touchType)
+          this.appCanvas.eraser(x0, y0, x, y)
         }
       }
     },
@@ -182,8 +187,9 @@ Component({
 
     dispatchTouchEnd(e) {
       if (this.data.allowDraw) {
-        // this.stop()
         this.data.allowDraw = false
+        this.render()
+        this.appCanvas.snapshot()
       }
     },
 
