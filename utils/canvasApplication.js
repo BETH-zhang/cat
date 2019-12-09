@@ -14,8 +14,15 @@ class TestApplication {
     this.ctx = ctx
     this.canvas = canvas
     this.wx = wx
+
+    // 网格坐标
+    this.offsetX = 0
+    this.offsetY = 0
     this.interval = 12
     this.numberGird = 25
+    this.startCoord = [0, 0]
+    this.endCoord = [0, 0]
+
     this.data = ''
     this.color = ''
     this.bgColor = 'white'
@@ -24,16 +31,18 @@ class TestApplication {
     
     // this.print()
     // this.checkAllApi()
-    this.initGridInterval()
+    this.initGridInterval(25, 0, 0)
   }
 
   setStyle = (canvas) => {
     this.canvas = canvas
   }
 
-  initGridInterval = () => {
-    if (this.numberGird > 0 && this.canvas.width > 0) {
-      this.interval = Math.floor(this.canvas.width / this.numberGird)
+  initGridInterval = (numberGird, offsetX, offsetY) => {
+    if ((numberGird > 10 || numberGird < 50) && this.canvas.width > 0) {
+      this.interval = Math.floor(this.canvas.width / numberGird)
+      this.offsetX = offsetX
+      this.offsetY = offsetY
     }
   }
 
@@ -293,7 +302,7 @@ class TestApplication {
           if (item) {
             const ary = item.split('-')
             if (this.colors[ary[2]]) {
-              this.fillRect(ary[0] * this.interval, ary[1] * this.interval, this.interval, this.interval, this.colors[ary[2]])
+              this.fillRect(ary[0] * this.interval + this.offsetX, ary[1] * this.interval + this.offsetY, this.interval, this.interval, this.colors[ary[2]])
             }
           }
         })
@@ -390,7 +399,7 @@ class TestApplication {
       if (coords && coords.length) {
         coords.forEach((coord) => {
           this.updateData(coord, 'e')
-          this.ctx.clearRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval)
+          this.ctx.clearRect(coord[0] * this.interval + this.offsetX, coord[1] * this.interval + this.offsetY, this.interval, this.interval)
         })
         this.ctx.draw(true)
       }
@@ -408,7 +417,7 @@ class TestApplication {
             colorIndex = this.colors.length - 1
           }
           this.updateData(coord, colorIndex)
-          this.fillRect(coord[0] * this.interval, coord[1] * this.interval, this.interval, this.interval, this.colors[colorIndex])
+          this.fillRect(coord[0] * this.interval + this.offsetX, coord[1] * this.interval + this.offsetY, this.interval, this.interval, this.colors[colorIndex])
         })
         this.ctx.draw(true)
       }
