@@ -76,7 +76,7 @@
       <view class="cu-item">
         <view class="content" style="line-height: 2.6em;">
           <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-blue"></text>
-          <text class="text-grey" style="margin-left: 5px">联系作者</text>
+          <text class="text-grey" style="margin-left: 5px">意见反馈</text>
           <button style="background: none; padding: 0; border: 0;" class="text-grey float-right contact-author" open-type="contact">
             <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
           </button>
