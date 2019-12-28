@@ -11,7 +11,7 @@
       bindtap="viewImages"
       data-url="{{item.path}}"
       wx:for="{{works}}"
-      wx:key
+      wx:key="id"
     >
       <view class="cardTitle">
         {{item.title}}

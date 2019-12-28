@@ -1,6 +1,7 @@
 
 {
   "pages": [
+    "pages/about/home/home",
     "pages/index/index",
     "pages/home/index",
     "pages/convert/index",
@@ -8,7 +9,6 @@
     "pages/about/work/index",
     "pages/about/about/about",
     "pages/about/log/log",
-    "pages/about/home/home",
     "pages/auth/auth"
   ],
   "window": {

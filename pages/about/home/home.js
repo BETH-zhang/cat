@@ -8,6 +8,8 @@ Component({
     starCount: 0,
     forksCount: 0,
     visitTotal: 0,
+    logCount: (wx.getStorageSync('logs') || []).length,
+    workCount: (wx.getStorageSync('myWork') || []).length,
   },
   attached() {
     console.log("about")
@@ -80,6 +82,16 @@ Component({
     },
     removeStorage() {
       // 清除本地所有的 
+      try {
+        wx.removeStorageSync('logs')
+        wx.removeStorageSync('myWork')
+        this.setData({
+          logCount: (wx.getStorageSync('logs') || []).length,
+          workCount: (wx.getStorageSync('myWork') || []).length,
+        })
+      } catch (e) {
+        // Do something when catch error
+      }
       wx.showToast({
         title: '清除成功',
         icon: 'none',

@@ -40,9 +40,16 @@
       <view class="cu-item">
         <navigator class="content" url="/pages/about/work/index" hover-class="none">
           <text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
-          <text class="text-grey" style="margin-left: 5px">我的作品</text>
+          <text class="text-grey" style="margin-left: 5px">我的作品 ({{workCount}})</text>
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </navigator>
+      </view>
+      <view class="cu-item">
+        <view class="content" bindtap="removeStorage">
+          <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-blue"></text>
+          <text class="text-grey" style="margin-left: 5px">清除缓存 ({{logCount}})</text>
+          <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
+        </view>
       </view>
       <view class="cu-item">
         <navigator class="content" url="/pages/about/about/about" hover-class="none">
@@ -62,14 +69,7 @@
       <view class="cu-item">
         <view class="content" bindtap="showQrcode">
           <text style="font-size: 32rpx;" class="iconfont icon-zan text-red"></text>
-          <text class="text-grey" style="margin-left: 12px">赞赏支持</text>
-          <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
-        </view>
-      </view>
-      <view class="cu-item">
-        <view class="content" bindtap="removeStorage">
-          <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-blue"></text>
-          <text class="text-grey" style="margin-left: 12px">清除缓存</text>
+          <text class="text-grey" style="margin-left: 5px">赞赏支持</text>
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </view>
       </view>
