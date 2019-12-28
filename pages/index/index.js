@@ -2,7 +2,8 @@ const app = getApp();
 
 Page({
   data: {
-    PageCur: 'home',
+    // PageCur: 'home',
+    PageCur: 'color',
   },
   onLoad() {
     console.log('basics', this.data.PageCur)

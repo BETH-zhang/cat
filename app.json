@@ -1,11 +1,11 @@
 
 {
   "pages": [
-    "pages/about/home/home",
     "pages/index/index",
     "pages/home/index",
-    "pages/convert/index",
     "pages/color/index",
+    "pages/convert/index",
+    "pages/about/home/home",
     "pages/about/work/index",
     "pages/about/about/about",
     "pages/about/log/log",

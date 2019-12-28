@@ -1,8 +1,9 @@
 <view>
+  
+  <!--
   <view class="UCenter-bg">
     <image src="https://raw.githubusercontent.com/weilanwl/ColorUI/master/demo/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
-  <!--
   <view class="padding flex text-center text-grey bg-white shadow-warp">
     <view class="flex flex-sub flex-direction solid-right">
       <view class="text-xxl text-orange">{{visitTotal}}</view>
@@ -21,5 +22,19 @@
     </view>
   </view>
   -->
+  <view class="container">
+    <!-- <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image> -->
+    <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
+      <image class='icon-add' src='/images/add.svg'></image>
+    </view>
+    <canvas wx:if="{{imgPath}}" id='image-handler' style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}}' canvas-id="imageHandler" bindtap='chooseImg'></canvas>
+    <view wx:if="{{state !== 1}}" class='colors-container' style='{{"width:"+colors.length * 40 + "px;"}}' bindtap='edit'>
+      <view wx:for="{{colors}}" wx:key="item" class='color' style='{{"background-color:"+item}}'></view>
+    </view>
+    <view wx:if="{{state !== 1}}" class='button-container'>
+      <view class='primary-button' bindtap='save'>保存</view>
+      <view class='primary-button' bindtap='edit'>调色</view>
+    </view>
+  </view>
   <view class="cu-tabbar-height"></view>
 </view>
