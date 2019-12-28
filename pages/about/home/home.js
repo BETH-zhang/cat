@@ -79,7 +79,12 @@ Component({
       })
     },
     removeStorage() {
-      
+      // 清除本地所有的 
+      wx.showToast({
+        title: '清除成功',
+        icon: 'none',
+        duration: 2000
+      })
     },
   }
 })

@@ -17,8 +17,8 @@
   opacity: 0.8;
 }
 .UCenter-bg image {
-  width: 250rpx;
-  height: 250rpx;
+  width: 180rpx;
+  height: 180rpx;
   background: #ffffff;
   border-raduis: 50%;
 }
@@ -26,4 +26,12 @@
 .UCenter-bg .animation-wave {
   position: absolute;
   bottom: 0;
+}
+
+.UCenter-bg .logo-box {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 180rpx;
+  height: 180rpx;
+  margin-bottom: 12rpx;
 }

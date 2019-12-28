@@ -41,8 +41,9 @@ class TestApplication {
   initGridInterval = (numberGird, offsetX, offsetY) => {
     if ((numberGird > 10 || numberGird < 50) && this.canvas.width > 0) {
       this.interval = Math.floor(this.canvas.width / numberGird)
-      this.offsetX = offsetX
-      this.offsetY = offsetY
+      // console.log('this.interval: ', this.interval)
+      this.offsetX = offsetX || 0
+      this.offsetY = offsetY || 0
     }
   }
 
@@ -269,15 +270,17 @@ class TestApplication {
     this.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bgColor)
   }
 
-  init = (color) => {
-    console.log('init')
+  throttleInit = (color) => {
+    // console.log('init')
     this.bgColor = color
     this.clean()
-    this.createBg()
+    // this.createBg()
     this.strokeGrid('grey', this.interval)
     this.strokeGrid('grey', Math.floor(this.interval * 5))
     this.ctx.draw()
   }
+
+  init = throttle(this.throttleInit, 500, 100)
 
   setColor = (color) => {
     this.color = color || this.color
@@ -317,13 +320,13 @@ class TestApplication {
       this.history.splice(0, 1)
     }
 
-    this.history.push(this.data)
+    this.history.push(this.data) 
   }
 
   undo = () => {
     if (this.history.length) {
       this.data = this.history[this.history.length - 1]
-      this.reDraw()
+      this.throttleReDraw()
       this.history.pop()
       return true
     }
@@ -358,14 +361,12 @@ class TestApplication {
     }
   }
 
-  throttleDraw = throttle(this.draw, 0, 1000)
-
-  throttleUpdateArr = throttle(this.updateArr, 0, 100)
-
-  reDraw = () => {
+  throttleReDraw = () => {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.draw()    
   }
+
+  reDraw = throttle(this.throttleReDraw, 0, 100)
 
   getCoords = (x0, y0, x, y) => {
     const coord = this.calCoord(x, y)
@@ -471,10 +472,10 @@ class TestApplication {
 
     this.ctx.save();
     // 二维码描述  及图片
-    this.ctx.setStrokeStyle(fontColor);
-    this.ctx.strokeRect(16, bottomBox, this.canvas.width - 36, 80);
-    this.ctx.setFillStyle(color);
-    this.ctx.fillRect(16, bottomBox, this.canvas.width - 36, 80);
+    // this.ctx.setStrokeStyle(fontColor);
+    // this.ctx.strokeRect(16, bottomBox, this.canvas.width - 36, 80);
+    // this.ctx.setFillStyle(color);
+    // this.ctx.fillRect(16, bottomBox, this.canvas.width - 36, 80);
     this.ctx.setFillStyle(fontColor)
     this.ctx.setFontSize(12);
     const d1 = description.slice(0, 11)

@@ -33,16 +33,12 @@ Component({
 
     showGrid: false,
     title: '程小元像素画',
-    description: '画一副像素画，送给你',
+    description: '',
 
     pixelColor: 'rgba(240,113, 43, 1)',
     bgColor:  'rgba(255, 255, 255, 1)',
     fontColor: 'rgba(50, 50, 50, 1)',
     arr: [],
-
-    scale: 2,
-    translateX: 0,
-    translateY: 0,
   },
   lifetimes: {
     created() {
@@ -190,19 +186,21 @@ Component({
       if (!this.data.allowDraw) {
         this.data.allowDraw = true
 
-        const gesture = this.gestureRecognition.touchStart(e)
-        console.log('start', gesture)
+        const gesture = this.gestureRecognition.touchStartEvent(e)
+        // console.log('start', gesture)
+        console.log('gesture-start: ', gesture.type)
         switch (gesture.type) {
           case 'Single':
+            this.data.arr = []
             this.appCanvas.snapshot()
             this.data.arr.push([e.touches[0].x, e.touches[0].y])
             break;
           case 'Double':
-            wx.showToast({
-              title: '缩放画布',
-              icon: 'none',
-              duration: 2000
-            })
+            // wx.showToast({
+            //   title: '缩放画布',
+            //   icon: 'none',
+            //   duration: 2000
+            // })
             break;
         }
       }
@@ -210,37 +208,25 @@ Component({
 
     dispatchTouchMove(e) {
       if (this.data.allowDraw) {
-        const gesture = this.gestureRecognition.touchMove(e)
-        console.log('move', gesture)
-        switch (gesture.type) {
-          case 'Single':
-            this.data.arr.push([e.touches[0].x, e.touches[0].y])
-            this.render()
-            break;
-          case 'Double':
-            console.log(gesture)
-            let newScale = this.data.scale + 0.005 * gesture.distance
-            if (newScale > 4) {
-              newScale = 4
-            } else if (newScale < 1) {
-              newScale = 1
-            }
-            this.bgCanvas.setStyle({
-              width: this.data.width * newScale,
-              height: this.data.height * newScale,
-            })
-            this.bgCanvas.init()
-            this.setData({
-              scale: newScale,
-              translateX: 0,
-              translateY: 0,
-              distance: gesture.distance,
-            })
-            // scale: 1,
-            // translateX: 0,
-            // translateY: 0,
-            break;
-        }
+        this.gestureRecognition.touchMoveEvent(e, (gesture) => {
+          // console.log('gesture: ', gesture)
+          console.log('gesture-move: ', gesture.type)
+          switch (gesture.type) {
+            case 'Single':
+              this.data.arr.push([e.touches[0].x, e.touches[0].y])
+              this.render()
+              break;
+            case 'Double':
+              // if (gesture.scale) {
+              //   console.log('move')
+              //   this.bgCanvas.initGridInterval(gesture.scale * 25, 0, 0)
+              //   this.bgCanvas.init(this.data.bgColor)
+              //   this.appCanvas.initGridInterval(gesture.scale * 25, 0, 0)
+              //   this.appCanvas.reDraw()
+              // }
+              break;
+          }
+        })
       }
     },
 
@@ -248,13 +234,14 @@ Component({
       if (this.data.allowDraw) {
         this.data.allowDraw = false
 
-        const gesture = this.gestureRecognition.touchEnd(e)
+        const gesture = this.gestureRecognition.touchEndEvent(e)
+        console.log('gesture-end: ', gesture.type)
         switch (gesture.type) {
           case 'Single':
-            this.render()
+            // this.render()
             break;
           case 'Double':
-            console.log(gesture)
+            // console.log(gesture)
             break;
         }
       }
@@ -275,6 +262,7 @@ Component({
     },
 
     render() {
+      console.log('--', this.data.arr.length)
       if (this.data.arr.length >= 2) {
         this.updateCanvas(
           this.data.arr[0][0],
