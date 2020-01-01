@@ -424,7 +424,7 @@ class TestApplication {
     }
   }
 
-  createSharePicture = ({ avatar, qrcode, name, title, description, time}, { showGrid, color = '#ffffff', fontColor = '#333333' }) => {
+  createSharePicture = ({ avatar, qrcode, name = '', title = '', description = '', time}, { showGrid, color = '#ffffff', fontColor = '#333333' }) => {
     // 截取昵称 超出省略。。。
     if (name.length > 16) {   //用户昵称显示一行 截取
       name = name.slice(0, 9) + '...'
@@ -489,6 +489,104 @@ class TestApplication {
     this.ctx.drawImage(qrcode, this.canvas.width - 80, bottomBox + 12, 44, 44);
     this.ctx.setFontSize(10);
     this.ctx.setFillStyle(fontColor)
+    const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
+    this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
+
+    this.ctx.draw(true)
+    console.log('绘制完成')
+  }
+
+  createShareColorCard = ({ colors, imgInfo, avatar, qrcode, name = '', title = '', description = '', time}) => {
+    // 截取昵称 超出省略。。。
+    if (name.length > 16) {   //用户昵称显示一行 截取
+      name = name.slice(0, 9) + '...'
+    };
+    if (title.length > 16) {
+      title = title.slice(0, 9) + '...'
+    }
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.fillRect(0, 0, this.canvas.width, this.canvas.height, '#20243d')
+
+    this.ctx.save()
+    //绘制logo
+    this.ctx.drawImage(avatar, 16, 16, 46, 44);
+    this.ctx.restore();
+    
+    let width = imgInfo.width
+    let height = imgInfo.height
+    let proportion = width / height
+    if (proportion > 4 / 3) {
+      width = imgInfo.height * (4 / 3)
+    } else if (proportion < 4 / 3) {
+      height = imgInfo.width / (4 / 3)
+    }
+    const imgHeight = Math.floor(this.canvas.width / (imgInfo.width / imgInfo.height))
+    this.drawImage(
+      imgInfo.path,
+      {
+        x: 0,
+        y: 76,
+        width: this.canvas.width,
+        height: imgHeight
+      },
+      {
+        x: 0,
+        y: 0,
+        width,
+        height,
+      },
+    )
+
+    const itemWidth = Math.floor(this.canvas.width / 5.5)
+    const defaultLeft = Math.floor(itemWidth / 3)
+    const colorItemWidth = defaultLeft * 2
+    const paddingLeft = Math.floor((this.canvas.width - defaultLeft * 3 * 5 - defaultLeft) / 2) + defaultLeft
+
+    const colorTop = imgHeight + 76 + 32 + defaultLeft;
+
+    colors.forEach((color, index) => {
+      if (index < 5) {
+        let colorLeft = index * (colorItemWidth + defaultLeft) + defaultLeft + paddingLeft
+        this.fillCircle(colorLeft, colorTop, colorItemWidth / 2, '#ffffff')
+        this.fillCircle(colorLeft + 0.5, colorTop + 0.5, colorItemWidth / 2 - 2, color)
+        // 绘制标题
+        this.ctx.font = 'normal normal 12px sans-serif';
+        this.ctx.setTextAlign('left');
+        this.ctx.setFillStyle('#ffffff')
+        const nameWidth = this.ctx.measureText(color).width;
+        this.ctx.fillText(color, colorLeft - nameWidth / 2, colorTop + colorItemWidth + defaultLeft / 2, nameWidth + 5);
+      }
+    })
+
+    this.ctx.save();
+    // 绘制标题
+    this.ctx.font = 'normal normal 14px sans-serif';
+    this.ctx.setTextAlign('left');
+    this.ctx.setFillStyle('#ffffff')
+    const nameWidth = this.ctx.measureText(title).width;
+    this.ctx.fillText(title, 75, 35, nameWidth + 5);
+
+    this.ctx.restore();
+
+    this.ctx.save();
+
+    // 名称 + 时间
+    this.ctx.setFontSize(12);
+    this.ctx.setTextAlign('right');
+    this.ctx.setFillStyle('#ffffff')
+    const metrics = this.ctx.measureText(name + ' ' + time).width;
+    this.ctx.fillText(name + ' ' + time, metrics + 75, 55, metrics + 5);
+
+    this.ctx.restore();
+
+    this.ctx.save();
+    // 绘制二维码
+    const bottomBox = this.canvas.height - 100
+
+    this.ctx.drawImage(qrcode, this.canvas.width - 80, bottomBox + 12, 44, 44);
+    this.ctx.setFontSize(10);
+    this.ctx.setFillStyle('#ffffff')
     const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
     this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
 

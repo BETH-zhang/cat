@@ -155,7 +155,6 @@ Component({
     },
 
     NavChange(e) {
-      console.log('????', e.currentTarget.dataset.cur)
       var myEventDetail = {
         PageCur: e.currentTarget.dataset.cur,
       } // detail对象，提供给事件监听函数

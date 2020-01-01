@@ -3,6 +3,13 @@
     <!--
     <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image>
     -->
+    <canvas
+      canvas-id="mainCanvas"
+      class="main-canvas"
+      disable-scroll='{{true}}'
+      style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+    />
+
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
       <i style="font-size: 200rpx;" class="iconfont icon-shangchuantupian text-white"></i>
     </view>
@@ -10,7 +17,7 @@
       wx:if="{{imgPath}}"
       id='image-handler'
       class="image-handler"
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}}'
+      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}}; display: {{showModal ? "none" : "block"}}'
       canvas-id="imageHandler"
       bindtap='chooseImg'
     ></canvas>
@@ -34,6 +41,7 @@
     wx:if="{{colorList.length}}"
     wx:for="{{colorList}}"
     wx:key="item"
+    style="margin-top: 100rpx;"
   >
     <view
       class='colors-container'
@@ -90,4 +98,11 @@
         bindtap="selectColor"
       >确定 ({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}})</button>
     </view>
+</view>
+
+<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
+  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
+     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
+     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
+  </view>
 </view>

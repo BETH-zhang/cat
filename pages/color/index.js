@@ -1,4 +1,6 @@
 import ColorThief from '../../utils/color-thief.js'
+import TestApplication from '../../utils/canvasApplication'
+import WxUtils from '../../utils/wxUtils'
 import {
   rgbToHex,
   saveBlendent
@@ -28,22 +30,52 @@ Component({
     colorCount: 7,
     state: STATE_EMPTY,
     currentColor: '',
+
+    hideCanvas: true,
   },
-  attached() {
-    console.log("color")
-    // this.wxUtils = new WxUtils(wx, app)
-    this.colorThief = new ColorThief('imageHandler', this);
-    var colorList = wx.getStorageSync('colors') || []
-    this.setData({ colorList })
-    wx.getSystemInfo({
-      success: ({
-        screenWidth
-      }) => {
-        this.screenWidth = screenWidth;
-      }
-    })
+  lifetimes: {
+    created() {
+      console.log("created")
+    },
+    attached() {
+      console.log("attached")
+    },
+    ready() {
+      this.initCanvas()
+    },
+    moved() {
+      console.log('moved')
+    },
+    detached() {
+      console.log('detached')
+    },
   },
   methods: {
+    initCanvas: function() {
+      this.colorThief = new ColorThief('imageHandler', this);
+      var colorList = wx.getStorageSync('colors') || []
+      this.setData({ colorList })
+
+      wx.getSystemInfo({
+        success: ({
+          screenWidth
+        }) => {
+          this.screenWidth = screenWidth;
+        }
+      })
+
+      this.wxUtils = new WxUtils(wx, app)
+
+      const width = app.globalData.systemInfo.windowWidth
+      const height = app.globalData.systemInfo.windowHeight
+      this.setData({ width, height })
+      
+      const ctx = wx.createCanvasContext('mainCanvas', this) 
+      this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
+      this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
+        console.log(rect, '---rect---')
+      })
+    },
     chooseImg: function() {
       wx.chooseImage({
         count: 1,
@@ -128,7 +160,91 @@ Component({
     },
     download: function() {
       console.log(this.data) 
+      console.log('app.globalData: ', app.globalData)
+      if (!app.globalData.userInfo) {
+        this.setData({
+          setting: 'login',
+          shareImg: '',
+          hideCanvas: true,
+        })
+      } else {
+        this.setData({
+          hideCanvas: false,
+        }, () => {
+          this.optPictureData()
+        })
+      }
     },
+
+    optPictureData() {
+      wx.showLoading({
+        title: '图片生成中',
+      })
+      const date = new Date;
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const time = year + '.' + month + '.' + day;   // 绘图的时间
+
+      const data = {
+        avatar: app.globalData.userInfo.avatarUrl,
+        qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+        logo: '',
+        name: app.globalData.userInfo.nickName,
+        title: '色卡分享',
+        description: this.data.description,
+        time: time,
+        imgInfo: this.data.imgInfo,
+        colors: this.data.colors
+      }
+
+      this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
+        data.avatar = res.path
+        this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
+          data.qrcode = res.path
+          console.log('data: ', data, this.appCanvas)
+
+          this.appCanvas.createShareColorCard(data, {
+            color: this.data.bgColor,
+            fontColor: this.data.fontColor,
+            showGrid: this.data.showGrid
+          })
+          // canvas画图需要时间而且还是异步的，所以加了个定时器
+          setTimeout(() => {
+            // 将生成的canvas图片，转为真实图片
+            console.log('生成图片')
+            this.tempCanvas(() => {
+              console.log('生成分享图')
+              this.setData({ showModal: true })
+              wx.hideLoading()
+            })
+          }, 500)
+        })
+      })
+    },
+
+    tempCanvas(callback) {
+      this.wxUtils.canvasToTempFilePath('mainCanvas', this).then((res) => {
+        this.setData({
+          shareImg: res.tempFilePath,
+          hideCanvas: true,
+        }, callback)
+      })
+    },
+
+    // 长按保存事件
+    saveImg() {
+      this.wxUtils.saveImage(this.data.shareImg, this).then(() => {
+        this.hideModal()
+      })
+    },
+
+    hideModal() {
+      this.setData({
+        showModal: false,        
+      })
+    },
+
     getRgba(value) {
       const arys = value.replace('rgba(', '').replace(')', '').split(',')
       const rgba = {
