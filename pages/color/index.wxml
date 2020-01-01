@@ -1,40 +1,83 @@
-<view>
-  
-  <!--
-  <view class="UCenter-bg">
-    <image src="https://raw.githubusercontent.com/weilanwl/ColorUI/master/demo/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
-  </view>
-  <view class="padding flex text-center text-grey bg-white shadow-warp">
-    <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-orange">{{visitTotal}}</view>
-      <view class="margin-top-sm">
-        <text class="iconfont icon-eye"></text> View</view>
-    </view>
-    <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xxl text-green">{{starCount}}</view>
-      <view class="margin-top-sm">
-        <text class="iconfont icon-star"></text> Star</view>
-    </view>
-    <view class="flex flex-sub flex-direction">
-      <view class="text-xxl text-green">{{forksCount}}</view>
-      <view class="margin-top-sm">
-        <text class="iconfont icon-fork"></text> Fork</view>
-    </view>
-  </view>
-  -->
-  <view class="container">
+<scroll-view scroll-y class="scrollPage">
+   <view class="container">
     <!-- <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image> -->
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
-      <image class='icon-add' src='/images/add.svg'></image>
+      <i style="font-size: 200rpx;" class="iconfont icon-shangchuantupian text-white"></i>
     </view>
     <canvas wx:if="{{imgPath}}" id='image-handler' style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}}' canvas-id="imageHandler" bindtap='chooseImg'></canvas>
-    <view wx:if="{{state !== 1}}" class='colors-container' style='{{"width:"+colors.length * 40 + "px;"}}' bindtap='edit'>
+    <view
+      wx:if="{{state !== 1}}"
+      class='colors-container'
+      style='{{"width:"+colors.length * 40 + "px;"}}'
+      bindtap='edit'
+    >
       <view wx:for="{{colors}}" wx:key="item" class='color' style='{{"background-color:"+item}}'></view>
     </view>
     <view wx:if="{{state !== 1}}" class='button-container'>
-      <view class='primary-button' bindtap='save'>保存</view>
+      <view class='primary-button' bindtap='save'>导入色板</view>
+      <!--
       <view class='primary-button' bindtap='edit'>调色</view>
+      -->
+      <view class='primary-button' bindtap='download'>生成色卡</view>
+    </view>
+  </view>
+  <view
+    wx:if="{{colorList.length}}"
+    wx:for="{{colorList}}"
+    wx:key="item"
+  >
+    <view
+      class='colors-container'
+      style='{{"width:"+item.colors.length * 40 + "px;"}}; margin: 0 auto; margin-top: 40rpx;'
+      bindtap='edit'
+    >
+      <view
+        wx:for="{{item.colors}}"
+        wx:key="index"
+        class='color'
+        style='{{"background-color:"+item}}'
+      ></view>
     </view>
   </view>
   <view class="cu-tabbar-height"></view>
+</scroll-view>
+
+<!-- 颜色工具 -->
+<view wx:if="{{showColorPanel}}" class="open-setting-color">
+    <view class="open-setting-color__bd">
+        <view class="section section_gap">
+            <text class="section__title">Red</text>
+            <view class="body-view">
+                <slider value="{{rgba.r}}" bindchange="sliderRedChange" min="0" max="255" show-value/>
+            </view>
+        </view>
+
+        <view class="section section_gap">
+            <text class="section__title">Green</text>
+            <view class="body-view">
+                <slider value="{{rgba.g}}" bindchange="sliderGreenChange" min="0" max="255" show-value/>
+            </view>
+        </view>
+
+        <view class="section section_gap">
+            <text class="section__title">Blue</text>
+            <view class="body-view">
+                <slider value="{{rgba.b}}" bindchange="sliderBlueChange" min="0" max="255" show-value/>
+            </view>
+        </view>
+
+        <view class="section section_gap">
+            <text class="section__title">Opacity</text>
+            <view class="body-view">
+                <slider value="{{rgba.a}}" bindchange="sliderOpcityChange" min="0" max="1" step="0.01" show-value/>
+            </view>
+        </view>
+    </view>
+    <view class="open-setting-color__fo">
+      <button
+        class="cu-btn shadow bg-green lg block shadow radius margin-xl"
+        style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}});"
+        bindtap="selectColor"
+      >确定 ({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}})</button>
+    </view>
 </view>

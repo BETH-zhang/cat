@@ -1,4 +1,11 @@
 const app = getApp();
+var colorList = wx.getStorageSync('colors') || []
+let data = []
+if (colorList.length) {
+  colorList.forEach((item) => {
+    data = data.concat(item.colors)
+  })
+}
 
 Component({
   options: {
@@ -32,6 +39,7 @@ Component({
   },
   attached() {
     console.log("colorsetting", this.data)
+    this.setData({ colorList: this.data.colorList.concat(data) })
   },
   methods: {
     updateProps() {
@@ -47,7 +55,6 @@ Component({
       this.setData({ type: e.currentTarget.dataset.cur })
     },
     selectColor(e) {
-      console.log('this.data.type: ', this.data.type, e.currentTarget.dataset.cur)
       switch(this.data.type) {
         case 'pixel':
           this.setData({ pixelColor: e.currentTarget.dataset.cur })
@@ -60,56 +67,6 @@ Component({
           break
       }
       this.updateProps()
-    },
-    getRgba(value) {
-      const arys = value.replace('rgba(', '').replace(')', '').split(',')
-      const rgba = {
-        r: arys[0],
-        g: arys[1],
-        b: arys[2],
-        a: arys[3],
-      }
-      return rgba
-    },
-    openPixelColorPanel() {
-      const rgba = this.getRgba(this.data.pixelColor)
-      this.setData({
-        rgba,
-        showColorPanel: 'pixelColor',
-      })
-    },
-    openBgColorPanel() {
-      const rgba = this.getRgba(this.data.bgColor)
-      this.setData({
-        rgba,
-        showColorPanel: 'bgColor',
-      })
-    },
-    openTextColorPanel() {
-      const rgba = this.getRgba(this.data.fontColor)
-      this.setData({
-        rgba,
-        showColorPanel: 'fontColor',
-      })
-    },
-    sliderRedChange(e) {
-      this.updateRgba('r', e.detail.value)
-    },
-    sliderGreenChange(e) {
-      this.updateRgba('g', e.detail.value)
-    },
-    sliderBlueChange(e) {
-      this.updateRgba('b', e.detail.value)
-    },
-    sliderOpcityChange(e) {
-      this.updateRgba('a', e.detail.value.toFixed(2))
-    },
-    updateRgba(type, value) {
-      const rgba = {
-        ...this.data.rgba,
-        [type]: value
-      }
-      this.setData({ rgba })
     },
   }
 })

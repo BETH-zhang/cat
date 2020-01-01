@@ -5,7 +5,7 @@ page {
 
 .img-placeholder {
   margin-top: 40rpx;
-  background-color: #1296db;
+  background-color: #0081ff;
   border-radius: 6px;
   width: 480rpx;
   height: 480rpx;
@@ -13,11 +13,6 @@ page {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0,0,0,.25);
-}
-
-.icon-add {
-  width: 200rpx;
-  height: 200rpx;
 }
 
 .colors-container {
@@ -53,6 +48,6 @@ page {
   box-shadow: 0 4px 12px rgba(0,0,0,.25);
   border-radius: 6px;
   padding: 5px 10px;
-  background-color: #1296db;
+  background-color: #0081ff;
   color: white;
 }

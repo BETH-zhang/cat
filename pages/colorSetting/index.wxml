@@ -24,54 +24,17 @@
     <view
       class="cu-item arrow"
       bindtap="selectColor"
-      data-cur="{{item.color}}"
+      data-cur="{{item.color || item}}"
       wx:for="{{colorList}}"
       wx:key="index"
     >
       <view class="content">
-        <text class="cuIcon-github text-grey" style="background-color:{{item.color}};height: 1.6em;width: 2.4em;margin-right: 36rpx;"></text>
-        <text class="text-grey">{{item.title}}</text>
+        <text
+          class="cuIcon-github text-grey"
+          style="background-color:{{item.color || item}};height: 1.6em;width: 2.4em;margin-right: 36rpx;"
+        ></text>
+        <text class="text-grey">{{item.title || item}}</text>
       </view>
     </view>
   </view>
 </scroll-view>
-
-<!-- 颜色工具 -->
-<view wx:if="{{showColorPanel}}" class="open-setting-color">
-    <view class="open-setting-color__bd">
-        <view class="section section_gap">
-            <text class="section__title">Red</text>
-            <view class="body-view">
-                <slider value="{{rgba.r}}" bindchange="sliderRedChange" min="0" max="255" show-value/>
-            </view>
-        </view>
-
-        <view class="section section_gap">
-            <text class="section__title">Green</text>
-            <view class="body-view">
-                <slider value="{{rgba.g}}" bindchange="sliderGreenChange" min="0" max="255" show-value/>
-            </view>
-        </view>
-
-        <view class="section section_gap">
-            <text class="section__title">Blue</text>
-            <view class="body-view">
-                <slider value="{{rgba.b}}" bindchange="sliderBlueChange" min="0" max="255" show-value/>
-            </view>
-        </view>
-
-        <view class="section section_gap">
-            <text class="section__title">Opacity</text>
-            <view class="body-view">
-                <slider value="{{rgba.a}}" bindchange="sliderOpcityChange" min="0" max="1" step="0.01" show-value/>
-            </view>
-        </view>
-    </view>
-    <view class="open-setting-color__fo">
-      <button
-        class="cu-btn shadow bg-green lg block shadow radius margin-xl"
-        style="background-color: rgba({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}});"
-        bindtap="selectColor"
-      >确定 ({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}})</button>
-    </view>
-</view>

@@ -135,7 +135,7 @@ Component({
           break
         case 'swatches':
           this.setData({
-            toolType: 'swatches',
+            toolType: this.data.toolType === 'swatches' ? 'brush' : 'swatches',
             setting: this.data.setting ? '' : 'color',
             hideCanvas: !this.data.setting
           })

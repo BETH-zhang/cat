@@ -1,8 +1,6 @@
 import ColorThief from '../../utils/color-thief.js'
 import {
   rgbToHex,
-  uuid,
-  colorsEqual,
   saveBlendent
 } from '../../utils/util.js'
 const app = getApp()
@@ -16,22 +14,29 @@ Component({
     addGlobalClass: true,
   },
   data: {
-    motto: 'Hello World',
     imgPath: null,
-    colors: [
-      "#153641",
-      "#22556E",
-      "#4799B7",
-      "#6DB3BF",
-      "#94CFC9"
-    ],
+    colors: [],
+    colorList: [],
+    // colors: [
+    //   "#153641",
+    //   "#22556E",
+    //   "#4799B7",
+    //   "#6DB3BF",
+    //   "#94CFC9"
+    // ],
     imgInfo: {},
-    colorCount: 5,
-    state: STATE_EMPTY
+    colorCount: 7,
+    state: STATE_EMPTY,
+    currentColor: '',
   },
   attached() {
     console.log("color")
+    // this.wxUtils = new WxUtils(wx, app)
     this.colorThief = new ColorThief('imageHandler', this);
+    var colorList = wx.getStorageSync('colors') || []
+    if (colorList.length) {
+      this.setData({ colorList })
+    }
     wx.getSystemInfo({
       success: ({
         screenWidth
@@ -95,6 +100,62 @@ Component({
     },
     save: function() {
       saveBlendent({colors:this.data.colors});
+    },
+    edit: function(e) {
+      console.log('e: ', e)
+    },
+    download: function() {
+      console.log(this.data) 
+    },
+    getRgba(value) {
+      const arys = value.replace('rgba(', '').replace(')', '').split(',')
+      const rgba = {
+        r: arys[0],
+        g: arys[1],
+        b: arys[2],
+        a: arys[3],
+      }
+      return rgba
+    },
+    openPixelColorPanel() {
+      const rgba = this.getRgba(this.data.pixelColor)
+      this.setData({
+        rgba,
+        showColorPanel: 'pixelColor',
+      })
+    },
+    openBgColorPanel() {
+      const rgba = this.getRgba(this.data.bgColor)
+      this.setData({
+        rgba,
+        showColorPanel: 'bgColor',
+      })
+    },
+    openTextColorPanel() {
+      const rgba = this.getRgba(this.data.fontColor)
+      this.setData({
+        rgba,
+        showColorPanel: 'fontColor',
+      })
+    },
+    sliderRedChange(e) {
+      this.updateRgba('r', e.detail.value)
+    },
+    sliderGreenChange(e) {
+      this.updateRgba('g', e.detail.value)
+    },
+    sliderBlueChange(e) {
+      this.updateRgba('b', e.detail.value)
+    },
+    sliderOpcityChange(e) {
+      this.updateRgba('a', e.detail.value.toFixed(2))
+    },
+    updateRgba(type, value) {
+      const rgba = {
+        ...this.data.rgba,
+        [type]: value
+      }
+      this.setData({ rgba })
     },
   }
 })
