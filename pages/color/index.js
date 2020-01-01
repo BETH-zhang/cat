@@ -32,6 +32,7 @@ Component({
     currentColor: '',
 
     hideCanvas: true,
+    setting: '',
   },
   lifetimes: {
     created() {
@@ -51,6 +52,20 @@ Component({
     },
   },
   methods: {
+    SettingEventListener(e) {
+      console.log(e.detail, '..SettingEventListener...')
+      switch(this.data.setting) {
+        case 'login':
+          this.setData({
+            setting: '',
+            hideCanvas: false,
+          })
+          this.download()
+          break
+        default:
+          break
+      }
+    },
     initCanvas: function() {
       this.colorThief = new ColorThief('imageHandler', this);
       var colorList = wx.getStorageSync('colors') || []

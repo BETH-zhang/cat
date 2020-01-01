@@ -1,4 +1,10 @@
-<scroll-view scroll-y class="scrollPage">
+<authSetting
+  bindauthsettingevent="SettingEventListener"
+  wx:if="{{setting==='login'}}"
+  setting="{{setting}}"
+></authSetting>
+
+<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}">
    <view class="box-container">
     <!--
     <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image>
