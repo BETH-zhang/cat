@@ -62,17 +62,21 @@ Component({
       console.log(e.detail, '..SettingEventListener...')
       switch(this.data.setting) {
         case 'login':
-          this.setData({ setting: '', hideCanvas: false, })
+          this.setData({
+            setting: '',
+            hideCanvas: false,
+          })
           this.savePicture()
           break
         case 'color':
           if (this.data.bgColor !== e.detail.bgColor) {
-            this.bgCanvas.init(this.data.bgColor)
+            this.bgCanvas.init(e.detail.bgColor)
           }
           this.setData({
             ...e.detail,
             setting: '',
             hideCanvas: false,
+            toolType: 'brush',
           })
           this.appCanvas.setColor(e.detail.pixelColor)
           this.appCanvas.reDraw()
@@ -93,7 +97,7 @@ Component({
 
     ToolChange(e) {
       const key = e.currentTarget.dataset.cur
-      // console.log(this.data)
+      console.log('???', this.data)
       // undo, clean, brush, eraser, straw, generate
       switch(key) {
         case 'undo':
@@ -105,33 +109,20 @@ Component({
               duration: 2000
             })
           }
-          this.setData({
-            toolType: 'brush',
-            hideCanvas: false,
-            setting: '',
-            brushPanel: false,
-          })
           break
         case 'clean':
           this.appCanvas.snapshot()
           this.appCanvas.clean()
-          this.setData({
-            hideCanvas: false,
-            toolType: 'brush',
-            setting: '',
-            brushPanel: false,
-          })
           break
         case 'brush':
           if (this.data.toolType === 'generate') {
             this.appCanvas.reDraw()
-          }
-          console.log(this.data.brushPanel, this.data.toolType, !this.data.brushPanel && this.data.toolType === 'brush')
+          }          
           this.setData({
             toolType: 'brush',
-            brushPanel: !this.data.brushPanel, // true 显示笔刷颜色
-            setting: !this.data.brushPanel && this.data.toolType === 'brush' ? 'color' : '',
-            hideCanvas: !this.data.brushPanel && this.data.toolType === 'brush' ? true : false,
+            hideCanvas: false,
+            setting: '',
+            brushPanel: false,
           })
           break
         case 'eraser':
@@ -139,6 +130,14 @@ Component({
             toolType: 'eraser',
             hideCanvas: false,
             setting: '',
+            brushPanel: false,
+          })
+          break
+        case 'swatches':
+          this.setData({
+            toolType: 'swatches',
+            setting: this.data.setting ? '' : 'color',
+            hideCanvas: !this.data.setting
           })
           break
         case 'generate':
@@ -156,11 +155,12 @@ Component({
     },
 
     NavChange(e) {
+      console.log('????', e.currentTarget.dataset.cur)
       var myEventDetail = {
         PageCur: e.currentTarget.dataset.cur,
       } // detail对象，提供给事件监听函数
       var myEventOption = {} // 触发事件的选项
-      this.triggerEvent('myevent', myEventDetail, myEventOption)
+      this.triggerEvent('homeevent', myEventDetail, myEventOption)
     },
 
     tempCanvas(callback) {
@@ -327,7 +327,7 @@ Component({
         shareImg: '',
         showModal: false,
         hideCanvas: false,
-        toolType: 'brush'
+        toolType: 'brush',
       })
       this.appCanvas.reDraw()
     },

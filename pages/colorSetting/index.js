@@ -31,7 +31,7 @@ Component({
     fontColor: 'rgba(50, 50, 50, 1)'
   },
   attached() {
-    console.log("colorsetting")
+    console.log("colorsetting", this.data)
   },
   methods: {
     updateProps() {
@@ -47,6 +47,7 @@ Component({
       this.setData({ type: e.currentTarget.dataset.cur })
     },
     selectColor(e) {
+      console.log('this.data.type: ', this.data.type, e.currentTarget.dataset.cur)
       switch(this.data.type) {
         case 'pixel':
           this.setData({ pixelColor: e.currentTarget.dataset.cur })

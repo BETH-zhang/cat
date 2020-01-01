@@ -39,6 +39,8 @@
   />
 </view>
 
+<!--
+
 <view style=" position: absolute; bottom: 100px; left: 0; z-index: 111; color: red; ">
   <view>{{scale}}</view>
   <view>{{translateX}}</view>
@@ -46,7 +48,6 @@
   <view>{{distance}}</view>
 </view>
 
-<!--
 <view class="{{ hideCanvas && shareImg ? 'show-canvas' : 'hide-canvas' }}">
   <image
     src='{{shareImg}}'
@@ -71,13 +72,13 @@
     <i style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-gray"></i>
     <view class="text-gray">清除</view>
   </view>
-  <view class="action" bindtap="ToolChange" data-cur="eraser">
-    <i style="font-size: 32rpx;" class="iconfont icon-icon-test {{toolType=='eraser'?'text-blue':'text-gray'}}"></i>
-    <view class="{{toolType=='eraser'?'text-blue':'text-gray'}}">橡皮</view>
+  <view class="action" bindtap="ToolChange" data-cur="{{toolType=='brush' ? 'eraser' : 'brush'}}">
+    <i style="font-size: 32rpx;" class="iconfont {{toolType=='brush' ? 'icon-huabi1' : 'icon-icon-test'}} text-blue"></i>
+    <view class="text-blue">{{toolType=='brush' ? '画笔' : '橡皮'}}</view>
   </view>
-  <view class="action" bindtap="ToolChange" data-cur="brush">
-    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='brush'?'text-blue':'text-gray'}}"></i>
-    <view class="{{toolType=='brush'?'text-blue':'text-gray'}}">画笔</view>
+  <view class="action" bindtap="ToolChange" data-cur="swatches">
+    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='swatches'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='swatches'?'text-blue':'text-gray'}}">色板</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
     <i style="font-size: 32rpx;" class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>

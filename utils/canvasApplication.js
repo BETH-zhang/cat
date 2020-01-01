@@ -239,14 +239,12 @@ class TestApplication {
   }
 
   strokeGrid = (color = 'rgba(0, 0, 0, 0.3)', interval = 10, showCoord) => {
+    console.log('strokeGrid: ', interval)
     this.check()
 
     this.ctx.save()
     this.ctx.setStrokeStyle(color)
-    if (!this.lineWidth) {
-      this.lineWidth = 0.5
-      this.ctx.setLineWidth(0.5)
-    }
+    this.ctx.setLineWidth(0.5)
     // 从左到右每隔interval个像素画一条垂直线
     for (let i = interval + 0.5; i < this.canvas.width; i += interval) {
       this.strokeLine(i, 0, i, this.canvas.height)
@@ -266,21 +264,22 @@ class TestApplication {
     }
   }
 
-  createBg = () => {
-    this.fillRect(0, 0, this.canvas.width, this.canvas.height, this.bgColor)
+  createBg = (bgColor) => {
+    if (bgColor !== this.bgColor) {
+      this.fillRect(0, 0, this.canvas.width, this.canvas.height, bgColor)
+      this.bgColor = bgColor
+    }
   }
 
-  throttleInit = (color) => {
-    // console.log('init')
-    this.bgColor = color
+  init = (color) => {
     this.clean()
-    // this.createBg()
+    this.createBg(color)
     this.strokeGrid('grey', this.interval)
     this.strokeGrid('grey', Math.floor(this.interval * 5))
     this.ctx.draw()
   }
 
-  init = throttle(this.throttleInit, 500, 100)
+  // init = throttle(this.throttleInit, 500, 100)
 
   setColor = (color) => {
     this.color = color || this.color
