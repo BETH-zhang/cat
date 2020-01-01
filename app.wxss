@@ -18,7 +18,7 @@ Page {
 } 
 
 .scrollPage {
-  height: 100vh;
+  height: 95vh;
 }
 
 .float-right {

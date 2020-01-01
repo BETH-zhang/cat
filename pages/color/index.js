@@ -34,9 +34,7 @@ Component({
     // this.wxUtils = new WxUtils(wx, app)
     this.colorThief = new ColorThief('imageHandler', this);
     var colorList = wx.getStorageSync('colors') || []
-    if (colorList.length) {
-      this.setData({ colorList })
-    }
+    this.setData({ colorList })
     wx.getSystemInfo({
       success: ({
         screenWidth
@@ -100,6 +98,30 @@ Component({
     },
     save: function() {
       saveBlendent({colors:this.data.colors});
+      var colorList = wx.getStorageSync('colors') || []
+      this.setData({ colorList })
+    },
+    delete: function(e) {
+      var colorList = wx.getStorageSync('colors') || []
+      console.log(e.currentTarget.dataset.cur, colorList)
+      var data = []
+      colorList.forEach((item, index) => {
+        if (index !== e.currentTarget.dataset.cur) {
+          data.push(item)
+        }
+      })
+      this.setData({ colorList: data })
+      wx.setStorage({
+        key: 'colors',
+        data: data,
+        complete: () => {
+          console.log('save complete')
+          wx.showToast({
+            title: '删除成功',
+            icon: 'success'
+          })
+        }
+      })
     },
     edit: function(e) {
       console.log('e: ', e)
