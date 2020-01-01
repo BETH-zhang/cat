@@ -507,6 +507,7 @@ class TestApplication {
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.fillRect(0, 0, this.canvas.width, this.canvas.height, '#20243d')
+    this.fillRect(0, 0, this.canvas.width, 76, '#ffffff')
 
     this.ctx.save()
     //绘制logo
@@ -516,12 +517,13 @@ class TestApplication {
     let width = imgInfo.width
     let height = imgInfo.height
     let proportion = width / height
+    const imgHeight = Math.floor(this.canvas.width * 3 / 4)
     if (proportion > 4 / 3) {
       width = imgInfo.height * (4 / 3)
     } else if (proportion < 4 / 3) {
-      height = imgInfo.width / (4 / 3)
+      height = imgInfo.width * 3 / 4
     }
-    const imgHeight = Math.floor(this.canvas.width / (imgInfo.width / imgInfo.height))
+    console.log(this.canvas.width, imgHeight)
     this.drawImage(
       imgInfo.path,
       {
@@ -551,7 +553,7 @@ class TestApplication {
         this.fillCircle(colorLeft, colorTop, colorItemWidth / 2, '#ffffff')
         this.fillCircle(colorLeft + 0.5, colorTop + 0.5, colorItemWidth / 2 - 2, color)
         // 绘制标题
-        this.ctx.font = 'normal normal 12px sans-serif';
+        this.ctx.font = 'normal normal 10px sans-serif';
         this.ctx.setTextAlign('left');
         this.ctx.setFillStyle('#ffffff')
         const nameWidth = this.ctx.measureText(color).width;
@@ -560,10 +562,11 @@ class TestApplication {
     })
 
     this.ctx.save();
+
     // 绘制标题
     this.ctx.font = 'normal normal 14px sans-serif';
     this.ctx.setTextAlign('left');
-    this.ctx.setFillStyle('#ffffff')
+    this.ctx.setFillStyle('#333')
     const nameWidth = this.ctx.measureText(title).width;
     this.ctx.fillText(title, 75, 35, nameWidth + 5);
 
@@ -574,21 +577,25 @@ class TestApplication {
     // 名称 + 时间
     this.ctx.setFontSize(12);
     this.ctx.setTextAlign('right');
-    this.ctx.setFillStyle('#ffffff')
+    this.ctx.setFillStyle('#666')
     const metrics = this.ctx.measureText(name + ' ' + time).width;
     this.ctx.fillText(name + ' ' + time, metrics + 75, 55, metrics + 5);
+
+    this.ctx.drawImage(qrcode, this.canvas.width - 60, 16, 44, 44);
 
     this.ctx.restore();
 
     this.ctx.save();
     // 绘制二维码
-    const bottomBox = this.canvas.height - 100
+    this.ctx.setFontSize(50)
+    this.ctx.setFillStyle('#2e2c42')
+    let cxyWidth = this.ctx.measureText('程小元像素').width;
+    let cxyLeft = Math.floor((this.canvas.width - cxyWidth) / 2);
+    const cxyTop = colorTop + colorItemWidth * 2 + defaultLeft * 2
+    console.log('cxyLeft: ', cxyLeft, cxyTop)
+    this.ctx.fillText('程小元像素', cxyLeft, cxyTop, cxyWidth + 5);
 
-    this.ctx.drawImage(qrcode, this.canvas.width - 80, bottomBox + 12, 44, 44);
-    this.ctx.setFontSize(10);
-    this.ctx.setFillStyle('#ffffff')
-    const logoWidth = this.ctx.measureText('像素画，扫码关注').width;
-    this.ctx.fillText('像素画，扫码关注', this.canvas.width - logoWidth - 40, bottomBox + 70, logoWidth + 5);
+    this.ctx.restore();
 
     this.ctx.draw(true)
     console.log('绘制完成')
