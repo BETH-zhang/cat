@@ -89,8 +89,8 @@ export default class ColorCard {
           css: {
             top: `${startTop * 2 + 96}rpx`,
             left: 0,
-            width: `${imgWidth > width ? imgWidth : width}rpx`,
-            height: `${imgHeight > height ? imgHeight : width / defaultProportion}rpx`,
+            width: `${width}rpx`,
+            height: `${width / defaultProportion}rpx`,
             mode: 'aspectFill',
           },
         },
