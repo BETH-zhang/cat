@@ -37,6 +37,7 @@
         </view>
       </view>
       -->
+      <!--
       <view class="cu-item">
         <navigator class="content" url="/pages/about/work/index" hover-class="none">
           <text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
@@ -44,6 +45,7 @@
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </navigator>
       </view>
+      -->
       <view class="cu-item">
         <view class="content" bindtap="removeStorage">
           <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-blue"></text>
