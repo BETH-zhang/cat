@@ -1,6 +1,7 @@
 <about wx:if="{{PageCur==='about'}}"></about>
 <color wx:if="{{PageCur==='color'}}"></color>
 <convert wx:if="{{PageCur==='convert'}}"></convert>
+<flag wx:if="{{PageCur==='flag'}}"></flag>
 <work role="master" wx:if="{{PageCur==='work'}}"></work>
 <home bindhomeevent="myEventListener" wx:if="{{PageCur==='home'}}"></home>
 
@@ -8,6 +9,10 @@
   <view class="action" bindtap="NavChange" data-cur="home">
     <i style="font-size: 32rpx;" class="iconfont icon-noun__cc {{PageCur=='home'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='home'?'text-blue':'text-gray'}}">像素画</view>
+  </view>
+  <view class="action" bindtap="NavChange" data-cur="flag">
+    <i style="font-size: 32rpx;" class="iconfont icon-flag {{PageCur=='flag'?'text-blue':'text-gray'}}"></i>
+    <view class="{{PageCur=='flag'?'text-blue':'text-gray'}}">Flag</view>
   </view>
   <!--
   <view class="action" bindtap="NavChange" data-cur="convert">
