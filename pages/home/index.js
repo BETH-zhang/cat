@@ -97,7 +97,7 @@ Component({
 
     ToolChange(e) {
       const key = e.currentTarget.dataset.cur
-      console.log('???', this.data)
+      // console.log('???', this.data)
       // undo, clean, brush, eraser, straw, generate
       switch(key) {
         case 'undo':
@@ -187,7 +187,7 @@ Component({
 
         const gesture = this.gestureRecognition.touchStartEvent(e)
         // console.log('start', gesture)
-        console.log('gesture-start: ', gesture.type)
+        // console.log('gesture-start: ', gesture.type)
         switch (gesture.type) {
           case 'Single':
             this.data.arr = []
@@ -209,7 +209,7 @@ Component({
       if (this.data.allowDraw) {
         this.gestureRecognition.touchMoveEvent(e, (gesture) => {
           // console.log('gesture: ', gesture)
-          console.log('gesture-move: ', gesture.type)
+          // console.log('gesture-move: ', gesture.type)
           switch (gesture.type) {
             case 'Single':
               this.data.arr.push([e.touches[0].x, e.touches[0].y])
@@ -234,7 +234,7 @@ Component({
         this.data.allowDraw = false
 
         const gesture = this.gestureRecognition.touchEndEvent(e)
-        console.log('gesture-end: ', gesture.type)
+        // console.log('gesture-end: ', gesture.type)
         switch (gesture.type) {
           case 'Single':
             // this.render()
@@ -261,7 +261,7 @@ Component({
     },
 
     render() {
-      console.log('--', this.data.arr.length)
+      // console.log('--', this.data.arr.length)
       if (this.data.arr.length >= 2) {
         this.updateCanvas(
           this.data.arr[0][0],

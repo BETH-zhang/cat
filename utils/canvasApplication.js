@@ -319,12 +319,17 @@ class TestApplication {
       this.history.splice(0, 1)
     }
 
-    this.history.push(this.data) 
+    this.history.push({
+      data: this.data,
+      colors: this.colors,
+    }) 
   }
 
   undo = () => {
     if (this.history.length) {
-      this.data = this.history[this.history.length - 1]
+      const history = this.history[this.history.length - 1]
+      this.data = history.data
+      this.colors = history.colors
       this.throttleReDraw()
       this.history.pop()
       return true
