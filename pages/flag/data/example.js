@@ -22,7 +22,7 @@ export default class LastMayday {
     return ({
       width: `${width}rpx`,
       height: `${height}rpx`,
-      background: '#f2f2f2',
+      background: '#ffffff',
       views: [
         {
           type: 'image',
@@ -130,7 +130,7 @@ function _color(index, color) {
       left: `${startLeft + colorGap * 3 * index}rpx`,
       color,
       borderRadius: `${colorGap}rpx`,
-      borderWidth: '3rpx',
+      borderWidth: '5rpx',
       borderColor: '#ffffff',
     },
   })
