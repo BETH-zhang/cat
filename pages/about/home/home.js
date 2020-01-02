@@ -8,40 +8,16 @@ Component({
     starCount: 0,
     forksCount: 0,
     visitTotal: 0,
-    logCount: (wx.getStorageSync('logs') || []).length,
-    workCount: (wx.getStorageSync('myWork') || []).length,
+    logCount: 0,
+    workCount: 0,
   },
-  attached() {
-    console.log("about")
-    this.setData(app.globalData.userInfo)
-    
-    let that = this;
-    wx.showLoading({
-      title: '数据加载中',
-      mask: true,
-    })
-    let i = 0;
-    numDH();
-    function numDH() {
-      if (i < 20) {
-        setTimeout(function () {
-          that.setData({
-            starCount: i,
-            forksCount: i,
-            visitTotal: i
-          })
-          i++
-          numDH();
-        }, 20)
-      } else {
-        that.setData({
-          starCount: that.coutNum(0),
-          forksCount: that.coutNum(0),
-          visitTotal: that.coutNum(0)
-        })
-      }
-    }
-    wx.hideLoading()
+  lifetimes: {
+    attached() {
+      this.setData({
+        logCount: (wx.getStorageSync('logs') || []).length,
+        workCount: (wx.getStorageSync('myWork') || []).length,
+      })
+    },
   },
   methods: {
     coutNum(e) {
@@ -98,7 +74,7 @@ Component({
       wx.showToast({
         title: '清除成功',
         icon: 'none',
-        duration: 2000
+        duration: 1000
       })
     },
   }
