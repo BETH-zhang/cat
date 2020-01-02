@@ -26,7 +26,6 @@ class WxUtils {
     return new Promise((resolve, reject) => {
       const data = false && this.getImagePath(storageKeyUrl)
       if (data) {
-        console.log('storage:' + storageKeyUrl, data)
         resolve(data)
       } else {
         this.wx.getImageInfo({
@@ -40,7 +39,6 @@ class WxUtils {
                 height: res.height,
               },
             })
-            console.log('info:' + storageKeyUrl, res)
             resolve(res)
           },
           failure: function(res) {

@@ -85,7 +85,9 @@ Component({
       try {
         wx.removeStorageSync('logs')
         wx.removeStorageSync('myWork')
-        wx.removeStorageSync('colors')
+        // wx.removeStorageSync('colors')
+        wx.removeStorageSync('qrcode')
+        wx.removeStorageSync('avatar')
         this.setData({
           logCount: (wx.getStorageSync('logs') || []).length,
           workCount: (wx.getStorageSync('myWork') || []).length,

@@ -79,9 +79,6 @@ Component({
       
       const ctx = wx.createCanvasContext('mainCanvas', this) 
       this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
-      this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
-        console.log(rect, '---rect---')
-      })
     },
     chooseImg: function() {
       wx.chooseImage({
