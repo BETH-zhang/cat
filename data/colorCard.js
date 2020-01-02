@@ -2,7 +2,7 @@ const startTop = 40;
 const startLeft = 40;
 const width = 654;
 const height = 1040;
-const defaultProportion = 16 / 9
+const defaultProportion = 4 / 3
 
 export default class ColorCard {
   palette(data) {
@@ -76,7 +76,7 @@ export default class ColorCard {
           type: 'rect',
           css: {
             width: `${width}rpx`,
-            height: `${width * 3 / 4}rpx`,
+            height: `${width / defaultProportion}rpx`,
             color: '#ccc',
             top: `${startTop * 2 + 96}rpx`,
             left: 0,
@@ -96,9 +96,9 @@ export default class ColorCard {
           type: 'rect',
           css: {
             width: `${width}rpx`,
-            height: `${width * 3 / 4}rpx`,
+            height: `${width / defaultProportion}rpx`,
             color: '#20243d',
-            top: `${startTop * 2 + 96 + width * 3 / 4}rpx`,
+            top: `${startTop * 2 + 96 + width / defaultProportion}rpx`,
             left: 0,
           },
         },
@@ -132,7 +132,7 @@ export default class ColorCard {
   }
 }
 
-const colorTop = startTop * 2 + 96 + width * 3 / 4 + startLeft
+const colorTop = startTop * 2 + 96 + width / defaultProportion + startLeft
 const colorGap = Math.floor((width - startLeft * 2) / 14)
 const colorWidth = colorGap * 2
 
