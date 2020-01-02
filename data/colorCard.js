@@ -15,6 +15,7 @@ export default class ColorCard {
     } else if (proportion < defaultProportion) {
       imgHeight = data.imgInfo.width / defaultProportion
     }
+    // console.log(imgWidth, imgHeight, '??????')
 
     const colors = []
     data.colors.forEach((item, index) => {
@@ -86,10 +87,11 @@ export default class ColorCard {
           type: 'image',
           url: data.imgInfo.path,
           css: {
-            width: `${imgWidth}rpx`,
-            height: `${imgHeight}rpx`,
             top: `${startTop * 2 + 96}rpx`,
             left: 0,
+            width: `${imgWidth > width ? imgWidth : width}rpx`,
+            height: `${imgHeight > height ? imgHeight : width / defaultProportion}rpx`,
+            mode: 'aspectFill',
           },
         },
         {
