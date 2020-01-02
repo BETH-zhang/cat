@@ -4,7 +4,7 @@
   setting="{{setting}}"
 ></authSetting>
 
-<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}">
+<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal ? 'none' : 'block' }}">
    <view class="box-container">
     <!--
     <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image>
@@ -23,7 +23,7 @@
       wx:if="{{imgPath}}"
       id='image-handler'
       class="image-handler"
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}}; display: {{showModal ? "none" : "block"}}'
+      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
       canvas-id="imageHandler"
       bindtap='chooseImg'
     ></canvas>

@@ -10,7 +10,6 @@ const STATE_EMPTY = 0;
 const STATE_LOADING = 1;
 const STATE_SUCCEED = 2;
 
-console.log('rgbToHex: ', rgbToHex)
 Component({
   options: {
     addGlobalClass: true,
@@ -19,13 +18,6 @@ Component({
     imgPath: null,
     colors: [],
     colorList: [],
-    // colors: [
-    //   "#153641",
-    //   "#22556E",
-    //   "#4799B7",
-    //   "#6DB3BF",
-    //   "#94CFC9"
-    // ],
     imgInfo: {},
     colorCount: 7,
     state: STATE_EMPTY,
