@@ -112,12 +112,12 @@ class WxUtils {
                     })
                     reject()
                   }
-                })
+                }, that)
               },
               fail() {
                 reject()
               }
-            })
+            }, that)
           } else {
             // 有则直接保存
             this.wx.saveImageToPhotosAlbum({
@@ -135,7 +135,7 @@ class WxUtils {
                 })
                 reject()
               }
-            })
+            }, that)
           }
         }
       })
