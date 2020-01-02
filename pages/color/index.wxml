@@ -4,21 +4,22 @@
   setting="{{setting}}"
 ></authSetting>
 
-<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal ? 'none' : 'block' }}">
+<canvas
+  canvas-id="mainCanvas"
+  class="main-canvas"
+  disable-scroll='{{true}}'
+  style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+/>
+
+<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal || !hideCanvas ? 'none' : 'block' }}">
    <view class="box-container">
     <!--
     <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image>
     -->
-    <canvas
-      canvas-id="mainCanvas"
-      class="main-canvas"
-      disable-scroll='{{true}}'
-      style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
-    />
-
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
       <i style="font-size: 200rpx;" class="iconfont icon-shangchuantupian text-white"></i>
     </view>
+
     <canvas
       wx:if="{{imgPath}}"
       id='image-handler'
