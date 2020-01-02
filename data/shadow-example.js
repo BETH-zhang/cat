@@ -6,7 +6,7 @@ export default class ShadowExample {
       background: '#eee',
       views: [{
         type: 'image',
-        url: '/pages/flag/data/sky.jpg',
+        url: '/data/sky.jpg',
         css: {
           shadow: '10rpx 10rpx 5rpx #888888',
         },

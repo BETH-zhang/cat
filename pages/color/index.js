@@ -1,6 +1,7 @@
 import ColorThief from '../../utils/color-thief.js'
 import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
+import ColorCard from '../../data/colorCard'
 import {
   rgbToHex,
   saveBlendent
@@ -16,6 +17,7 @@ Component({
   },
   data: {
     imgPath: null,
+    shareImg: null,
     colors: [],
     colorList: [],
     imgInfo: {},
@@ -23,8 +25,8 @@ Component({
     state: STATE_EMPTY,
     currentColor: '',
 
-    hideCanvas: true,
     setting: '',
+    template: {},
   },
   lifetimes: {
     created() {
@@ -50,7 +52,6 @@ Component({
         case 'login':
           this.setData({
             setting: '',
-            hideCanvas: false,
           })
           this.download()
           break
@@ -77,8 +78,8 @@ Component({
       const height = app.globalData.systemInfo.windowHeight
       this.setData({ width, height })
       
-      const ctx = wx.createCanvasContext('mainCanvas', this) 
-      this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
+      // const ctx = wx.createCanvasContext('mainCanvas', this) 
+      // this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
     },
     chooseImg: function() {
       wx.chooseImage({
@@ -169,14 +170,9 @@ Component({
         this.setData({
           setting: 'login',
           shareImg: '',
-          hideCanvas: true,
         })
       } else {
-        this.setData({
-          hideCanvas: false,
-        }, () => {
-          this.optPictureData()
-        })
+        this.optPictureData()
       }
     },
 
@@ -193,47 +189,49 @@ Component({
       const data = {
         avatar: app.globalData.userInfo.avatarUrl,
         qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-        logo: '',
         name: app.globalData.userInfo.nickName,
         title: '色卡分享',
-        description: this.data.description,
         time: time,
         imgInfo: this.data.imgInfo,
         colors: this.data.colors
       }
 
-      this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
-        data.avatar = res.path
-        this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
-          data.qrcode = res.path
-          console.log('data: ', data, this.appCanvas)
-
-          this.appCanvas.createShareColorCard(data, {
-            color: this.data.bgColor,
-            fontColor: this.data.fontColor,
-            showGrid: this.data.showGrid
-          })
-          // canvas画图需要时间而且还是异步的，所以加了个定时器
-          setTimeout(() => {
-            // 将生成的canvas图片，转为真实图片
-            console.log('生成图片')
-            this.tempCanvas(() => {
-              console.log('生成分享图')
-              this.setData({ showModal: true })
-              wx.hideLoading()
-            })
-          }, 500)
-        })
+      this.setData({
+        template: new ColorCard().palette(data),
       })
+      // this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
+      //   data.avatar = res.path
+      //   this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
+      //     data.qrcode = res.path
+      //     console.log('data: ', data, this.appCanvas)
+
+      //     this.appCanvas.createShareColorCard(data, {
+      //       color: this.data.bgColor,
+      //       fontColor: this.data.fontColor,
+      //       showGrid: this.data.showGrid
+      //     })
+      //     // canvas画图需要时间而且还是异步的，所以加了个定时器
+      //     setTimeout(() => {
+      //       // 将生成的canvas图片，转为真实图片
+      //       console.log('生成图片')
+      //       this.tempCanvas(() => {
+      //         console.log('生成分享图')
+      //         this.setData({ showModal: true })
+      //         wx.hideLoading()
+      //       })
+      //     }, 500)
+      //   })
+      // })
     },
 
-    tempCanvas(callback) {
-      this.wxUtils.canvasToTempFilePath('mainCanvas', this).then((res) => {
-        this.setData({
-          shareImg: res.tempFilePath,
-          hideCanvas: true,
-        }, callback)
+    onImgOK(e) {
+      console.log('生成分享图')
+      this.setData({
+        showModal: true,
+        shareImg: e.detail.path,
+        hideCanvas: true,
       })
+      wx.hideLoading()
     },
 
     // 长按保存事件

@@ -1,8 +1,8 @@
-import Template1 from './data/card';
-import Template2 from './data/image-example'
-import Template3 from './data/shadow-example'
-import Template4 from './data/text-example'
-import Template5 from './data/example'
+import Template1 from '../../data/card';
+import Template2 from '../../data/image-example'
+import Template3 from '../../data/shadow-example'
+import Template4 from '../../data/text-example'
+import Template5 from '../../data/colorCard'
 const app = getApp();
 
 Component({

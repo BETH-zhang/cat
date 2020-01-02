@@ -1,24 +1,29 @@
 const startTop = 40;
 const startLeft = 40;
-const gapSize = 70;
 const width = 654;
 const height = 1040;
-const common = {
-  left: `${startLeft}rpx`,
-  fontSize: '36rpx',
-};
+const defaultProportion = 16 / 9
 
-export default class LastMayday {
-  palette(userInfo) {
-    const data = {
-      avatar: userInfo.avatarUrl,
-      qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-      logo: '',
-      name: userInfo.nickName,
-      title: 'CXY',
-      description: '送你一幅画',
-      time: '2020.1.2',
+export default class ColorCard {
+  palette(data) {
+    console.log('data: ', data)
+    let imgWidth = data.imgInfo.width
+    let imgHeight = data.imgInfo.height
+    const proportion = imgWidth / imgHeight
+    if (proportion > defaultProportion) {
+      imgWidth = data.imgInfo.height * defaultProportion
+    } else if (proportion < defaultProportion) {
+      imgHeight = data.imgInfo.width / defaultProportion
     }
+
+    const colors = []
+    data.colors.forEach((item, index) => {
+      if (index < 5) {
+        colors.push(_color(index, item))
+        colors.push(_colorText(index, item))
+      }
+    })
+
     return ({
       width: `${width}rpx`,
       height: `${height}rpx`,
@@ -78,6 +83,16 @@ export default class LastMayday {
           },
         },
         {
+          type: 'image',
+          url: data.imgInfo.path,
+          css: {
+            width: `${imgWidth}rpx`,
+            height: `${imgHeight}rpx`,
+            top: `${startTop * 2 + 96}rpx`,
+            left: 0,
+          },
+        },
+        {
           type: 'rect',
           css: {
             width: `${width}rpx`,
@@ -87,16 +102,17 @@ export default class LastMayday {
             left: 0,
           },
         },
-        _color(0, 'red'),
-        _color(1, 'red'),
-        _color(2, 'red'),
-        _color(3, 'red'),
-        _color(4, 'red'),
-        _colorText(0, 'red'),
-        _colorText(1, 'red'),
-        _colorText(2, 'red'),
-        _colorText(3, 'red'),
-        _colorText(4, 'red'),
+        ...colors,
+        // _color(0, 'red'),
+        // _color(1, 'red'),
+        // _color(2, 'red'),
+        // _color(3, 'red'),
+        // _color(4, 'red'),
+        // _colorText(0, 'red'),
+        // _colorText(1, 'red'),
+        // _colorText(2, 'red'),
+        // _colorText(3, 'red'),
+        // _colorText(4, 'red'),
         {
           type: 'text',
           text: "程小元像素",
@@ -144,7 +160,7 @@ function _colorText(index, color) {
       top: `${colorTop + colorGap * 2.5}rpx`,
       left: `${startLeft + colorGap * 3 * index + colorGap}rpx`,
       color: '#ffffff',
-      width: `${colorGap * 2}rpx`,
+      width: `${colorGap * 3}rpx`,
       // fontSize: '12rpx',
       align: 'center',
       textAlign: 'center',

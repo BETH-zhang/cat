@@ -4,14 +4,16 @@
   setting="{{setting}}"
 ></authSetting>
 
-<canvas
-  canvas-id="mainCanvas"
-  class="main-canvas"
-  disable-scroll='{{true}}'
-  style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
-/>
+<painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
 
-<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal || !hideCanvas ? 'none' : 'block' }}">
+<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
+  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
+     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
+     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
+  </view>
+</view>
+
+<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal ? 'none' : 'block' }}">
    <view class="box-container">
     <!--
     <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image>
@@ -105,11 +107,4 @@
         bindtap="selectColor"
       >确定 ({{rgba.r}}, {{rgba.g}}, {{rgba.b}}, {{rgba.a}})</button>
     </view>
-</view>
-
-<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
-  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
-     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
-     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
-  </view>
 </view>

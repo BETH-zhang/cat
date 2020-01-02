@@ -7,7 +7,7 @@ export default class ImageExample {
       views: [
         {
           type: 'image',
-          url: '/pages/flag/data/sky.jpg',
+          url: '/data/sky.jpg',
         },
         {
           type: 'text',
@@ -20,7 +20,7 @@ export default class ImageExample {
         },
         {
           type: 'image',
-          url: '/pages/flag/data/sky.jpg',
+          url: '/data/sky.jpg',
           css: {
             width: '200rpx',
             height: '200rpx',
@@ -38,7 +38,7 @@ export default class ImageExample {
         },
         {
           type: 'image',
-          url: '/pages/flag/data/sky.jpg',
+          url: '/data/sky.jpg',
           css: {
             width: '200rpx',
             height: '200rpx',
@@ -57,7 +57,7 @@ export default class ImageExample {
         },
         {
           type: 'image',
-          url: '/pages/flag/data/sky.jpg',
+          url: '/data/sky.jpg',
           css: {
             width: '200rpx',
             height: 'auto',
