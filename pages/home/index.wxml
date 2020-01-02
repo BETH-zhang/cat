@@ -23,6 +23,13 @@
 
 <painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
 
+<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
+  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
+     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
+     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
+  </view>
+</view>
+
 <view class="show-canvas">
   <canvas
     canvas-id="bgCanvas"
@@ -57,13 +64,6 @@
   ></image>
 </view>
 -->
-
-<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
-  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
-     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
-     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
-  </view>
-</view>
 
 <view wx:if="{{PageCur==='home'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="ToolChange" data-cur="undo">

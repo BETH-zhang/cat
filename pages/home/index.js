@@ -165,11 +165,63 @@ Component({
       this.triggerEvent('homeevent', myEventDetail, myEventOption)
     },
 
+    getClipData(a) {
+      const data = a.split(' ')
+      const directionData = {
+        top: -1,
+        bottom: -1,
+        left: -1,
+        right: -1,
+      }
+
+      const updateDirectionData = (direction, value, coef) => {
+        if (directionData[direction] < 0) {
+          directionData[direction] = value
+        } else if ((directionData[direction] - value) * coef > 0) {
+          directionData[direction] = value
+        }
+      }
+
+      data.forEach((item) => {
+        if (item) {
+          const coord = item.split('-')
+          const x = coord[0]
+          const y = coord[1]
+          updateDirectionData('top', y, 1)
+          updateDirectionData('bottom', y, -1)
+          updateDirectionData('left', x, 1)
+          updateDirectionData('right', x, -1)
+        }
+      })
+
+      return {
+        directionData,
+        interval: this.appCanvas.interval,
+        left: directionData.left * this.appCanvas.interval,
+        top: directionData.top * this.appCanvas.interval,
+        width: (directionData.right - directionData.left + 1) * this.appCanvas.interval,
+        height: (directionData.bottom - directionData.top + 1) * this.appCanvas.interval,
+      }
+    },
+
     tempCanvas(callback) {
-      this.wxUtils.canvasToTempFilePath('mainCanvas', this).then((res) => {
+      const getClipData = this.getClipData(this.appCanvas.data)
+      console.log('getClipData: ', getClipData)
+      this.wxUtils.canvasToTempFilePath('mainCanvas', this, {
+        x: getClipData.left,
+        y: getClipData.top,
+        width: getClipData.width,
+        height: getClipData.height,
+        destWidth: getClipData.width,
+        destHeight: getClipData.height,
+      }).then((res) => {
         this.setData({
           shareImg: res.tempFilePath,
-          imgInfo: res,
+          imgInfo: {
+            ...res,
+            width: getClipData.width,
+            height: getClipData.height,
+          },
           hideCanvas: true,
         }, callback)
       })
@@ -354,6 +406,7 @@ Component({
         description: this.data.description,
         time: time,
         imgInfo: this.data.imgInfo,
+        bgColor: this.data.bgColor,
       }
 
       this.setData({

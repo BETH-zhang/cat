@@ -167,7 +167,7 @@ class WxUtils {
   }
 
   // 生成图片
-  canvasToTempFilePath = (canvasId, that) => {
+  canvasToTempFilePath = (canvasId, that, options = {}) => {
     return new Promise((resolve, reject) => {
       this.wx.canvasToTempFilePath({
         x: 0,
@@ -175,6 +175,8 @@ class WxUtils {
         width: this.canvas.width,
         height: this.canvas.height,
         canvasId,
+        quality: 10,
+        ...options,
         complete: res => {
           console.log('canvasToTempFilePath-res: ', res)
           if (res.errMsg === 'canvasToTempFilePath:ok') {

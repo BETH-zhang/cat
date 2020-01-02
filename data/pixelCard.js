@@ -9,8 +9,9 @@ export default class PixelCard {
   palette(data) {
     console.log('data: ', data)
     const proportion = data.imgInfo.width / data.imgInfo.height
-    const imgHeight = width / proportion
-    height = imgHeight + footerHeight
+    const imgWidthScope = width - startLeft * 4
+    const imgHeight = imgWidthScope / proportion
+    height = imgHeight + startLeft * 4 + footerHeight
 
     return ({
       width: `${width}rpx`,
@@ -21,8 +22,8 @@ export default class PixelCard {
           type: 'rect',
           css: {
             width: `${width}rpx`,
-            height: `${imgHeight}rpx`,
-            color: '#ccc',
+            height: `${imgHeight + startLeft * 4}rpx`,
+            color: data.bgColor,
             top: '0rpx',
             left: 0,
           },
@@ -31,10 +32,10 @@ export default class PixelCard {
           type: 'image',
           url: data.imgInfo.tempFilePath,
           css: {
-            width: `${width}rpx`,
-            height: `${imgHeight}rpx`,
-            top: '0rpx',
-            left: 0,
+            width: `${imgWidthScope}rpx`,
+            height: `${imgWidthScope / proportion}rpx`,
+            top: `${startLeft * 2}rpx`,
+            left: `${startLeft * 2}rpx`,
           },
         },
         {
