@@ -35,6 +35,10 @@ Component({
     },
     onGotUserInfo (e) {
       app.globalData.userInfo = e.detail.userInfo
+      wx.setStorage({
+        key: 'userInfo',
+        data: res.userInfo,
+      })
       this.cancel()
     },
   }
