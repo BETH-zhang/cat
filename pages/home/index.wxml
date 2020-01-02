@@ -21,6 +21,8 @@
   shareImg="{{shareImg}}"
 ></shareSetting>
 
+<painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
+
 <view class="show-canvas">
   <canvas
     canvas-id="bgCanvas"

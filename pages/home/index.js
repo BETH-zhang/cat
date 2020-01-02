@@ -2,6 +2,7 @@ const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
 import GestureRecognition from '../../utils/gestureRecognition'
+import PixelCard from '../../data/pixelCard';
 import {
   requestAnimationFrame,
   cancelAnimationFrame
@@ -39,6 +40,8 @@ Component({
     bgColor:  'rgba(255, 255, 255, 1)',
     fontColor: 'rgba(50, 50, 50, 1)',
     arr: [],
+    template: {},
+    imgInfo: {},
   },
   lifetimes: {
     created() {
@@ -166,6 +169,7 @@ Component({
       this.wxUtils.canvasToTempFilePath('mainCanvas', this).then((res) => {
         this.setData({
           shareImg: res.tempFilePath,
+          imgInfo: res,
           hideCanvas: true,
         }, callback)
       })
@@ -345,36 +349,49 @@ Component({
       const data = {
         avatar: app.globalData.userInfo.avatarUrl,
         qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-        logo: '',
         name: app.globalData.userInfo.nickName,
         title: this.data.title,
         description: this.data.description,
         time: time,
+        imgInfo: this.data.imgInfo,
       }
 
-      this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
-        data.avatar = res.path
-        this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
-          data.qrcode = res.path
-          console.log('data: ', data)
-
-          this.appCanvas.createSharePicture(data, {
-            color: this.data.bgColor,
-            fontColor: this.data.fontColor,
-            showGrid: this.data.showGrid
-          })
-          // canvas画图需要时间而且还是异步的，所以加了个定时器
-          setTimeout(() => {
-            // 将生成的canvas图片，转为真实图片
-            console.log('生成图片')
-            this.tempCanvas(() => {
-              console.log('生成分享图')
-              this.setData({ showModal: true })
-              wx.hideLoading()
-            })
-          }, 500)
-        })
+      this.setData({
+        template: new PixelCard().palette(data),
       })
+      // this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
+      //   data.avatar = res.path
+      //   this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
+      //     data.qrcode = res.path
+      //     console.log('data: ', data)
+
+      //     this.appCanvas.createSharePicture(data, {
+      //       color: this.data.bgColor,
+      //       fontColor: this.data.fontColor,
+      //       showGrid: this.data.showGrid
+      //     })
+      //     // canvas画图需要时间而且还是异步的，所以加了个定时器
+      //     setTimeout(() => {
+      //       // 将生成的canvas图片，转为真实图片
+      //       console.log('生成图片')
+      //       this.tempCanvas(() => {
+      //         console.log('生成分享图')
+      //         this.setData({ showModal: true })
+      //         wx.hideLoading()
+      //       })
+      //     }, 500)
+      //   })
+      // })
+    },
+
+    onImgOK(e) {
+      console.log('生成分享图')
+      this.setData({
+        showModal: true,
+        shareImg: e.detail.path,
+        hideCanvas: true,
+      })
+      wx.hideLoading()
     },
   
     // 长按保存事件

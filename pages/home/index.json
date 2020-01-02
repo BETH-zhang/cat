@@ -3,6 +3,7 @@
   "usingComponents": {
     "authSetting": "/pages/authSetting/index",
     "colorSetting": "/pages/colorSetting/index",
-    "shareSetting": "/pages/shareSetting/index"
+    "shareSetting": "/pages/shareSetting/index",
+    "painter":"/pages/painter/painter"
   }
 }

@@ -1,5 +1,5 @@
 import ColorThief from '../../utils/color-thief.js'
-import TestApplication from '../../utils/canvasApplication'
+// import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
 import ColorCard from '../../data/colorCard'
 import {

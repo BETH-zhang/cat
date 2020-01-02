@@ -6,7 +6,7 @@ class WxUtils {
   }
 
   setStyle = (canvas) => {
-    this.canvass = canvas
+    this.canvas = canvas
   }
 
   getSystemInfo = () => {
@@ -178,7 +178,11 @@ class WxUtils {
         complete: res => {
           console.log('canvasToTempFilePath-res: ', res)
           if (res.errMsg === 'canvasToTempFilePath:ok') {
-            resolve(res)
+            resolve({
+              ...res,
+              width: this.canvas.width,
+              height: this.canvas.height,
+            })
           } else {
             reject(res)
           }
