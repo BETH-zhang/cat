@@ -47,7 +47,7 @@ Component({
   },
   methods: {
     SettingEventListener(e) {
-      console.log(e.detail, '..SettingEventListener...')
+      console.log(e.detail, '..SettingEventListener...', this.data.setting)
       switch(this.data.setting) {
         case 'login':
           this.setData({
@@ -117,7 +117,6 @@ Component({
                 colorCount: this.data.colorCount,
                 quality
               }, (colors) => {
-                console.log('colors', colors);
                 if (colors) {
                   colors = colors.map((color) => {
                     return ('#' + rgbToHex(color[0], color[1], color[2]))
@@ -140,7 +139,6 @@ Component({
     },
     delete: function(e) {
       var colorList = wx.getStorageSync('colors') || []
-      console.log(e.currentTarget.dataset.cur, colorList)
       var data = []
       colorList.forEach((item, index) => {
         if (index !== e.currentTarget.dataset.cur) {
@@ -164,8 +162,6 @@ Component({
       console.log('e: ', e)
     },
     download: function() {
-      console.log(this.data) 
-      console.log('app.globalData: ', app.globalData)
       if (!app.globalData.userInfo) {
         this.setData({
           setting: 'login',

@@ -20,6 +20,7 @@ Component({
   },
   methods: {
     updateProps(e) {
+      console.log('updateProps')
       var myEventDetail = {
         setting: '',
       } // detail对象，提供给事件监听函数
@@ -37,9 +38,9 @@ Component({
       app.globalData.userInfo = e.detail.userInfo
       wx.setStorage({
         key: 'userInfo',
-        data: res.userInfo,
+        data: e.detail.userInfo,
       })
-      this.cancel()
+      this.updateProps()
     },
   }
 })

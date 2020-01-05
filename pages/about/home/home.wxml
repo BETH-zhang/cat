@@ -36,7 +36,6 @@
           <text class="text-grey" style="margin-left: 12px">GitHub</text>
         </view>
       </view>
-      -->
       <view class="cu-item">
         <navigator class="content" url="/pages/about/work/index" hover-class="none">
           <text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
@@ -44,6 +43,14 @@
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </navigator>
       </view>
+      -->
+      <view class="cu-item">
+        <navigator class="content" url="/pages/about/work/index" hover-class="none">
+          <text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
+          <text class="text-grey" style="margin-left: 5px">画板设置</text>
+          <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
+        </navigator>
+      </view> 
       <view class="cu-item">
         <view class="content" bindtap="removeStorage">
           <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-blue"></text>
@@ -75,9 +82,9 @@
       </view>
       <view class="cu-item">
         <view class="content" style="line-height: 2.6em;">
-          <text style="font-size: 32rpx;" class="iconfont icon-zuozhe text-black"></text>
-          <text class="text-grey" style="margin-left: 5px">联系程小元</text>
-          <button style="background: none; padding: 0; border: 0;" class="text-grey float-right contact-author" open-type="contact">
+          <button style="background: none;padding: 0;border: 0;width: 100%;text-align: left;margin: 0;line-height: 2.6em;" class="text-grey float-right contact-author" open-type="contact">
+            <text style="font-size: 42rpx;" class="iconfont icon-zuozhe text-black"></text>
+            <text class="text-grey" style="font-size: 32rpx;margin-left: 5px">联系程小元</text>
             <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
           </button>
         </view>
