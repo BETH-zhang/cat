@@ -2,16 +2,23 @@ const startTop = 40;
 const startLeft = 40;
 const width = 654;
 let height = 1040;
-const defaultProportion = 4 / 3
 const footerHeight = startTop * 2 + 96
+const defaultProportion = width / (height - footerHeight)
 
 export default class PixelCard {
   palette(data) {
-    console.log('data: ', data)
     const proportion = data.imgInfo.width / data.imgInfo.height
-    const imgWidthScope = width - startLeft * 4
-    const imgHeight = imgWidthScope / proportion
-    height = imgHeight + startLeft * 4 + footerHeight
+    let imgWidth = width - startLeft * 4
+    let imgHeight = height - footerHeight - startLeft * 4
+    let imgTop = startLeft * 2
+    let imgLeft = startLeft * 2
+    if (proportion > defaultProportion) {
+      imgHeight = imgWidth / proportion
+      imgTop = (height - imgHeight) / 2
+    } else if (proportion < defaultProportion) {
+      imgWidth = imgHeight * proportion
+      imgLeft = (width - imgWidth) / 2
+    }
 
     return ({
       width: `${width}rpx`,
@@ -22,7 +29,7 @@ export default class PixelCard {
           type: 'rect',
           css: {
             width: `${width}rpx`,
-            height: `${imgHeight + startLeft * 4}rpx`,
+            height: `${height - footerHeight}rpx`,
             color: data.bgColor,
             top: '0rpx',
             left: 0,
@@ -32,10 +39,10 @@ export default class PixelCard {
           type: 'image',
           url: data.imgInfo.tempFilePath,
           css: {
-            width: `${imgWidthScope}rpx`,
-            height: `${imgWidthScope / proportion}rpx`,
-            top: `${startLeft * 2}rpx`,
-            left: `${startLeft * 2}rpx`,
+            width: `${imgWidth}rpx`,
+            height: `${imgHeight}rpx`,
+            top: `${imgTop}rpx`,
+            left: `${imgLeft}rpx`,
           },
         },
         {
