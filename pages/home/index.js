@@ -139,12 +139,17 @@ Component({
           this.appCanvas.fillRect(0, 0, this.data.width, this.data.height, this.data.bgColor)
           this.appCanvas.draw()
           this.tempCanvas()
-          this.setData({
-            toolType: '',
-            hideCanvas: false,
-          }, () => {
-            this.savePicture()
+          wx.showLoading({
+            title: '图片生成中',
           })
+          setTimeout(() => {
+            this.setData({
+              toolType: '',
+              hideCanvas: false,
+            }, () => {
+              this.savePicture()
+            })
+          }, 500)
           break
       }
     },
@@ -359,6 +364,7 @@ Component({
     savePicture() {
       console.log('app.globalData: ', app.globalData)
       if (!app.globalData.userInfo) {
+        wx.hideLoading()
         this.setData({
           setting: 'login',
           shareImg: '',
@@ -380,9 +386,6 @@ Component({
     },
     
     optPictureData() {
-      wx.showLoading({
-        title: '图片生成中',
-      })
       console.log('读取图片', this.data.shareImg)    
       const date = new Date;
       const year = date.getFullYear();
