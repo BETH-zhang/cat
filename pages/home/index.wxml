@@ -11,15 +11,6 @@
   bgColor="{{bgColor}}"
   fontColor="{{fontColor}}"
 ></colorSetting>
-<shareSetting
-  wx:if="{{toolType==='generate'}}"
-  bindsharesettingevent="SettingEventListener"
-  toolType="{{toolType}}"
-  showGrid="{{showGrid}}"
-  title="{{title}}"
-  description="{{description}}"
-  shareImg="{{shareImg}}"
-></shareSetting>
 
 <painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
 

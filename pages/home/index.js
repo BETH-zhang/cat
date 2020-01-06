@@ -85,15 +85,6 @@ Component({
           this.appCanvas.reDraw()
           break
         default:
-          if (this.data.toolType === 'generate') {
-            this.setData({
-              ...e.detail,
-              toolType: '',
-              hideCanvas: false,
-            }, () => {
-              this.savePicture()
-            })
-          }
           break
       }
     },
@@ -149,9 +140,10 @@ Component({
           this.appCanvas.draw()
           this.tempCanvas()
           this.setData({
-            toolType: 'generate',
-            hideCanvas: true,
-            setting: '',
+            toolType: '',
+            hideCanvas: false,
+          }, () => {
+            this.savePicture()
           })
           break
       }

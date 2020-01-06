@@ -43,14 +43,14 @@
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </navigator>
       </view>
-      -->
       <view class="cu-item">
-        <navigator class="content" url="/pages/about/work/index" hover-class="none">
+        <navigator class="content" url="/pages/about/setting/index" hover-class="none">
           <text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
           <text class="text-grey" style="margin-left: 5px">画板设置</text>
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </navigator>
       </view> 
+      -->
       <view class="cu-item">
         <view class="content" bindtap="removeStorage">
           <text style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-blue"></text>

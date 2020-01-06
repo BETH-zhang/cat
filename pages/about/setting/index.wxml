@@ -1,0 +1,31 @@
+<scroll-view scroll-y class="scrollPage">
+  <!-- 设置标题 -->
+  <view class="open-setting">
+    <form>
+      <view class="cu-form-group">
+        <view class="title">主题</view>
+        <input value="{{title}}" bindinput="titleInputChange" placeholder="为自己的作品添加一个主题"></input>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">是否显示网格</view>
+        <switch checked="{{showGrid}}" class="sm" bindchange="gridSelectChange"></switch>
+      </view>
+      <view class="cu-form-group margin-top">
+        <textarea value="{{description}}" bindinput="desInputChange" maxlength="-1" placeholder="为自己的作品添加一段描述文字吧！^_^"></textarea>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">是否保存作品</view>
+        <switch checked="{{isSave}}" class="sm" bindchange="isSaveChange"></switch>
+      </view>
+    </form>
+
+    <view class="open-setting-color__fo">
+      <button
+        class="cu-btn shadow bg-green lg block shadow radius margin-xl"
+        bindtap="save"
+      >确定</button>
+    </view>
+  </view>
+ 
+  <view class="cu-tabbar-height"></view>
+</scroll-view>

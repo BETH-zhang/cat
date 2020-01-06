@@ -5,6 +5,7 @@
     "pages/home/index",
     "pages/color/index",
     "pages/convert/index",
+    "pages/about/setting/index",
     "pages/about/home/home",
     "pages/about/work/index",
     "pages/about/about/about",
