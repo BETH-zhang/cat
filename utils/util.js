@@ -210,6 +210,14 @@ function saveBlendent({colors,uuid}) {
   })
 }
 
+const reverseColor = (hex) => {
+  if(!hex) {
+    hex = '#' + ( '00' + Math.floor( Math.random() * 16777216 ).toString(16) ).substr(-6)
+  }
+  let reverseHex = '#' + hex.replace('#', '').split('').reverse().join('')
+  return [hex, reverseHex]
+}
+
 module.exports = {
   formatTime: formatTime,
   isEmpty: isEmpty,
@@ -225,4 +233,5 @@ module.exports = {
   genUUID: genUUID,
   colorsEqual: colorsEqual,
   saveBlendent: saveBlendent,
+  reverseColor: reverseColor,
 }
