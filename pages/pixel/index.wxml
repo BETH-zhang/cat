@@ -1,0 +1,86 @@
+<authSetting
+  bindauthsettingevent="SettingEventListener"
+  wx:if="{{setting==='login'}}"
+  setting="{{setting}}"
+></authSetting>
+<colorSetting
+  bindcolorsettingevent="SettingEventListener"
+  wx:if="{{setting==='color'}}"
+  setting="{{pixelColor}}"
+  pixelColor="{{pixelColor}}"
+  bgColor="{{bgColor}}"
+  fontColor="{{fontColor}}"
+></colorSetting>
+
+<painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
+
+<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
+  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
+     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
+     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
+  </view>
+</view>
+
+<view class="show-canvas">
+  <canvas
+    canvas-id="bgCanvas"
+    class="bg-canvas"
+    disable-scroll='{{true}}'
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+  />
+  <canvas
+    canvas-id="mainCanvas"
+    class="main-canvas"
+    disable-scroll='{{true}}'
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+    bindtouchstart="dispatchTouchStart"
+    bindtouchmove="dispatchTouchMove"
+    bindtouchend="dispatchTouchEnd"
+  />
+</view>
+
+<!--
+
+<view style=" position: absolute; bottom: 100px; left: 0; z-index: 111; color: red; ">
+  <view>{{scale}}</view>
+  <view>{{translateX}}</view>
+  <view>{{translateY}}</view>
+  <view>{{distance}}</view>
+</view>
+
+<view class="{{ hideCanvas && shareImg ? 'show-canvas' : 'hide-canvas' }}">
+  <image
+    src='{{shareImg}}'
+    style="width: {{width}}px; height: {{height}}px; background: #ffffff; opacity: {{ showModal ? 0.5 : 1 }}"
+  ></image>
+</view>
+-->
+
+<view wx:if="{{PageCur==='home'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="ToolChange" data-cur="undo">
+    <i style="font-size: 32rpx;" class="iconfont icon-chexiao1 text-gray"></i>
+    <view class="text-gray">撤销</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="clean">
+    <i style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-gray"></i>
+    <view class="text-gray">清除</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="{{toolType=='brush' ? 'eraser' : 'brush'}}">
+    <i style="font-size: 32rpx;" class="iconfont {{toolType=='brush' ? 'icon-huabi1' : 'icon-icon-test'}} text-blue"></i>
+    <view class="text-blue">{{toolType=='brush' ? '画笔' : '橡皮'}}</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="swatches">
+    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='swatches'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='swatches'?'text-blue':'text-gray'}}">色板</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="generate">
+    <i style="font-size: 32rpx;" class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='generate'?'text-blue':'text-gray'}}">生成</view>
+  </view>
+  <view class="action" bindtap="NavChange" data-cur="about">
+    <i style="font-size: 32rpx;" class="iconfont icon-houzi text-gray"></i>
+    <view class="text-gray">程小元</view>
+  </view>
+</view>
+
+
