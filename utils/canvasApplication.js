@@ -643,29 +643,29 @@ class TestApplication {
 
   smartExtractPixel = (pictureData, wx) => {
     console.log('pictureData: ', pictureData)
-    this.drawImage(
-      pictureData.path,
-      { x: 0, y: 0, width: pictureData.width, height: pictureData.height },
-      { x: (this.canvas.width - pictureData.width) / 2, y: 0, width: pictureData.width * (this.canvas.height / pictureData.height), height: this.canvas.height },
-    )
+    // this.drawImage(
+    //   pictureData.path,
+    //   { x: 0, y: 0, width: pictureData.width, height: pictureData.height },
+    //   { x: (this.canvas.width - pictureData.width) / 2, y: 0, width: pictureData.width * (this.canvas.height / pictureData.height), height: this.canvas.height },
+    // )
 
-    console.log('smartpixel-draw-true')
-    this.ctx.draw(truefalse, () => {
-      wx.canvasGetImageData({
-        canvasId: this.canvas.id,
-        width: this.canvas.width,
-        height: this.canvas.height,
-        x: 0,
-        y: 0,
-        success: (res) => {
-          console.log("res:",res)
-          this.formatImageData(res)
-        },
-        fail: (res) => {
-          console.log("faild",res)
-        }
-      })
-    })
+    // console.log('smartpixel-draw-true')
+    // this.ctx.draw(true, () => {
+    //   wx.canvasGetImageData({
+    //     canvasId: this.canvas.id,
+    //     width: this.canvas.width,
+    //     height: this.canvas.height,
+    //     x: 0,
+    //     y: 0,
+    //     success: (res) => {
+    //       console.log("res:",res)
+    //       this.formatImageData(res)
+    //     },
+    //     fail: (res) => {
+    //       console.log("faild",res)
+    //     }
+    //   })
+    // })
 
     // 将图片平铺到画布中
     // 读取图片像素值
