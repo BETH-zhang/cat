@@ -18,10 +18,17 @@ export default class ColorCard {
     // console.log(imgWidth, imgHeight, '??????')
 
     const colors = []
+    const colorsReverse = []
     data.colors.forEach((item, index) => {
       if (index < 5) {
-        colors.push(_color(index, item))
-        colors.push(_colorText(index, item))
+        colors.push(_color(index, item, 0))
+        colors.push(_colorText(index, item, 0))
+      }
+    })
+    data.colorsReverse.forEach((item, index) => {
+      if (index < 5) {
+        colorsReverse.push(_color(index, item, 1))
+        colorsReverse.push(_colorText(index, item, 1))
       }
     })
 
@@ -129,6 +136,7 @@ export default class ColorCard {
             textAlign: 'center',
           },
         },
+        ...colorsReverse,
       ],
     });
   }
@@ -138,13 +146,13 @@ const colorTop = startTop * 2 + 96 + width / defaultProportion + startLeft
 const colorGap = Math.floor((width - startLeft * 2) / 14)
 const colorWidth = colorGap * 2
 
-function _color(index, color) {
+function _color(index, color, row) {
   return ({
     type: 'rect',
     css: {
       width: `${colorWidth}rpx`,
       height: `${colorWidth}rpx`,
-      top: `${colorTop}rpx`,
+      top: `${colorTop + row * (colorTop + colorGap * 3.5)}rpx`,
       left: `${startLeft + colorGap * 3 * index}rpx`,
       color,
       borderRadius: `${colorGap}rpx`,
@@ -154,12 +162,12 @@ function _color(index, color) {
   })
 }
 
-function _colorText(index, color) {
+function _colorText(index, color, row) {
   return ({
     type: 'text',
     text: color,
     css: {
-      top: `${colorTop + colorGap * 2.5}rpx`,
+      top: `${colorTop + colorGap * 2.5 + row * (colorTop + colorGap * 3.5)}rpx`,
       left: `${startLeft + colorGap * 3 * index + colorGap}rpx`,
       color: '#ffffff',
       width: `${colorGap * 3}rpx`,

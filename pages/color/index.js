@@ -4,7 +4,8 @@ import WxUtils from '../../utils/wxUtils'
 import ColorCard from '../../data/colorCard'
 import {
   rgbToHex,
-  saveBlendent
+  saveBlendent,
+  reverseColor,
 } from '../../utils/util.js'
 const app = getApp()
 const STATE_EMPTY = 0;
@@ -172,6 +173,15 @@ Component({
       }
     },
 
+    getColorsReverse(colors) {
+      if (colors.length) {
+        return colors.map((item) => {
+          return reverseColor(item)[1]
+        })
+      }
+      return []
+    },
+
     optPictureData() {
       wx.showLoading({
         title: '图片生成中',
@@ -189,7 +199,8 @@ Component({
         title: '色卡分享',
         time: time,
         imgInfo: this.data.imgInfo,
-        colors: this.data.colors
+        colors: this.data.colors,
+        colorsReverse: this.getColorsReverse(this.data.colors)
       }
 
       this.setData({

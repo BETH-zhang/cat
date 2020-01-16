@@ -84,14 +84,20 @@ Component({
           })
           break;
         case '6':
+          console.log('userInfo: ', userInfo)
           const data1 = {
             avatar: userInfo.avatarUrl,
             qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
             name: userInfo.nickName,
             title: '色卡分享',
+            description: 'description',
             time: '2020.1.1',
-            data: [],
-            colors: [],
+            imgInfo: {
+              tempFilePath: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+              width: 40,
+              height: 30,
+            },
+            bgColor: '#c00',
           }
           this.setData({
             template: new PixelCard().palette(data1),
