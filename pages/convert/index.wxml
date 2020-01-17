@@ -4,9 +4,17 @@
   </view>
   <canvas
     wx:if="{{imgPath}}"
-    style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
+    style='{{"width:"+canvasWidth *0.09+"px;height:"+canvasHeight *0.09+"px;"}};'
     canvas-id="cvCanvas"
     class="cv-canvas"
     bindtap='chooseImg'
   />
+  <canvas
+    wx:if="{{imgPath}}"
+    style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
+    canvas-id="cvCanvasBig"
+    class="cv-canvas"
+    bindtap='chooseImg'
+  />
+  <view style="position: absolute; left: 20rpx; bottom: 200rpx;">{{scale}}</view>
 </view>

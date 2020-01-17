@@ -1,0 +1,5 @@
+.swatches {
+  width: 100%;
+  height: 100rpx;
+  background: #ccc;
+}
