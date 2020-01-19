@@ -1,0 +1,25 @@
+
+<scroll-view scroll-x class="swatches">
+  <view class="padding-sm">
+    <view class="cu-avatar round lg bg-{{item.name}} margin-xs" wx:for="{{ColorList}}" wx:key>
+      <text class="avatar-text">{{item.name}}</text>
+    </view>
+  </view>
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
+    <view
+      class="cu-item arrow"
+      bindtap="selectColor"
+      data-cur="{{item.color || item}}"
+      wx:for="{{colorList}}"
+      wx:key="index"
+    >
+      <view class="content">
+        <text
+          class="cuIcon-github text-grey"
+          style="background-color:{{item.color || item}};height: 1.6em;width: 2.4em;margin-right: 36rpx;"
+        ></text>
+        <text class="text-grey">{{item.title || item}}</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>
