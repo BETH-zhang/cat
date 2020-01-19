@@ -71,25 +71,27 @@ Component({
       console.log(this.data.imgPath, this.data.shareImg)
       if (this.data.imgPath) {
         const themeCur = e.currentTarget.dataset.id
-        const data = this.optPictureData()
-        let template = null
-        switch(themeCur) {
-          case 1:
-            template = new colorCardTheme0().palette(data)
-            break;
-          case 2:
-            template = new colorCardTheme1().palette(data)
-            break;
-          case 3:
-            template = new colorCardTheme2().palette(data)
-            break;
-          default:
-            break;
+        const data = this.download()
+        if (data) {
+          let template = null
+          switch(themeCur) {
+            case 1:
+              template = new colorCardTheme0().palette(data)
+              break;
+            case 2:
+              template = new colorCardTheme1().palette(data)
+              break;
+            case 3:
+              template = new colorCardTheme2().palette(data)
+              break;
+            default:
+              break;
+          }
+          this.setData({
+            themeCur: themeCur,
+            template: template,
+          })
         }
-        this.setData({
-          themeCur: themeCur,
-          template: template,
-        })
       } else {
         wx.showToast({
           icon: 'none',
@@ -231,8 +233,9 @@ Component({
           shareImg: '',
         })
       } else {
-        this.optPictureData()
+        return this.optPictureData()
       }
+      return null
     },
 
     getColorsReverse(colors) {
