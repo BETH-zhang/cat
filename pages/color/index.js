@@ -1,7 +1,9 @@
 import ColorThief from '../../utils/color-thief.js'
 // import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
-import ColorCard from '../../data/colorCard'
+import colorCardTheme0 from '../../data/colorCardTheme0'
+import colorCardTheme1 from '../../data/colorCardTheme1'
+import colorCardTheme2 from '../../data/colorCardTheme2'
 import {
   rgbToHex,
   saveBlendent,
@@ -17,7 +19,7 @@ Component({
     addGlobalClass: true,
   },
   data: {
-    TabCur: 1,
+    TabCur: 0,
     scrollLeft:0,
     tabs: [{
       index: 0,
@@ -26,6 +28,8 @@ Component({
       index: 1,
       name: '色卡'
     }],
+    themes: ['无', '模板1', '模板2', '模板3'],
+    themeCur: 0,
 
     imgPath: null,
     shareImg: null,
@@ -62,6 +66,37 @@ Component({
         TabCur: e.currentTarget.dataset.id,
         scrollLeft: (e.currentTarget.dataset.id-1)*60
       })
+    },
+    themeSelect(e) {
+      console.log(this.data.imgPath, this.data.shareImg)
+      if (this.data.imgPath) {
+        const themeCur = e.currentTarget.dataset.id
+        const data = this.optPictureData()
+        let template = null
+        switch(themeCur) {
+          case 1:
+            template = new colorCardTheme0().palette(data)
+            break;
+          case 2:
+            template = new colorCardTheme1().palette(data)
+            break;
+          case 3:
+            template = new colorCardTheme2().palette(data)
+            break;
+          default:
+            break;
+        }
+        this.setData({
+          themeCur: themeCur,
+          template: template,
+        })
+      } else {
+        wx.showToast({
+          icon: 'none',
+          title: '先添加一张图片',
+          duration: 1000,
+        })
+      }
     },
     SettingEventListener(e) {
       console.log(e.detail, '..SettingEventListener...', this.data.setting)
@@ -121,7 +156,7 @@ Component({
                 height,
                 imgPath
               } = imgInfo;
-              let scale = 0.8 * this.screenWidth / Math.max(width, height);
+              let scale = 0.9 * this.screenWidth / Math.max(width, height);
               let canvasWidth = Math.floor(scale * width);
               let canvasHeight = Math.floor(scale * height);
               this.setData({
@@ -230,32 +265,7 @@ Component({
         colorsReverse: this.getColorsReverse(this.data.colors)
       }
 
-      this.setData({
-        template: new ColorCard().palette(data),
-      })
-      // this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
-      //   data.avatar = res.path
-      //   this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
-      //     data.qrcode = res.path
-      //     console.log('data: ', data, this.appCanvas)
-
-      //     this.appCanvas.createShareColorCard(data, {
-      //       color: this.data.bgColor,
-      //       fontColor: this.data.fontColor,
-      //       showGrid: this.data.showGrid
-      //     })
-      //     // canvas画图需要时间而且还是异步的，所以加了个定时器
-      //     setTimeout(() => {
-      //       // 将生成的canvas图片，转为真实图片
-      //       console.log('生成图片')
-      //       this.tempCanvas(() => {
-      //         console.log('生成分享图')
-      //         this.setData({ showModal: true })
-      //         wx.hideLoading()
-      //       })
-      //     }, 500)
-      //   })
-      // })
+      return data
     },
 
     onImgOK(e) {

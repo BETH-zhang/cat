@@ -18,7 +18,8 @@ Page {
 } 
 
 .scrollPage {
-  height: 95vh;
+  height: 86vh;
+  background: #f2f2f2;
 }
 
 .float-right {

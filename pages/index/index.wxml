@@ -21,13 +21,13 @@
     <view class="{{PageCur=='flag'?'text-blue':'text-gray'}}">Flag</view>
   </view>
   -->
-  <view class="action" bindtap="NavChange" data-cur="convert">
-    <i style="font-size: 32rpx;" class="iconfont icon-wuguan {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
-    <view class="{{PageCur=='convert'?'text-blue':'text-gray'}}">AI像素</view>
-  </view>
   <view class="action" bindtap="NavChange" data-cur="color">
     <i style="font-size: 32rpx;" class="iconfont icon-seqia {{PageCur=='color'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='color'?'text-blue':'text-gray'}}">色卡</view>
+  </view>
+  <view class="action" bindtap="NavChange" data-cur="convert">
+    <i style="font-size: 32rpx;" class="iconfont icon-wuguan {{PageCur=='convert'?'text-blue':'text-gray'}}"></i>
+    <view class="{{PageCur=='convert'?'text-blue':'text-gray'}}">AI像素</view>
   </view>
   <view class="action" bindtap="NavChange" data-cur="work">
     <i style="font-size: 32rpx;" class="iconfont icon-icon- {{PageCur=='work'?'text-blue':'text-gray'}}"></i>

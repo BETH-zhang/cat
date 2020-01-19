@@ -2,7 +2,9 @@ import Template1 from '../../data/card';
 import Template2 from '../../data/image-example'
 import Template3 from '../../data/shadow-example'
 import Template4 from '../../data/text-example'
-import ColorCard from '../../data/colorCard'
+import ColorCardTheme0 from '../../data/colorCardTheme0'
+import ColorCardTheme1 from '../../data/colorCardTheme1'
+import ColorCardTheme2 from '../../data/colorCardTheme2'
 import PixelCard from '../../data/pixelCard'
 const app = getApp();
 
@@ -23,7 +25,7 @@ Component({
     },
     ready() {
       console.log('flag')
-      this.createTemplate('6')
+      this.createTemplate('5')
     },
     moved() {
       console.log('moved')
@@ -80,7 +82,35 @@ Component({
             colors: ['red', 'red', 'red', 'red', 'red']
           }
           this.setData({
-            template: new ColorCard().palette(data),
+            template: new ColorCardTheme2().palette(data),
+          })
+          break;
+        case '7':
+          const data2 = {
+            avatar: userInfo.avatarUrl,
+            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            name: userInfo.nickName,
+            title: '色卡分享',
+            time: '2020.1.1',
+            imgInfo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            colors: ['red', 'red', 'red', 'red', 'red']
+          }
+          this.setData({
+            template: new ColorCardTheme0().palette(data2),
+          })
+          break;
+        case '8':
+          const data3 = {
+            avatar: userInfo.avatarUrl,
+            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            name: userInfo.nickName,
+            title: '色卡分享',
+            time: '2020.1.1',
+            imgInfo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            colors: ['red', 'red', 'red', 'red', 'red']
+          }
+          this.setData({
+            template: new ColorCardTheme1().palette(data3),
           })
           break;
         case '6':

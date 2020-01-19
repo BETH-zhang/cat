@@ -2,7 +2,7 @@ const startTop = 40;
 const startLeft = 40;
 const width = 654;
 const height = 1040;
-const defaultProportion = 4 / 3
+const defaultProportion = 1
 
 export default class ColorCard {
   palette(data) {
@@ -25,17 +25,19 @@ export default class ColorCard {
         colors.push(_colorText(index, item, 0))
       }
     })
-    data.colorsReverse.forEach((item, index) => {
-      if (index < 5) {
-        colorsReverse.push(_color(index, item, 1))
-        colorsReverse.push(_colorText(index, item, 1))
-      }
-    })
+    if (data.colorsReverse) {
+      data.colorsReverse.forEach((item, index) => {
+        if (index < 5) {
+          colorsReverse.push(_color(index, item, 1))
+          colorsReverse.push(_colorText(index, item, 1))
+        }
+      })
+    }
 
     return ({
       width: `${width}rpx`,
       height: `${height}rpx`,
-      background: '#ffffff',
+      background: '#20243d',
       views: [
         {
           type: 'image',
@@ -43,8 +45,8 @@ export default class ColorCard {
           css: {
             top: `${startTop}rpx`,
             left: `${startLeft}rpx`,
-            width: '96rpx',
-            height: '96rpx',
+            width: '64rpx',
+            height: '64rpx',
             rotate: 0,
             borderRadius: '48rpx',
           },
@@ -54,17 +56,18 @@ export default class ColorCard {
           text: data.name,
           css: {
             top: `${startTop}rpx`,
-            left: `${startLeft * 1.5 + 96}rpx`,
-            fontSize: '36rpx'
+            left: `${startLeft * 1.5 + 64}rpx`,
+            fontSize: '24rpx',
+            color: '#ccc',
           },
         },
         {
           type: 'text',
           text: data.time,
           css: {
-            top: `${startTop + 55}rpx`,
-            left: `${startLeft * 1.5 + 96}rpx`,
-            fontSize: '28rpx',
+            top: `${startTop + 40}rpx`,
+            left: `${startLeft * 1.5 + 64}rpx`,
+            fontSize: '16rpx',
             color: '#666',
           },
         },
@@ -74,10 +77,10 @@ export default class ColorCard {
           css: {
             top: `${startTop}rpx`,
             right: `${startLeft}rpx`,
-            width: '96rpx',
-            height: '96rpx',
+            width: '64rpx',
+            height: '64rpx',
             rotate: 0,
-            borderRadius: '24rpx',
+            borderRadius: '48rpx',
           },
         },
         {
@@ -86,7 +89,7 @@ export default class ColorCard {
             width: `${width}rpx`,
             height: `${width / defaultProportion}rpx`,
             color: '#ccc',
-            top: `${startTop * 2 + 96}rpx`,
+            top: `${startTop * 2 + 64}rpx`,
             left: 0,
           },
         },
@@ -94,7 +97,7 @@ export default class ColorCard {
           type: 'image',
           url: data.imgInfo.path,
           css: {
-            top: `${startTop * 2 + 96}rpx`,
+            top: `${startTop * 2 + 64}rpx`,
             left: 0,
             width: `${width}rpx`,
             height: `${width / defaultProportion}rpx`,
@@ -107,30 +110,20 @@ export default class ColorCard {
             width: `${width}rpx`,
             height: `${width / defaultProportion}rpx`,
             color: '#20243d',
-            top: `${startTop * 2 + 96 + width / defaultProportion}rpx`,
+            top: `${startTop * 2 + 64 + width / defaultProportion}rpx`,
             left: 0,
           },
         },
         ...colors,
-        // _color(0, 'red'),
-        // _color(1, 'red'),
-        // _color(2, 'red'),
-        // _color(3, 'red'),
-        // _color(4, 'red'),
-        // _colorText(0, 'red'),
-        // _colorText(1, 'red'),
-        // _colorText(2, 'red'),
-        // _colorText(3, 'red'),
-        // _colorText(4, 'red'),
         {
           type: 'text',
           text: "程小元像素",
           css: {
             width: `${width}rpx`,
             left: `${width / 2}rpx`,
-            bottom: `${startLeft * 2}rpx`,
+            bottom: `${startLeft}rpx`,
             fontWeight: 'bold',
-            fontSize: '100rpx',
+            fontSize: '50rpx',
             color: '#2e2c42',
             align: 'center',
             textAlign: 'center',
@@ -142,8 +135,8 @@ export default class ColorCard {
   }
 }
 
-const colorTop = startTop * 2 + 96 + width / defaultProportion + startLeft
-const colorGap = Math.floor((width - startLeft * 2) / 14)
+const colorTop = startTop * 2 + 64 + width / defaultProportion + startLeft
+const colorGap = Math.floor((width - startLeft * 6) / 14)
 const colorWidth = colorGap * 2
 
 function _color(index, color, row) {
@@ -153,7 +146,7 @@ function _color(index, color, row) {
       width: `${colorWidth}rpx`,
       height: `${colorWidth}rpx`,
       top: `${colorTop + row * (colorTop + colorGap * 3.5)}rpx`,
-      left: `${startLeft + colorGap * 3 * index}rpx`,
+      left: `${startLeft * 3 + colorGap * 3 * index}rpx`,
       color,
       borderRadius: `${colorGap}rpx`,
       borderWidth: '5rpx',
@@ -168,10 +161,10 @@ function _colorText(index, color, row) {
     text: color,
     css: {
       top: `${colorTop + colorGap * 2.5 + row * (colorTop + colorGap * 3.5)}rpx`,
-      left: `${startLeft + colorGap * 3 * index + colorGap}rpx`,
+      left: `${startLeft * 3 + colorGap * 3 * index + colorGap}rpx`,
       color: '#ffffff',
       width: `${colorGap * 3}rpx`,
-      // fontSize: '12rpx',
+      fontSize: '14rpx',
       align: 'center',
       textAlign: 'center',
     },

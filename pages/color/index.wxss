@@ -5,7 +5,7 @@
 
 .box-container .img-placeholder {
     margin: 0 auto;
-    margin-top: 100rpx;
+    margin-top: 170rpx;
 }
 
 .box-container .colors-container,
@@ -21,3 +21,18 @@
     left: -100%;
 }
 
+.color-card-export {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.bg-img {
+    color: #fff;
+    font-size: 35rpx;
+    line-height: 150rpx;
+}
+
+.bg-img-border {
+    border: 3px solide #000;
+}
