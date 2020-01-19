@@ -1,6 +1,6 @@
 <view>
   <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
-    <i style="font-size: 200rpx;" class="iconfont icon-shangchuantupian text-white"></i>
+    <i style="font-size: 160rpx;" class="iconfont icon-shangchuantupian text-blue"></i>
   </view>
   <canvas
     wx:if="{{imgPath}}"

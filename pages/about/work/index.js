@@ -9,6 +9,7 @@ Component({
   },
   data: {
     works: [],
+    loadModal: false,
   },
   attached() {
     console.log('role', this.data.role)
@@ -25,6 +26,7 @@ Component({
       });
     },
     initMasterData() {
+      this.setData({ loadModal: true })
       console.log('initMasterData: ')
       wx.request({
         url: 'https://static.uskid.com/courseware/k3kfd8nt_y75zvuMAYomVetvAnX5CrVxA.json', //这里填写你的接口路径
@@ -41,6 +43,7 @@ Component({
           this.setData({
             works,
             urls,
+            loadModal: false,
           })
         }
        })

@@ -3,8 +3,8 @@
 <convert wx:if="{{PageCur==='convert'}}"></convert>
 <flag wx:if="{{PageCur==='flag'}}"></flag>
 <work role="master" wx:if="{{PageCur==='work'}}"></work>
-<pixel bindhomeevent="myEventListener" wx:if="{{PageCur==='pixel'}}"></pixel>
-<home wx:if="{{PageCur==='home'}}"></home>
+<pixel bindpixelevent="myEventListener" wx:if="{{PageCur==='pixel'}}"></pixel>
+<home bindhomeevent="myEventListener" wx:if="{{PageCur==='home'}}"></home>
 
 <view wx:if="{{PageCur!=='pixel'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="home">

@@ -1,3 +1,8 @@
+.box-container {
+    text-align: center;
+    padding: 30rpx;
+}
+
 .box-container .img-placeholder {
     margin: 0 auto;
     margin-top: 100rpx;
@@ -9,3 +14,10 @@
     margin: 0 auto;
     margin-top: 30rpx;
 }
+
+.box-container .image-handler {
+    position: absolute;
+    top: 0;
+    left: -100%;
+}
+

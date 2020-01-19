@@ -3,7 +3,7 @@ const app = getApp();
 Page({
   data: {
     PageCur: 'home',
-    // PageCur: 'convert',
+    PageCur: 'color',
   },
   onLoad() {
     console.log('basics', this.data.PageCur)

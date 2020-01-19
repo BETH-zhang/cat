@@ -12,31 +12,16 @@ Component({
     swiperList: [{
       id: 0,
       type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
+      url: 'https://wx3.sinaimg.cn/mw690/9f7ff7afly1gb1tdnjoywj20p00an77w.jpg',
     }, {
       id: 1,
-        type: 'image',
-        url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84001.jpg',
+      type: 'image',
+      url: 'https://wx2.sinaimg.cn/mw690/9f7ff7afly1gb1tdnig4tj20p00dwgy2.jpg',
     }, {
       id: 2,
       type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
-    }, {
-      id: 3,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'
-    }, {
-      id: 4,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg'
-    }, {
-      id: 5,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big21016.jpg'
-    }, {
-      id: 6,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
+      url: 'https://wx2.sinaimg.cn/mw690/9f7ff7afly1g9feslpr2rj20j60j5djg.jpg',
+      link: 'work',
     }],
   },
   attached() {
@@ -46,6 +31,20 @@ Component({
   },
   methods: {
     initData() {
+    },
+    jumpPage(e) {
+      console.log('e: ', e)
+      const swiperIndex = e.target.dataset.cur;
+      this.data.swiperList.forEach((item, index) => {
+        console.log(index, swiperIndex, item.link, index === swiperIndex)
+        if (index === swiperIndex && item.link) {
+          var myEventDetail = {
+            PageCur: item.link,
+          } // detail对象，提供给事件监听函数
+          var myEventOption = {} // 触发事件的选项
+          this.triggerEvent('homeevent', myEventDetail, myEventOption)
+        }
+      })
     },
     DotStyle(e) {
       this.setData({

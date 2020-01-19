@@ -17,6 +17,16 @@ Component({
     addGlobalClass: true,
   },
   data: {
+    TabCur: 1,
+    scrollLeft:0,
+    tabs: [{
+      index: 0,
+      name: '添加图片',
+    }, {
+      index: 1,
+      name: '色卡'
+    }],
+
     imgPath: null,
     shareImg: null,
     colors: [],
@@ -47,6 +57,12 @@ Component({
     },
   },
   methods: {
+    tabSelect(e) {
+      this.setData({
+        TabCur: e.currentTarget.dataset.id,
+        scrollLeft: (e.currentTarget.dataset.id-1)*60
+      })
+    },
     SettingEventListener(e) {
       console.log(e.detail, '..SettingEventListener...', this.data.setting)
       switch(this.data.setting) {
@@ -82,6 +98,10 @@ Component({
       // const ctx = wx.createCanvasContext('mainCanvas', this) 
       // this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
     },
+    addImage: function() {
+      this.setData({ TabCur: 0 })
+      this.chooseImg()
+    },
     chooseImg: function() {
       wx.chooseImage({
         count: 1,
@@ -95,6 +115,7 @@ Component({
           wx.getImageInfo({
             src: res.tempFilePaths[0],
             success: (imgInfo) => {
+              console.log('imgInfo: ', imgInfo)
               let {
                 width,
                 height,
@@ -126,6 +147,7 @@ Component({
                     colors,
                     state: STATE_SUCCEED
                   })
+                  this.saveColorCard()
                 }
               });
             }
@@ -133,8 +155,13 @@ Component({
         }
       }, this)
     },
-    save: function() {
-      saveBlendent({colors:this.data.colors});
+    saveColorCard: function() {
+      saveBlendent({colors:this.data.colors}, () => {
+        wx.showToast({
+          title: '色卡自动保存',
+          icon: 'success'
+        })
+      });
       var colorList = wx.getStorageSync('colors') || []
       this.setData({ colorList })
     },

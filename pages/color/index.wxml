@@ -13,13 +13,25 @@
   </view>
 </view>
 
+<scroll-view scroll-x class="bg-white nav text-center">
+  <view class="cu-item {{index==TabCur?'text-blue cur':''}}" wx:for="{{tabs}}" wx:key="item" bindtap="tabSelect" data-id="{{index}}">
+    {{item.name}}
+  </view>
+</scroll-view>
+
 <scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal ? 'none' : 'block' }}">
-   <view class="box-container">
-    <!--
-    <image wx:if="{{imgPath}}" src='{{imgPath}}' mode='widthFix' class='target'></image>
-    -->
+  <view class="box-container" wx:if="{{TabCur === 0}}">
+    <image
+      wx:if="{{imgPath}}"
+      src='{{imgPath}}'
+      mode='widthFix'
+      class='target'
+      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
+      bindtap='chooseImg'
+    ></image>
+
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
-      <i style="font-size: 200rpx;" class="iconfont icon-shangchuantupian text-white"></i>
+      <i style="font-size: 160rpx;" class="iconfont icon-shangchuantupian text-blue"></i>
     </view>
 
     <canvas
@@ -30,6 +42,8 @@
       canvas-id="imageHandler"
       bindtap='chooseImg'
     ></canvas>
+    
+    <!--
     <view
       wx:if="{{colors.length}}"
       class='colors-container'
@@ -38,32 +52,43 @@
     >
       <view wx:for="{{colors}}" wx:key="item" class='color' style='{{"background-color:"+item}}'></view>
     </view>
+    -->
     <view wx:if="{{colors.length}}" class='button-container'>
-      <view class='primary-button' bindtap='save'>导入色板</view>
-      <!--
-      <view class='primary-button' bindtap='edit'>调色</view>
-      -->
       <view class='primary-button' bindtap='download'>生成色卡</view>
     </view>
   </view>
-  <view
-    wx:if="{{colorList.length}}"
-    wx:for="{{colorList}}"
-    wx:key="item"
-    style="margin-top: 100rpx;"
-  >
+  <view class="box-container" wx:if="{{TabCur === 1}}">
     <view
-      class='colors-container'
-      style='{{"width:"+item.colors.length * 40 + "px;"}}; margin: 0 auto; margin-top: 40rpx;'
-      bindtap='edit'
+      wx:if="{{colorList.length}}"
+      wx:for="{{colorList}}"
+      wx:key="item"
     >
-      <view class='primary-button' bindtap='delete' data-cur="{{index}}">删除</view> 
-      <view
-        wx:for="{{item.colors}}"
-        wx:key="index"
-        class='color'
-        style='{{"background-color:"+item}}'
-      ></view>
+      <view class="cu-bar bg-white solid-bottom">
+        <view style="width: 100%; text-align: left;">
+          <text class="cuIcon-title text-blue"></text>色卡{{index}}
+          <view style="float: right;" bindtap='delete' data-cur="{{index}}">删除</view>
+        </view>
+      </view>
+      <view class="grid col-3 padding-sm">
+        <view class="padding-sm" wx:for="{{item.colors}}" wx:key>
+          <view class="padding radius text-center shadow-blur" style='{{"background-color:"+item}}'>
+            <view class="text-lg">{{item}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="solids-bottom padding-xs flex align-center" wx:if="{{!colorList.length}}">
+      <view class="flex-sub text-center">
+        <view class="solid-bottom text-xsl padding">
+          <i style="font-size: 120rpx;" class="iconfont icon-empty cuIcon-roundcheckfill text-blue"></i>
+        </view>
+        <view class="padding">暂时没有色卡，添加一张图片试试</view>
+      </view>
+    </view>
+    <view class="solids-bottom padding-xs flex align-center" wx:if="{{!colorList.length}}"> 
+      <button style="width: 100%" class="cu-btn block bg-blue margin-tb-sm lg" bindtap="addImage">
+        添加图片
+      </button>
     </view>
   </view>
   <view class="cu-tabbar-height"></view>

@@ -176,7 +176,7 @@ function colorsEqual(colors1,colors2) {
   return true;
 }
 
-function saveBlendent({colors,uuid}) {
+function saveBlendent({colors,uuid}, callback) {
   let data = wx.getStorageSync('colors') || [];
   if(!uuid){
     for (let i = 0; i < data.length; i++) {
@@ -202,10 +202,9 @@ function saveBlendent({colors,uuid}) {
     data: data,
     complete: () => {
       console.log('save complete')
-      wx.showToast({
-        title: '保存成功！',
-        icon: 'success'
-      })
+      if (callback) {
+        callback()
+      }
     }
   })
 }
