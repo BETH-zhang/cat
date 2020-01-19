@@ -7,6 +7,10 @@
 <home wx:if="{{PageCur==='home'}}"></home>
 
 <view wx:if="{{PageCur!=='pixel'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="NavChange" data-cur="home">
+    <i style="font-size: 32rpx;" class="iconfont icon-shouye {{PageCur=='home'?'text-blue':'text-gray'}}"></i>
+    <view class="{{PageCur=='home'?'text-blue':'text-gray'}}">首页</view>
+  </view>
   <view class="action" bindtap="NavChange" data-cur="pixel">
     <i style="font-size: 32rpx;" class="iconfont icon-noun__cc {{PageCur=='pixel'?'text-blue':'text-gray'}}"></i>
     <view class="{{PageCur=='pixel'?'text-blue':'text-gray'}}">像素画</view>

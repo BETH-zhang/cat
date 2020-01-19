@@ -135,21 +135,29 @@ Component({
           })
           break
         case 'generate':
-          this.appCanvas.ctx.clearRect(0, 0, this.data.width, this.data.height)
-          this.appCanvas.fillRect(0, 0, this.data.width, this.data.height, this.data.bgColor)
-          this.appCanvas.draw()
-          this.tempCanvas()
-          wx.showLoading({
-            title: '图片生成中',
-          })
-          setTimeout(() => {
-            this.setData({
-              toolType: '',
-              hideCanvas: false,
-            }, () => {
-              this.savePicture()
+          if (this.appCanvas.data) {
+            this.appCanvas.ctx.clearRect(0, 0, this.data.width, this.data.height)
+            this.appCanvas.fillRect(0, 0, this.data.width, this.data.height, this.data.bgColor)
+            this.appCanvas.draw()
+            this.tempCanvas()
+            wx.showLoading({
+              title: '图片生成中',
             })
-          }, 500)
+            setTimeout(() => {
+              this.setData({
+                toolType: '',
+                hideCanvas: false,
+              }, () => {
+                this.savePicture()
+              })
+            }, 500)
+          } else {
+            wx.showToast({
+              title: '画点东西试试',
+              icon: 'none',
+              duration: 1000
+            }) 
+          }
           break
       }
     },

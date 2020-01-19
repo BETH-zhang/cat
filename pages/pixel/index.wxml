@@ -57,13 +57,9 @@
 -->
 
 <view wx:if="{{PageCur==='home'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
-  <view class="action" bindtap="ToolChange" data-cur="undo">
-    <i style="font-size: 32rpx;" class="iconfont icon-chexiao1 text-gray"></i>
-    <view class="text-gray">撤销</view>
-  </view>
-  <view class="action" bindtap="ToolChange" data-cur="clean">
-    <i style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-gray"></i>
-    <view class="text-gray">清除</view>
+  <view class="action" bindtap="NavChange" data-cur="home">
+    <i style="font-size: 32rpx;" class="iconfont icon-shouye text-gray"></i>
+    <view class="text-gray">首页</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="{{toolType=='brush' ? 'eraser' : 'brush'}}">
     <i style="font-size: 32rpx;" class="iconfont {{toolType=='brush' ? 'icon-huabi1' : 'icon-icon-test'}} text-blue"></i>
@@ -73,13 +69,17 @@
     <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='swatches'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='swatches'?'text-blue':'text-gray'}}">色板</view>
   </view>
+  <view class="action" bindtap="ToolChange" data-cur="undo">
+    <i style="font-size: 32rpx;" class="iconfont icon-chexiao1 text-gray"></i>
+    <view class="text-gray">撤销</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="clean">
+    <i style="font-size: 32rpx;" class="iconfont icon-qingchu1 text-gray"></i>
+    <view class="text-gray">清除</view>
+  </view>
   <view class="action" bindtap="ToolChange" data-cur="generate">
     <i style="font-size: 32rpx;" class="iconfont icon-shengchengkaipiaoshenqingdan {{toolType=='generate'?'text-blue':'text-gray'}}"></i>
     <view class="{{toolType=='generate'?'text-blue':'text-gray'}}">生成</view>
-  </view>
-  <view class="action" bindtap="NavChange" data-cur="about">
-    <i style="font-size: 32rpx;" class="iconfont icon-houzi text-gray"></i>
-    <view class="text-gray">程小元</view>
   </view>
 </view>
 

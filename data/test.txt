@@ -16,8 +16,8 @@ button {
 
 "tabBar": {
     "custom": true,
-    "color": "#cccccc",
-    "selectedColor": "#000000",
+    "color": "#ccc",
+    "selectedColor": "#000",
     "list": [{
       "pagePath": "pages/index/index",
       "iconPath": "images/tabbar/logo-icon.png",

@@ -83,9 +83,9 @@
       <view class="cu-item">
         <view class="content" style="line-height: 2.6em;">
           <button style="background: none;padding: 0;border: 0;width: 100%;text-align: left;margin: 0;line-height: 2.6em;" class="text-grey float-right contact-author" open-type="contact">
-            <text style="font-size: 42rpx;" class="iconfont icon-zuozhe text-black"></text>
-            <text class="text-grey" style="font-size: 32rpx;margin-left: 5px">联系程小元</text>
-            <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
+            <text style="font-size: 40rpx;" class="iconfont icon-zuozhe text-black"></text>
+            <text class="text-grey" style="font-size: 30rpx;margin-left: 5px">联系程小元</text>
+            <text style="font-size: 30rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
           </button>
         </view>
       </view>
