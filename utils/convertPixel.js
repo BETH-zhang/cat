@@ -9,7 +9,7 @@ class ConvertPixel {
     this.scale = 0.25
     this.mode = 0 // 0 彩色 1 黑白
     this.interval = 50
-    this.numberGird = 25
+    this.numberGird = 50
   }
 
   setParams = () => {}
@@ -34,8 +34,9 @@ class ConvertPixel {
       if (rowRemainder && colRemainder) {
         const rowStart = Math.floor(row / this.interval) * this.interval
         const colStart = Math.floor(col / this.interval) * this.interval
-        const index = (colStart - 1) * imageData.width * 4 + rowStart * 4
+        const index = rowStart * imageData.width * 4 + colStart * 4
         const alpha = 255
+        // console.log(colStart, rowStart, index, row, col)
 
         data[index] = Math.min(data[i], data[index])
         data[index + 1] = Math.min(data[i + 1], data[index + 1])
@@ -87,12 +88,14 @@ class ConvertPixel {
         y: 0,
         width: width,
         height: height,
+        quality: 0,
         success: (res) => {
           console.log('获取缩放图信息', res)
           console.log(res.width) // 100
           console.log(res.height) // 100
           console.log(res.data instanceof Uint8ClampedArray) // true
           console.log(res.data.length) // 100 * 100 * 4
+
           // 阈值处理
           this.thresholdConvert(res, () => {
             wx.canvasToTempFilePath({
@@ -135,6 +138,7 @@ class ConvertPixel {
         height: scaleHeight,
         destWidth: scaleWidth,
         destHeight: scaleHeight,
+        quality: 0,
         complete: (res) => {
           const imageFile = {
             tempFilePath: res.tempFilePath,
