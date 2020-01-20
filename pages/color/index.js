@@ -28,7 +28,7 @@ Component({
       index: 1,
       name: '色卡'
     }],
-    themes: ['无', '模板1', '模板2', '模板3'],
+    themes: ['模板1', '模板2', '模板3'],
     themeCur: 0,
 
     imgPath: null,
@@ -76,13 +76,13 @@ Component({
         if (data) {
           let template = null
           switch(themeCur) {
-            case 1:
+            case 0:
               template = new colorCardTheme0().palette(data)
               break;
-            case 2:
+            case 1:
               template = new colorCardTheme1().palette(data)
               break;
-            case 3:
+            case 2:
               template = new colorCardTheme2().palette(data)
               break;
             default:

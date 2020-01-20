@@ -2,7 +2,7 @@ const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
 import GestureRecognition from '../../utils/gestureRecognition'
-import PixelCard from '../../data/pixelCard';
+import pixelCardTheme0 from '../../data/pixelCardTheme0';
 import {
   requestAnimationFrame,
   cancelAnimationFrame
@@ -413,31 +413,8 @@ Component({
       }
 
       this.setData({
-        template: new PixelCard().palette(data),
+        template: new pixelCardTheme0().palette(data),
       })
-      // this.wxUtils.downLoadImg(data.avatar, 'avatar').then((res) => {
-      //   data.avatar = res.path
-      //   this.wxUtils.downLoadImg(data.qrcode, 'qrcode').then((res) => {
-      //     data.qrcode = res.path
-      //     console.log('data: ', data)
-
-      //     this.appCanvas.createSharePicture(data, {
-      //       color: this.data.bgColor,
-      //       fontColor: this.data.fontColor,
-      //       showGrid: this.data.showGrid
-      //     })
-      //     // canvas画图需要时间而且还是异步的，所以加了个定时器
-      //     setTimeout(() => {
-      //       // 将生成的canvas图片，转为真实图片
-      //       console.log('生成图片')
-      //       this.tempCanvas(() => {
-      //         console.log('生成分享图')
-      //         this.setData({ showModal: true })
-      //         wx.hideLoading()
-      //       })
-      //     }, 500)
-      //   })
-      // })
     },
 
     onImgOK(e) {

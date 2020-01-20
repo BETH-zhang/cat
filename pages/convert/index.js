@@ -1,7 +1,7 @@
 // import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
 import ConvertPixel from '../../utils/convertPixel'
-
+import pixelCardTheme1 from '../../data/pixelCardTheme1';
 const app = getApp();
 
 Component({
@@ -18,7 +18,7 @@ Component({
       index: 1,
       name: '临摹'
     }],
-    themes: ['无', '模板1', '模板2', '模板3'],
+    themes: ['模板1'],
     themeCur: 0,
 
     imgPath: null,
@@ -53,23 +53,20 @@ Component({
       console.log(this.data.imgPath, this.data.shareImg)
       if (this.data.imgPath) {
         const themeCur = e.currentTarget.dataset.id
-        this.setData({ themeCur: themeCur })
+        console.log('themeCur: ', themeCur)
         const data = this.download()
+        console.log('data: ', data)
         if (data) {
           let template = null
           switch(themeCur) {
-            // case 1:
-            //   template = new colorCardTheme0().palette(data)
-            //   break;
-            // case 2:
-            //   template = new colorCardTheme1().palette(data)
-            //   break;
-            // case 3:
-            //   template = new colorCardTheme2().palette(data)
-            //   break;
-            // default:
-            //   break;
+            case 0:
+              template = new pixelCardTheme1().palette(data)
+              break;
+            default:
+              break;
           }
+
+          console.log('template: ', template)
           this.setData({
             themeCur: themeCur,
             template: template,
@@ -159,7 +156,8 @@ Component({
               }, (imgInfo) => {
                 wx.hideLoading()
                 this.setData({
-                  imgPath: imgInfo.tempFilePath
+                  imgPath: imgInfo.tempFilePath,
+                  imgInfo,
                 })
               });
             }
@@ -192,11 +190,11 @@ Component({
         avatar: app.globalData.userInfo.avatarUrl,
         qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
         name: app.globalData.userInfo.nickName,
-        title: '色卡分享',
+        title: '程小元像素画',
+        description: '',
         time: time,
         imgInfo: this.data.imgInfo,
-        colors: this.data.colors,
-        colorsReverse: this.getColorsReverse(this.data.colors)
+        bgColor: '#fff',
       }
 
       return data

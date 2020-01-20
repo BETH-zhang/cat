@@ -2499,7 +2499,7 @@ button.icon.lg {
 	margin-right: auto;
 	width: 680rpx;
 	max-width: 100%;
-	background-color: #f8f8f8;
+	background-color: #ffffff;
 	border-radius: 10rpx;
 	overflow: hidden;
 }
@@ -3735,6 +3735,12 @@ scroll-view.cu-steps .cu-item {
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
+}
+
+.action-close {
+	position: absolute;
+	top: 25rpx;
+	right: 25rpx;
 }
 
 .bg-mask {

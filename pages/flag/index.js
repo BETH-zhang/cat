@@ -5,7 +5,7 @@ import Template4 from '../../data/text-example'
 import ColorCardTheme0 from '../../data/colorCardTheme0'
 import ColorCardTheme1 from '../../data/colorCardTheme1'
 import ColorCardTheme2 from '../../data/colorCardTheme2'
-import PixelCard from '../../data/pixelCard'
+import pixelCardTheme0 from '../../data/pixelCardTheme0'
 const app = getApp();
 
 Component({
@@ -130,7 +130,7 @@ Component({
             bgColor: '#c00',
           }
           this.setData({
-            template: new PixelCard().palette(data1),
+            template: new pixelCardTheme0().palette(data1),
           });
         default:
           break;

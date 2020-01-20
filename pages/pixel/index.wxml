@@ -14,10 +14,20 @@
 
 <painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
 
-<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
-  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
-     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
-     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
+<view class="cu-modal {{showModal && shareImg?'show':''}}">
+  <view class="cu-dialog">
+    <view class="action-close" bindtap="hideModal">
+      <text style="font-size: 60rpx;" class="iconfont icon-close text-grey"></text>
+    </view>
+    <view class="bg-img" style="padding: 50rpx;margin: 0 auto;width: 600rpx; height:900rpx;" bindtap='hideModal'>
+      <view class="cu-bar justify-end text-white">
+        <image src="{{shareImg}}" style="width: 600rpx; height:900rpx;" />
+      </view>
+    </view>
+    <view class="cu-bar bg-white" style="margin: 0 auto;padding: 40rpx;width:80%">
+      <button class="cu-btn round" bindtap="saveImg" style="float: left;">保存</button>
+      <button class="cu-btn round bg-blue" open-type="share" data-cur="{{shareImg}}">转发</button>
+    </view>
   </view>
 </view>
 

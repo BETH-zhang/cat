@@ -7,18 +7,13 @@ const defaultProportion = width / (height - footerHeight)
 
 export default class PixelCard {
   palette(data) {
+    console.log('data: ', data)
     const proportion = data.imgInfo.width / data.imgInfo.height
-    let imgWidth = width - startLeft * 4
-    let imgHeight = height - footerHeight - startLeft * 4
-    let imgTop = startLeft * 2
-    let imgLeft = startLeft * 2
-    if (proportion > defaultProportion) {
-      imgHeight = imgWidth / proportion
-      imgTop = (height - imgHeight) / 2
-    } else if (proportion < defaultProportion) {
-      imgWidth = imgHeight * proportion
-      imgLeft = (width - imgWidth) / 2
-    }
+    let imgWidth = width
+    let imgHeight = Math.min(imgWidth / proportion, height - footerHeight)
+    let imgTop = 0
+    let imgLeft = 0
+    height = imgHeight + footerHeight
 
     return ({
       width: `${width}rpx`,
@@ -37,7 +32,7 @@ export default class PixelCard {
         },
         {
           type: 'image',
-          url: data.imgInfo.tempFilePath,
+          url: data.imgInfo.tempFilePath || data.imgInfo.path,
           css: {
             width: `${imgWidth}rpx`,
             height: `${imgHeight}rpx`,
