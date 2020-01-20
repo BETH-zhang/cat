@@ -6,6 +6,7 @@ import ColorCardTheme0 from '../../data/colorCardTheme0'
 import ColorCardTheme1 from '../../data/colorCardTheme1'
 import ColorCardTheme2 from '../../data/colorCardTheme2'
 import pixelCardTheme0 from '../../data/pixelCardTheme0'
+import pixelCardTheme1 from '../../data/pixelCardTheme1';
 const app = getApp();
 
 Component({
@@ -25,7 +26,7 @@ Component({
     },
     ready() {
       console.log('flag')
-      this.createTemplate('5')
+      this.createTemplate('9')
     },
     moved() {
       console.log('moved')
@@ -132,6 +133,25 @@ Component({
           this.setData({
             template: new pixelCardTheme0().palette(data1),
           });
+        case '9':
+          const data4 = {
+            avatar: userInfo.avatarUrl,
+            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            name: userInfo.nickName,
+            title: '程小元像素画',
+            description: 'description',
+            time: '2020.1.1',
+            imgInfo: {
+              tempFilePath: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+              width: 40,
+              height: 30,
+            },
+            bgColor: '#fff',
+          }
+          this.setData({
+            template: new pixelCardTheme1().palette(data4),
+          });
+          break;
         default:
           break;
       }

@@ -4,8 +4,7 @@ const app = getApp();
 Page({
   data: {
     PageCur: 'home',
-    // PageCur: 'convert',
-    loginCount: 0,
+    // PageCur: 'flag',
   },
   onLoad() {
     console.log('basics', this.data.PageCur)
