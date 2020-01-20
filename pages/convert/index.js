@@ -71,6 +71,7 @@ Component({
             themeCur: themeCur,
             template: template,
           })
+          clearTimeout(this.timer)
         }
       } else {
         wx.showToast({
@@ -186,6 +187,10 @@ Component({
       wx.showLoading({
         title: '图片生成中',
       })
+      this.timer = setTimeout(() => {
+        wx.hideLoading()
+        clearTimeout(this.timer)
+      }, 10000)
       const date = new Date;
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
