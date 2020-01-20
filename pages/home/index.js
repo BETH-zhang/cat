@@ -23,6 +23,43 @@ Component({
       url: 'https://wx2.sinaimg.cn/mw690/9f7ff7afly1g9feslpr2rj20j60j5djg.jpg',
       link: 'work',
     }],
+    navs: [{
+      id: 0,
+      name: '像素画',
+      icon: 'icon-noun__cc',
+      link: 'pixel',
+      bg: 'bg-gradual-red',
+    }, {
+      id: 1,
+      name: '色卡',
+      icon: 'icon-seqia',
+      link: 'color',
+      bg: 'bg-gradual-orange',
+    }, {
+      id: 2,
+      name: 'AI像素',
+      icon: 'icon-wuguan',
+      link: 'convert',
+      bg: 'bg-gradual-green',
+    }, {
+      id: 3,
+      name: '大师作品',
+      icon: 'icon-icon-',
+      link: 'work',
+      bg: 'bg-gradual-blue',
+    }, {
+      id: 4,
+      name: '程小元',
+      icon: 'icon-houzi',
+      link: 'about',
+      bg: 'bg-gradual-purple',
+    }, {
+      id: 5,
+      name: '临摹',
+      icon: 'icon-fla',
+      link: '',
+      bg: 'bg-gradual-pink',
+    }],
   },
   attached() {
     console.log("home")
@@ -31,6 +68,17 @@ Component({
   },
   methods: {
     initData() {
+    },
+    selectNav(e) {
+      console.log('e: ', e)
+      const nav = e.currentTarget.dataset.cur;
+      if (nav) {
+        var myEventDetail = {
+          PageCur: nav,
+        } // detail对象，提供给事件监听函数
+        var myEventOption = {} // 触发事件的选项
+        this.triggerEvent('homeevent', myEventDetail, myEventOption)
+      }
     },
     jumpPage(e) {
       console.log('e: ', e)

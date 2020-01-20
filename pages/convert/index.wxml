@@ -1,20 +1,92 @@
-<view>
-  <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
-    <i style="font-size: 160rpx;" class="iconfont icon-shangchuantupian text-blue"></i>
+<authSetting
+  bindauthsettingevent="SettingEventListener"
+  wx:if="{{setting==='login'}}"
+  setting="{{setting}}"
+></authSetting>
+
+<painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
+
+<view class='share-modal-bg' wx:if="{{showModal && shareImg}}" bindtap='hideModal'>
+  <view class='canvas-wrap' catchlongpress='saveImg' catchtap='0'>
+     <view><image style="width: {{width * 0.8}}px; height: {{height * 0.8}}px;" src='{{shareImg}}' class='share-img'></image></view>
+     <view class="share-msg" bindtap='hideModal'>关闭 (长按图片保存)</view>
   </view>
-  <canvas
-    wx:if="{{imgPath}}"
-    style='{{"width:"+canvasWidth *0.09+"px;height:"+canvasHeight *0.09+"px;"}};'
-    canvas-id="cvCanvas"
-    class="cv-canvas"
-    bindtap='chooseImg'
-  />
-  <canvas
-    wx:if="{{imgPath}}"
-    style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
-    canvas-id="cvCanvasBig"
-    class="cv-canvas"
-    bindtap='chooseImg'
-  />
-  <view style="position: absolute; left: 20rpx; bottom: 200rpx;">{{scale}}</view>
 </view>
+
+<scroll-view scroll-x class="bg-white nav text-center">
+  <view class="cu-item {{index==TabCur?'text-blue cur':''}}" wx:for="{{tabs}}" wx:key="item" bindtap="tabSelect" data-id="{{index}}">
+    {{item.name}}
+  </view>
+</scroll-view>
+
+<scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal ? 'none' : 'block' }}">
+  <view class="box-container" wx:if="{{TabCur === 0}}">
+    <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
+      <i style="font-size: 160rpx;" class="iconfont icon-shangchuantupian text-blue"></i>
+    </view>
+    <canvas
+      wx:if="{{imgPath}}"
+      style='{{"width:"+canvasWidth *0.25+"px;height:"+canvasHeight *0.25+"px;"}};'
+      canvas-id="cvCanvas"
+      class="image-handler"
+      bindtap='chooseImg'
+    />
+    <canvas
+      wx:if="{{imgPath}}"
+      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
+      canvas-id="cvCanvasBig"
+      class="image-handler"
+      bindtap='chooseImg'
+    />
+
+    <image
+      wx:if="{{imgPath}}"
+      src='{{imgPath}}'
+      mode='widthFix'
+      class='target'
+      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
+      bindtap='chooseImg'
+    ></image>
+
+    <scroll-view scroll-x class="color-card-export">
+      <view class="bg-white padding">
+        <view class="grid col-4 grid-square">
+          <view class="bg-img" wx:for="{{themes}}" bindtap="themeSelect" data-id="{{index}}" style="background-image:url(https://wx1.sinaimg.cn/mw690/9f7ff7afly1gb23plpovzj20iu0hytw8.jpg);">
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+  </view>
+  <view class="box-container" wx:if="{{TabCur === 1}}">
+    <view
+      wx:if="{{colorList.length}}"
+      wx:for="{{colorList}}"
+      wx:key="item"
+    >
+      <view class="cu-bar bg-white solid-bottom">
+        <view style="width: 100%; text-align: left; padding: 0 40rpx;">
+          <text class="cuIcon-title text-blue"></text>色卡{{index}}
+          <view style="float: right;" bindtap='delete' data-cur="{{index}}">删除</view>
+        </view>
+      </view>
+      <view class="grid col-3 padding-sm">
+        <view class="padding-sm" wx:for="{{item.colors}}" wx:key>
+          <view class="padding radius text-center shadow-blur" style='{{"background-color:"+item}}'>
+            <view class="text-lg">{{item}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="solids-bottom padding-xs flex align-center" wx:if="{{!colorList.length}}">
+      <view class="flex-sub text-center">
+        <view class="solid-bottom text-xsl padding">
+          <i style="font-size: 120rpx;" class="iconfont icon-empty cuIcon-roundcheckfill text-blue"></i>
+        </view>
+        <view class="padding">暂时没有可以临摹的作品</view>
+      </view>
+    </view>
+  </view>
+  <view class="cu-tabbar-height"></view>
+</scroll-view>

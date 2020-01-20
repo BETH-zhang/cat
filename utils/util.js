@@ -217,8 +217,28 @@ const reverseColor = (hex) => {
   return [hex, reverseHex]
 }
 
+const formatTime1 = (number, format) => {
+  const formatArr = ['Y', 'M', 'D', 'h', 'm', 's']
+  const returnArr = []
+
+  var date = new Date()
+  returnArr.push(date.getFullYear())
+  returnArr.push(formatNumber(date.getMonth() + 1))
+  returnArr.push(formatNumber(date.getDate()))
+
+  returnArr.push(formatNumber(date.getHours()))
+  returnArr.push(formatNumber(date.getMinutes()))
+  returnArr.push(formatNumber(date.getSeconds()))
+
+  for(let i in returnArr) {
+    format = format.replace(formatArr[i], returnArr[i])
+  }
+  return format
+}
+
 module.exports = {
   formatTime: formatTime,
+  formatTime1: formatTime1,
   isEmpty: isEmpty,
   compareVersion: compareVersion,
   throttle: throttle,

@@ -3,3 +3,25 @@
 		margin-left: calc(var(--left) * 100rpx - 150rpx);
 		z-index: var(--index);
 	}
+
+	.scrollPage .nav-list {
+		height: 200rpx;
+	}
+
+	.scrollPage .nav-list .text-center {
+		text-align: left;
+		height: 150rpx;
+	}
+
+	.scrollPage .nav-list .text-center .iconfont {
+		float: right;
+		font-size: 16rpx;
+	}
+
+	.scrollPage .nav-list .text-center .line {
+		height: 5rpx;
+		width: 50%;
+		background: #fff;
+		margin: ;
+		margin-top: 40rpx;
+	}

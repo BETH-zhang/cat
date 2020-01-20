@@ -1,9 +1,46 @@
-.cv-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 90vh;
-  z-index: 1;
-  border: 1px solid #ccc;
+.box-container {
+    text-align: center;
+    padding: 30rpx;
+}
+
+.box-container .img-placeholder {
+    margin: 0 auto;
+    margin-top: 170rpx;
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 360rpx;
+    height: 360rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,.25); 
+}
+
+.box-container .colors-container,
+.box-container .button-container,
+.box-container .image-handler {
+    margin: 0 auto;
+    margin-top: 30rpx;
+}
+
+.box-container .image-handler {
+    position: absolute;
+    top: 0;
+    left: -100%;
+}
+
+.color-card-export {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.bg-img {
+    color: #fff;
+    font-size: 35rpx;
+    line-height: 150rpx;
+}
+
+.bg-img-border {
+    border: 3px solide #000;
 }

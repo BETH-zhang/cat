@@ -6,6 +6,21 @@
 <pixel bindpixelevent="myEventListener" wx:if="{{PageCur==='pixel'}}"></pixel>
 <home bindhomeevent="myEventListener" wx:if="{{PageCur==='home'}}"></home>
 
+<view class="cu-modal {{modalName=='image'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="bg-img" style="background-image: url('/images/index.jpg');height:200px;">
+      <view class="cu-bar justify-end text-white">
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close "></text>
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub  solid-left" bindtap="hideModal">终于等到你了</view>
+    </view>
+  </view>
+</view>
+
 <view wx:if="{{PageCur!=='pixel'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="home">
     <i style="font-size: 32rpx;" class="iconfont icon-shouye {{PageCur=='home'?'text-blue':'text-gray'}}"></i>

@@ -1,5 +1,5 @@
 //app.js
-import { isEmpty, compareVersion } from './utils/util'
+import { isEmpty, compareVersion, formatTime1 } from './utils/util'
 import { ColorList } from './data/colorData'
 
 App({
@@ -21,8 +21,11 @@ App({
 
   updateLog: function() {
     var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    var time = formatTime1(Date.now(), 'YMD')
+    if (logs.indexOf(time) === -1) {
+      logs.unshift(time)
+      wx.setStorageSync('logs', logs)
+    }
   },
 
   getUserInfo: function() {

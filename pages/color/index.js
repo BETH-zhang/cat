@@ -71,6 +71,7 @@ Component({
       console.log(this.data.imgPath, this.data.shareImg)
       if (this.data.imgPath) {
         const themeCur = e.currentTarget.dataset.id
+        this.setData({ themeCur: themeCur })
         const data = this.download()
         if (data) {
           let template = null
@@ -107,7 +108,13 @@ Component({
           this.setData({
             setting: '',
           })
-          this.download()
+          this.themeSelect({
+            currentTarget: {
+              dataset: {
+                id: this.data.themeCur || 1,
+              }
+            },
+          })
           break
         default:
           break

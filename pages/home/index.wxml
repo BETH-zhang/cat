@@ -7,4 +7,13 @@
       </view>
     </swiper-item>
   </swiper>
+  <view class="grid col-2 padding-sm nav-list">
+    <view class="padding-sm" wx:for="{{navs}}" wx:key="item">
+      <view class="{{item.bg}} padding radius text-center shadow-blur" bindtap="selectNav" data-cur="{{item.link}}">
+        <view class="text-lg">{{item.name}}</view>
+        <i style="font-size: 56rpx;" class="iconfont {{item.icon}} text-white"></i>
+        <view class="line"></view>
+      </view>
+    </view>
+  </view>
 </scroll-view>

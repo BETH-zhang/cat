@@ -1,12 +1,22 @@
+import { formatTime1 } from '../../utils/util'
 const app = getApp();
 
 Page({
   data: {
     PageCur: 'home',
-    PageCur: 'color',
+    // PageCur: 'convert',
+    loginCount: 0,
   },
   onLoad() {
     console.log('basics', this.data.PageCur)
+    var logs = wx.getStorageSync('logs') || []
+    var time = formatTime1(Date.now(), 'YMD')
+    if (logs.indexOf(time) === -1) {
+      this.setData({ modalName: logs.length ? 'image' : '' })
+    }
+  },
+  hideModal() {
+    this.setData({ modalName: '' })
   },
   myEventListener(e) {
     console.log('e.detail: ', e)
