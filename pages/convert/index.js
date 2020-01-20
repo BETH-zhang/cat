@@ -87,13 +87,19 @@ Component({
           this.setData({
             setting: '',
           })
-          this.themeSelect({
-            currentTarget: {
-              dataset: {
-                id: this.data.themeCur || 1,
-              }
-            },
-          })
+          if (!e.detail.close) {
+            this.themeSelect({
+              currentTarget: {
+                dataset: {
+                  id: this.data.themeCur || 1,
+                }
+              },
+            })
+          } else {
+            this.setData({
+              showModal: false,     
+            })
+          }
           break
         default:
           break

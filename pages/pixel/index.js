@@ -63,13 +63,19 @@ Component({
   methods: {
     SettingEventListener(e) {
       console.log(e.detail, '..SettingEventListener...')
-      switch(this.data.setting) {
+      switch(this.data.setting || e.detail.setting) {
         case 'login':
           this.setData({
             setting: '',
             hideCanvas: false,
           })
-          this.savePicture()
+          if (!e.detail.close) {
+            this.savePicture()
+          } else {
+            this.setData({
+              showModal: false,     
+            })
+          }
           break
         case 'color':
           if (this.data.bgColor !== e.detail.bgColor) {
@@ -127,11 +133,9 @@ Component({
             brushPanel: false,
           })
           break
-        case 'swatches':
+        case 'straw':
           this.setData({
-            toolType: this.data.toolType === 'swatches' ? 'brush' : 'swatches',
-            setting: this.data.setting ? '' : 'color',
-            hideCanvas: !this.data.setting
+            toolType: this.data.toolType === 'straw' ? 'brush' : 'straw',
           })
           break
         case 'generate':
@@ -243,12 +247,12 @@ Component({
     },
 
     dispatchTouchStart(e) {
-      if (!this.data.allowDraw) {
+      if (!this.data.allowDraw && this.data.toolType === 'brush') {
         this.data.allowDraw = true
 
         const gesture = this.gestureRecognition.touchStartEvent(e)
         // console.log('start', gesture)
-        // console.log('gesture-start: ', gesture.type)
+        console.log('gesture-start: ', gesture.type)
         switch (gesture.type) {
           case 'Single':
             this.data.arr = []
@@ -263,11 +267,32 @@ Component({
             // })
             break;
         }
+      } else if (this.data.toolType === 'straw') {
+        console.log('e: ', e)
+        const x = e.touches[0].x
+        const y = e.touches[0].y
+        wx.canvasGetImageData({
+          canvasId: 'mainCanvas',
+          x: 0,
+          y: 0,
+          width: this.data.width,
+          height: this.data.height,
+          success: (res) => {
+            console.log('res: ', res.data.length, x, y, this.data.width, this.data.height)
+            const data = res.data
+            const index = (y - 1) * this.data.width * 4 + x * 4
+            console.log(index, `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`)
+            this.setData({
+              pixelColor: `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`,
+              toolType: 'brush',
+            }) 
+          },
+        }, this)
       }
     },
 
     dispatchTouchMove(e) {
-      if (this.data.allowDraw) {
+      if (this.data.allowDraw && this.data.toolType === 'brush') {
         this.gestureRecognition.touchMoveEvent(e, (gesture) => {
           // console.log('gesture: ', gesture)
           // console.log('gesture-move: ', gesture.type)
@@ -291,7 +316,7 @@ Component({
     },
 
     dispatchTouchEnd(e) {
-      if (this.data.allowDraw) {
+      if (this.data.allowDraw && this.data.toolType === 'brush') {
         this.data.allowDraw = false
 
         const gesture = this.gestureRecognition.touchEndEvent(e)
@@ -354,7 +379,7 @@ Component({
       this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
         const bottomBarStyle = rect.height
         const width = app.globalData.systemInfo.windowWidth
-        const height = app.globalData.systemInfo.windowHeight - bottomBarStyle
+        const height = app.globalData.systemInfo.windowHeight - bottomBarStyle * 2.5
         this.setData({ width, height })
         const ctx = wx.createCanvasContext('mainCanvas', this) 
         const ctxBg = wx.createCanvasContext('bgCanvas', this)

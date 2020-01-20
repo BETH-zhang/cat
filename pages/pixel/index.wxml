@@ -5,7 +5,6 @@
 ></authSetting>
 <colorSetting
   bindcolorsettingevent="SettingEventListener"
-  wx:if="{{setting==='color'}}"
   setting="{{pixelColor}}"
   pixelColor="{{pixelColor}}"
   bgColor="{{bgColor}}"
@@ -71,13 +70,13 @@
     <i style="font-size: 32rpx;" class="iconfont icon-shouye text-gray"></i>
     <view class="text-gray">首页</view>
   </view>
-  <view class="action" bindtap="ToolChange" data-cur="{{toolType=='brush' ? 'eraser' : 'brush'}}">
-    <i style="font-size: 32rpx;" class="iconfont {{toolType=='brush' ? 'icon-huabi1' : 'icon-icon-test'}} text-blue"></i>
-    <view class="text-blue">{{toolType=='brush' ? '画笔' : '橡皮'}}</view>
+  <view class="action" bindtap="ToolChange" data-cur="{{toolType=='eraser' ? 'brush' : 'eraser'}}">
+    <i style="font-size: 32rpx;" class="iconfont {{toolType=='eraser' ? 'icon-icon-test' : 'icon-huabi1'}} text-blue"></i>
+    <view class="text-blue">{{toolType=='eraser' ? '橡皮' : '画笔'}}</view>
   </view>
-  <view class="action" bindtap="ToolChange" data-cur="swatches">
-    <i style="font-size: 32rpx;" class="iconfont icon-huabi {{toolType=='swatches'?'text-blue':'text-gray'}}"></i>
-    <view class="{{toolType=='swatches'?'text-blue':'text-gray'}}">色板</view>
+  <view class="action" bindtap="ToolChange" data-cur="straw">
+    <i style="font-size: 32rpx;" class="iconfont icon-shiwu-xiguan {{toolType=='straw'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='straw'?'text-blue':'text-gray'}}">吸管</view>
   </view>
   <view class="action" bindtap="ToolChange" data-cur="undo">
     <i style="font-size: 32rpx;" class="iconfont icon-chexiao1 text-gray"></i>

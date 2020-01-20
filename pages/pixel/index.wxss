@@ -18,6 +18,7 @@
 }
 
 .show-canvas {
+  position: relative;
   display: block;
   translate: 1s all;
 }

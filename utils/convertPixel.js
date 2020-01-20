@@ -26,15 +26,15 @@ class ConvertPixel {
     console.log('this.interval: ', this.interval)
 
     for (var i = 0; i < data.length; i += 4) {
-      const row = Math.floor(i / 4 / imageData.width)
-      const col = i / 4 % imageData.width
-      const rowRemainder = row % this.interval
-      const colRemainder = col % this.interval
+      const y = Math.floor(i / 4 / imageData.width)
+      const x = i / 4 % imageData.width
+      const rowRemainder = y % this.interval
+      const colRemainder = x % this.interval
 
       if (rowRemainder && colRemainder) {
-        const rowStart = Math.floor(row / this.interval) * this.interval
-        const colStart = Math.floor(col / this.interval) * this.interval
-        const index = rowStart * imageData.width * 4 + colStart * 4
+        const rowStart = Math.floor(y / this.interval) * this.interval
+        const colStart = Math.floor(x / this.interval) * this.interval
+        const index = (rowStart - 1) * imageData.width * 4 + colStart * 4
         const alpha = 255
         // console.log(colStart, rowStart, index, row, col)
 

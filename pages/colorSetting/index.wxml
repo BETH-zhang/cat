@@ -1,4 +1,22 @@
 
+<view
+  class="current-color-setting {{type === 'bg' ? 'current-color-setting-active' : ''}}"
+  style="background: {{bgColor}}"
+  bindtap="selectType"
+  data-cur="{{type === 'pixel' ? 'bg' : 'pixel'}}"
+>
+  <view class="cu-item {{type === 'pixel' ? 'current-color-setting-active' : ''}}" style="background: {{pixelColor}}">
+  </view>
+</view>
+
+<scroll-view scroll-x class="bg-white nav text-center padding color-setting">
+  <view class="color-setting-box">
+    <view class="cu-item shadow" wx:for="{{colorList}}" wx:key="item" bindtap="selectColor" data-cur="{{item.color || item}}" style="background: {{item.color || item}}">
+    </view>
+  </view>
+</scroll-view>
+
+<!--
 <view class="DrawerClose {{type?'show':''}}" bindtap="updateProps">
   <text class="cuIcon-pullright"></text>
 </view>
@@ -38,3 +56,4 @@
     </view>
   </view>
 </scroll-view>
+-->

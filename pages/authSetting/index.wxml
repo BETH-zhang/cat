@@ -2,7 +2,7 @@
   <view class='open-set-inner'>
     <view class='set-title'>登录后，方便生成专属的像素画图片哦！</view>
     <view class='btn-openset'>
-      <view catchtap='cancel'>取消</view>
+      <view bindtap='cancel'>取消</view>
       <view>
         <button open-type="getUserInfo" type="primary" class='button-style' bindgetuserinfo="onGotUserInfo">点击登录</button>
       </view>

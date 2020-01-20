@@ -30,6 +30,7 @@ Component({
     cancel() {
       var myEventDetail = {
         setting: '',
+        close: true,
       }
       var myEventOption = {}
       this.triggerEvent('authsettingevent', myEventDetail, myEventOption)

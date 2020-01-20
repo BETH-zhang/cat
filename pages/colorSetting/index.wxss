@@ -145,3 +145,35 @@
 .DrawerPage .cu-bar.tabbar .action {
   flex: initial;
 }
+
+.color-setting {
+  background: #f2f2f2;
+}
+
+.color-setting .cu-item,
+.current-color-setting .cu-item {
+  width: 90rpx;
+  height: 90rpx;
+  background: #000;
+  border-radius: 50%;
+  border: 1px solid #f2f2f2;
+}
+
+.current-color-setting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140rpx;
+  height: 140rpx;
+  z-index: 99;
+}
+
+.current-color-setting .cu-item {
+  margin: 0 auto;
+  margin-top: 25rpx;
+}
+
+.current-color-setting-active,
+.current-color-setting .current-color-setting-active {
+  border: 2px solid #0081ff;
+}
