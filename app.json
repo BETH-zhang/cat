@@ -2,6 +2,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/gifmaker/index",
     "pages/home/index",
     "pages/color/index",
     "pages/convert/index",
@@ -9,8 +10,7 @@
     "pages/about/home/home",
     "pages/about/work/index",
     "pages/about/about/about",
-    "pages/about/log/log",
-    "pages/auth/auth"
+    "pages/about/log/log"
   ],
   "window": {
     "backgroundTextStyle": "dark",

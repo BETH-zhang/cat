@@ -1,6 +1,6 @@
 //app.js
 import { isEmpty, compareVersion, formatTime1 } from './utils/util'
-import { ColorList } from './data/colorData'
+import { ColorList } from '/assets/data/colorData'
 
 App({
   onLaunch: function (e) {
@@ -253,5 +253,6 @@ App({
   globalData: {
     userInfo: null,
     ColorList, ColorList,
+    userDataPath: `${wx.env.USER_DATA_PATH}/`,
   }
 })

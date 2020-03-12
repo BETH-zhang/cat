@@ -30,7 +30,7 @@ Page({
     console.log('e: ', e)
     return {
       title: '程小元像素画',
-      imageUrl: e ? e.target.dataset.cur : '/images/share.png',
+      imageUrl: e ? e.target.dataset.cur : '/assets/image/share.png',
       path: '/pages/index/index',
       success: function(res) {
         console.log('转发成功', res)

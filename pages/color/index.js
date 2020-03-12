@@ -1,9 +1,9 @@
 import ColorThief from '../../utils/color-thief.js'
 // import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
-import colorCardTheme0 from '../../data/colorCardTheme0'
-import colorCardTheme1 from '../../data/colorCardTheme1'
-import colorCardTheme2 from '../../data/colorCardTheme2'
+import colorCardTheme0 from '../../assets/data/colorCardTheme0'
+import colorCardTheme1 from '../../assets/data/colorCardTheme1'
+import colorCardTheme2 from '../../assets/data/colorCardTheme2'
 import {
   rgbToHex,
   saveBlendent,

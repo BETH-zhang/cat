@@ -1,7 +1,7 @@
 // import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
 import ConvertPixel from '../../utils/convertPixel'
-import pixelCardTheme1 from '../../data/pixelCardTheme1';
+import pixelCardTheme1 from '../../assets/data/pixelCardTheme1';
 const app = getApp();
 
 Component({

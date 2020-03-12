@@ -1,12 +1,12 @@
-import Template1 from '../../data/card';
-import Template2 from '../../data/image-example'
-import Template3 from '../../data/shadow-example'
-import Template4 from '../../data/text-example'
-import ColorCardTheme0 from '../../data/colorCardTheme0'
-import ColorCardTheme1 from '../../data/colorCardTheme1'
-import ColorCardTheme2 from '../../data/colorCardTheme2'
-import pixelCardTheme0 from '../../data/pixelCardTheme0'
-import pixelCardTheme1 from '../../data/pixelCardTheme1';
+import Template1 from '../../assets/data/card';
+import Template2 from '../../assets/data/image-example'
+import Template3 from '../../assets/data/shadow-example'
+import Template4 from '../../assets/data/text-example'
+import ColorCardTheme0 from '../../assets/data/colorCardTheme0'
+import ColorCardTheme1 from '../../assets/data/colorCardTheme1'
+import ColorCardTheme2 from '../../assets/data/colorCardTheme2'
+import pixelCardTheme0 from '../../assets/data/pixelCardTheme0'
+import pixelCardTheme1 from '../../assets/data/pixelCardTheme1';
 const app = getApp();
 
 Component({

@@ -2,12 +2,12 @@
   <view>
     <view class="UCenter-bg">
       <view class="logo-box">
-        <image src="{{ avatarUrl || '/images/logo.png' }}" class="png" mode="widthFix"></image>
+        <image src="{{ avatarUrl || '/assets/image/logo.png' }}" class="png" mode="widthFix"></image>
       </view>
       <view class="text-xl">
         {{nickName || '程小元像素画'}}
       </view>
-      <image src="/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+      <image src="/assets/image/wave.gif" mode="scaleToFill" class="gif-wave"></image>
     </view>
     <!--
     <view class="padding flex text-center text-grey bg-white shadow-warp">
@@ -60,7 +60,7 @@
       </view>
       <view class="cu-item">
         <navigator class="content" url="/pages/about/about/about" hover-class="none">
-          <image src="/images/logo.png" class="png" mode="aspectFit"></image>
+          <image src="/assets/image/logo.png" class="png" mode="aspectFit"></image>
           <text class="text-grey" style="margin-left: 5px">关于程小元像素画</text>
           <text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
         </navigator>

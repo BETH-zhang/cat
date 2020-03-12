@@ -53,11 +53,18 @@ Component({
       icon: 'icon-houzi',
       link: 'about',
       bg: 'bg-gradual-purple',
+    // }, {
+    //   id: 5,
+    //   name: '临摹',
+    //   icon: 'icon-fla',
+    //   link: '',
+    //   bg: 'bg-gradual-pink',
     }, {
-      id: 5,
-      name: '临摹',
-      icon: 'icon-fla',
-      link: '',
+      id: 6,
+      name: 'Gif图',
+      icon: '',
+      link: '/pages/gifmaker/index',
+      type: 'nav',
       bg: 'bg-gradual-pink',
     }],
   },
@@ -72,12 +79,21 @@ Component({
     selectNav(e) {
       console.log('e: ', e)
       const nav = e.currentTarget.dataset.cur;
+      const type = e.currentTarget.dataset.type;
       if (nav) {
-        var myEventDetail = {
-          PageCur: nav,
-        } // detail对象，提供给事件监听函数
-        var myEventOption = {} // 触发事件的选项
-        this.triggerEvent('homeevent', myEventDetail, myEventOption)
+        switch(type) {
+          case 'nav':
+            console.log(nav)
+            wx.navigateTo({ url: nav })
+            break;
+          default:
+            var myEventDetail = {
+              PageCur: nav,
+            } // detail对象，提供给事件监听函数
+            var myEventOption = {} // 触发事件的选项
+            this.triggerEvent('homeevent', myEventDetail, myEventOption)
+            break;
+        }
       }
     },
     jumpPage(e) {

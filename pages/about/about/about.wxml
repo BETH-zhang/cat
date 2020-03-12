@@ -1,6 +1,6 @@
 <view class="UCenter-bg">
   <view class="logo-box">
-    <image src="/images/logo.png" class="png" mode="widthFix"></image>
+    <image src="/assets/image/logo.png" class="png" mode="widthFix"></image>
   </view>
   <view class="text-xl">程小元像素画
     <text class="text-df">v1.1</text>

@@ -2,7 +2,7 @@ const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
 import WxUtils from '../../utils/wxUtils'
 import GestureRecognition from '../../utils/gestureRecognition'
-import pixelCardTheme0 from '../../data/pixelCardTheme0';
+import pixelCardTheme0 from '../../assets/data/pixelCardTheme0';
 import {
   requestAnimationFrame,
   cancelAnimationFrame

@@ -8,7 +8,7 @@
 
 <view class="cu-modal {{modalName=='image'?'show':''}}">
   <view class="cu-dialog">
-    <view class="bg-img" style="background-image: url('/images/index.jpg');height:200px;">
+    <view class="bg-img" style="background-image: url('/assets/image/index.jpg');height:200px;">
       <view class="cu-bar justify-end text-white">
         <view class="action" bindtap="hideModal">
           <text class="cuIcon-close "></text>
