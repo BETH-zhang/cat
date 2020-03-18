@@ -1,5 +1,5 @@
 // import TestApplication from '../../utils/canvasApplication'
-import WxUtils from '../../utils/wxUtils'
+import { saveImage } from '../../utils/wxUtils'
 import ConvertPixel from '../../utils/convertPixel'
 import pixelCardTheme1 from '../../assets/data/pixelCardTheme1';
 const app = getApp();
@@ -107,8 +107,6 @@ Component({
       }
     },
     initData() {
-      this.wxUtils = new WxUtils(wx, app)
-      console.log('this.wxUtils: ', this.wxUtils)
     },
     initCanvas() {
       this.ConvertPixel = new ConvertPixel('cvCanvas', this)
@@ -120,8 +118,6 @@ Component({
           this.screenWidth = screenWidth;
         }
       })
-
-      this.wxUtils = new WxUtils(wx, app)
 
       const width = app.globalData.systemInfo.windowWidth
       const height = app.globalData.systemInfo.windowHeight
@@ -222,7 +218,7 @@ Component({
 
     // 长按保存事件
     saveImg() {
-      this.wxUtils.saveImage(this.data.shareImg, this).then(() => {
+      saveImage(this.data.shareImg, this).then(() => {
         this.hideModal()
       })
     },

@@ -1,6 +1,3 @@
-import TestApplication from '../../utils/canvasApplication'
-import WxUtils from '../../utils/wxUtils'
-
 const app = getApp();
 
 Component({

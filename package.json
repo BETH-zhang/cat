@@ -17,5 +17,7 @@
   },
   "homepage": "https://github.com/BETH-zhang/cat#readme",
   "dependencies": {
-  }
+    "wx-server-sdk": "^1.8.2"
+  },
+  "miniprogram": "miniprogram_dist"
 }

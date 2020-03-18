@@ -1,6 +1,9 @@
 const app = getApp();
 import TestApplication from '../../utils/canvasApplication'
-import WxUtils from '../../utils/wxUtils'
+import {
+  createSelectorQuery,
+  saveImage,
+} from '../../utils/wxUtils'
 import GestureRecognition from '../../utils/gestureRecognition'
 import pixelCardTheme0 from '../../assets/data/pixelCardTheme0';
 import {
@@ -25,7 +28,6 @@ Component({
     hideCanvas: false,
     toolType: 'brush', // undo, clearn, brush, eraser, straw, generate
     brushPanel: false,
-    // toolType: 'generate',
     allowDraw: false,
 
     setting: '',
@@ -73,7 +75,7 @@ Component({
             this.savePicture()
           } else {
             this.setData({
-              showModal: false,     
+              showModal: false, 
             })
           }
           break
@@ -374,9 +376,8 @@ Component({
 
     initCanvas() {
       console.log('globalData', app.globalData)
-      this.wxUtils = new WxUtils(wx, app)
       this.gestureRecognition = new GestureRecognition()
-      this.wxUtils.createSelectorQuery('.main-bottom-bar', this).then((rect) => {
+      createSelectorQuery('.main-bottom-bar', this).then((rect) => {
         const bottomBarStyle = rect.height
         const width = app.globalData.systemInfo.windowWidth
         const height = app.globalData.systemInfo.windowHeight - bottomBarStyle * 2.5
@@ -389,8 +390,6 @@ Component({
   
         this.appCanvas = new TestApplication(ctx, { width, height, id: 'mainCanvas' }, wx)
         this.appCanvas.setColor(this.data.pixelColor)
-
-        this.wxUtils.setStyle({ width, height })
       })
     },
     
@@ -454,7 +453,7 @@ Component({
   
     // 长按保存事件
     saveImg() {
-      this.wxUtils.saveImage(this.data.shareImg, this).then(() => {
+      saveImage(this.data.shareImg, this).then(() => {
         this.hideModal()
       })
     },

@@ -18,11 +18,6 @@
     "navigationBarTitleText": "程小元像素画",
     "navigationBarTextStyle": "white"
   },
-  "networkTimeout": {
-    "request": 10000,
-    "downloadFile": 10000
-  },
-  "usingComponents": {
-  },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
 }

@@ -3,7 +3,7 @@ import { isEmpty, compareVersion, formatTime1 } from './utils/util'
 import { ColorList } from '/assets/data/colorData'
 
 App({
-  onLaunch: function (e) {
+  onLaunch (e) {
     // 展示本地存储能力
     this.updateLog()
     // 检查是否是iphone X
@@ -17,9 +17,22 @@ App({
     this.getUserInfo()
     // 自定义设置导航条样式
     this.customSystemBarStyle()
+    // 初始化云服务
+    this.initCloudServer()
   },
 
-  updateLog: function() {
+  initCloudServer() {
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+      return null
+    }
+    wx.cloud.init({
+      env: 'dev-5x6mb',
+      traceUser: true,
+    })
+  },
+
+  updateLog() {
     var logs = wx.getStorageSync('logs') || []
     var time = formatTime1(Date.now(), 'YMD')
     if (logs.indexOf(time) === -1) {
@@ -28,7 +41,7 @@ App({
     }
   },
 
-  getUserInfo: function() {
+  getUserInfo() {
     // 登录
     wx.login({
       success: res => {
@@ -68,7 +81,7 @@ App({
     })
   },
 
-  customSystemBarStyle: function() {
+  customSystemBarStyle() {
     wx.getSystemInfo({
       success: e => {
         // console.log('wx.getSystemInfo:', e)
@@ -103,17 +116,17 @@ App({
   /**
    * 是否是Iphonex
    */
-  isIpx: function() {
+  isIpx() {
     var that = this
     wx.getSystemInfo({
-      success: function(res) {
+      success(res) {
         let pixelRation = res.windowWidth / res.windowHeight;
         that.globalData.isIpx = !!~res.model.toString().indexOf('iPhone X') || (pixelRation < 0.6)
       },
     })
   },
   
-  trackSrc: function(e) {
+  trackSrc(e) {
     const {
       scene,
       query
@@ -156,16 +169,16 @@ App({
   /**
    * 事件追踪
    */
-  track: function(eventName, properties) {
+  track(eventName, properties) {
     console.log(eventName, properties)
     // sensors.track(eventName, properties);
   },
 
-  onShow: function(options) {
+  onShow(options) {
     this.scene = options.scene;
   },
 
-  checkUpdate: function() {
+  checkUpdate() {
     const updateManager = wx.getUpdateManager()
 
     updateManager.onUpdateReady(() => {
@@ -190,7 +203,7 @@ App({
     })
   },
 
-  autoUpdate: function() {
+  autoUpdate() {
     console.log(new Date())
     var self=this
     // 获取小程序更新机制兼容
@@ -206,7 +219,7 @@ App({
         wx.showModal({
           title: '更新提示',
           content: '新版本已经准备好，是否重启应用？',
-          success: function (res) {
+          success (res) {
           if (res.confirm) {
             //3. 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
             updateManager.applyUpdate()
@@ -215,7 +228,7 @@ App({
             wx.showModal({
             title: '温馨提示~',
             content: '本次版本更新涉及到新的功能添加，旧版本无法正常访问的哦~',
-            success: function (res) {   
+            success (res) {   
               self.autoUpdate()
               return;         
               //第二次提示后，强制更新           
