@@ -176,6 +176,7 @@ function colorsEqual(colors1,colors2) {
   return true;
 }
 
+// todo del
 function saveBlendent({colors,uuid}, callback) {
   let data = wx.getStorageSync('colors') || [];
   if(!uuid){

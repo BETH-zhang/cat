@@ -1,13 +1,13 @@
 import ColorThief from '../../utils/color-thief.js'
 // import TestApplication from '../../utils/canvasApplication'
-import { saveImage } from '../../utils/wxUtils'
-import { addCollection } from '../../api/index'
+import { saveImage, chooseImage, downLoadImg } from '../../utils/wxUtils'
+import { addCollection, uploadImage, add } from '../../api/index'
+import { setImagePath } from '../../api/image'
 import colorCardTheme0 from '../../assets/data/colorCardTheme0'
 import colorCardTheme1 from '../../assets/data/colorCardTheme1'
 import colorCardTheme2 from '../../assets/data/colorCardTheme2'
 import {
   rgbToHex,
-  saveBlendent,
   reverseColor,
 } from '../../utils/util.js'
 const app = getApp()
@@ -167,96 +167,77 @@ Component({
       this.chooseImg()
     },
     chooseImg: function() {
-      wx.chooseImage({
-        count: 1,
-        sizeType: ['original', 'compressed'],
-        sourceType: ['album', 'camera'],
-        success: (res) => {
+      chooseImage({}, this).then((res) => {
+        this.setData({
+          imgPath: res.tempFilePaths[0],
+          state: STATE_LOADING
+        })
+        // 上传图片
+        const filePath = res.tempFilePaths[0]
+
+        uploadImage(filePath, 'color-card/my-image').then((res) => {
+          app.globalData.fileID = res.fileID
+          app.globalData.imagePath = filePath
+
+          this.saveColorCard()
+        })
+
+
+        downLoadImg(res.tempFilePaths[0], this).then((imgInfo) => {
+          console.log('imgInfo: ', imgInfo)
+          let {
+            width,
+            height,
+            imgPath
+          } = imgInfo;
+          let scale = 0.9 * this.screenWidth / Math.max(width, height);
+          let canvasWidth = Math.floor(scale * width);
+          let canvasHeight = Math.floor(scale * height);
           this.setData({
+            imgInfo,
+            canvasScale: scale,
+            canvasWidth,
+            canvasHeight
+          });
+          let quality = 1;
+          console.log(quality);
+          this.colorThief.getPalette({
+            width: canvasWidth,
+            height: canvasHeight,
             imgPath: res.tempFilePaths[0],
-            state: STATE_LOADING
-          })
-          // 上传图片
-          const filePath = res.tempFilePaths[0]
-          const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
-          wx.cloud.uploadFile({
-            cloudPath,
-            filePath,
-            success: res => {
-              console.log('[上传文件] 成功：', res)
-
-              app.globalData.fileID = res.fileID
-              app.globalData.cloudPath = cloudPath
-              app.globalData.imagePath = filePath
-            },
-            fail: e => {
-              console.error('[上传文件] 失败：', e)
-              wx.showToast({
-                icon: 'none',
-                title: '上传失败',
+            colorCount: this.data.colorCount,
+            quality
+          }, (colors) => {
+            if (colors) {
+              colors = colors.map((color) => {
+                return ('#' + rgbToHex(color[0], color[1], color[2]))
               })
-            },
-            complete: () => {
-              wx.hideLoading()
-            }
-          })
+              this.setData({
+                colors,
+                state: STATE_SUCCEED
+              })
 
-        },
-        fail: e => {
-          console.error(e)
-        }
-          // wx.getImageInfo({
-          //   src: res.tempFilePaths[0],
-          //   success: (imgInfo) => {
-          //     console.log('imgInfo: ', imgInfo)
-          //     let {
-          //       width,
-          //       height,
-          //       imgPath
-          //     } = imgInfo;
-          //     let scale = 0.9 * this.screenWidth / Math.max(width, height);
-          //     let canvasWidth = Math.floor(scale * width);
-          //     let canvasHeight = Math.floor(scale * height);
-          //     this.setData({
-          //       imgInfo,
-          //       canvasScale: scale,
-          //       canvasWidth,
-          //       canvasHeight
-          //     });
-          //     let quality = 1;
-          //     console.log(quality);
-          //     this.colorThief.getPalette({
-          //       width: canvasWidth,
-          //       height: canvasHeight,
-          //       imgPath: res.tempFilePaths[0],
-          //       colorCount: this.data.colorCount,
-          //       quality
-          //     }, (colors) => {
-          //       if (colors) {
-          //         colors = colors.map((color) => {
-          //           return ('#' + rgbToHex(color[0], color[1], color[2]))
-          //         })
-          //         this.setData({
-          //           colors,
-          //           state: STATE_SUCCEED
-          //         })
-          //         this.saveColorCard()
-          //       }
-          //     });
-          //   }
-          // })
-        // }
-      }, this)
+              this.saveColorCard()
+            }
+          });
+        })
+      })
     },
     saveColorCard: function() {
-      saveBlendent({colors:this.data.colors}, () => {
-        wx.showToast({
-          title: '色卡自动保存',
-          icon: 'success'
+      if (this.data.colors.length && app.globalData.fileID) {
+        console.log(this.data.colors)
+        console.log(app.globalData.fileID)
+        const imgPath = setImagePath(app.globalData.fileID)
+        console.log(imgPath)
+
+        add({
+          name: 'colorCard',
+          data: {
+            colors: this.data.colors,
+            imgPath,
+          },
         })
-      });
-      var colorList = wx.getStorageSync('colors') || []
-      this.setData({ colorList })
+      }
     },
     delete: function(e) {
       var colorList = wx.getStorageSync('colors') || []

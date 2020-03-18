@@ -6,6 +6,7 @@ export const highFunction = (name) => {
   const collectionName = config[name]
   db = db || wx.cloud.database()
 
+  console.log(name, 'collectionName: ', collectionName)
   return (func) => {
     return new Promise((resolve, reject) => {
       if (collectionName) {
@@ -17,9 +18,28 @@ export const highFunction = (name) => {
   }
 }
 
-export const uploadImage = () => {
-
-}
+export const uploadImage = (path, name) => new Promise((resolve, reject) => {
+  const cloudPath = name + path.match(/\.[^.]+?$/)[0]
+  wx.cloud.uploadFile({
+    cloudPath,
+    filePath: path,
+    success: res => {
+      console.log('[上传文件] 成功：', res)
+      resolve(res)
+    },
+    fail: err => {
+      console.error('[上传文件] 失败：', err)
+      reject(err)
+      wx.showToast({
+        icon: 'none',
+        title: '上传失败',
+      })
+    },
+    complete: () => {
+      wx.hideLoading()
+    }
+  })
+})
 
 export const downloadFile = (path, type) => new Promise((resolve, reject) => {
   wx.cloud.downloadFile({
@@ -67,9 +87,12 @@ export const addCollection = ({ name, data }) => highFunction(name)((collectionN
 })
 
 export const add = ({ name, data }) => highFunction(name)((collectionName, resolve, reject) => {
+  console.log('add-1')
   db.collection(collectionName).add({ data }).then((res) => {
+    console.log('add-2', res)
     resolve(res)
   }).catch((err) => {
+    console.log('add-3', err)
     reject(err)
   })
 })
