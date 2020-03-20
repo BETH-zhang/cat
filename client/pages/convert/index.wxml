@@ -32,7 +32,7 @@
 <scroll-view scroll-y class="scrollPage" wx:if="{{!setting}}" style="display: {{ showModal ? 'none' : 'block' }}">
   <view class="box-container" wx:if="{{TabCur === 0}}">
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
-      <i style="font-size: 160rpx;" class="iconfont icon-shangchuantupian text-blue"></i>
+      <i style="font-size: 160rpx;" class="iconfont icon-taking-picture text-blue"></i>
     </view>
     <canvas
       wx:if="{{imgPath}}"

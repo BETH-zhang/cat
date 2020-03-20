@@ -2,11 +2,11 @@
 {
   "pages": [
     "pages/adminBanner/index",
+    "pages/color/index",
     "pages/detail/index",
     "pages/index/index",
     "pages/gifmaker/index",
     "pages/home/index",
-    "pages/color/index",
     "pages/convert/index",
     "pages/about/setting/index",
     "pages/about/home/home",

@@ -5,3 +5,8 @@
 .cu-form-group .solids {
   display: flex;
 }
+
+.cu-form-group .iconfont {
+  display: inline-block;
+  margin: 30rpx auto;
+}

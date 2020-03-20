@@ -42,7 +42,7 @@
     ></image>
 
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
-      <i style="font-size: 160rpx;" class="iconfont icon-shangchuantupian text-blue"></i>
+      <i style="font-size: 160rpx;" class="iconfont icon-taking-picture text-blue"></i>
     </view>
 
     <canvas
