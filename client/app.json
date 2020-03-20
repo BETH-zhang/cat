@@ -1,9 +1,10 @@
 
 {
   "pages": [
+    "pages/adminArticle/index",
     "pages/adminBanner/index",
     "pages/color/index",
-    "pages/detail/index",
+    "pages/article/index",
     "pages/index/index",
     "pages/gifmaker/index",
     "pages/home/index",

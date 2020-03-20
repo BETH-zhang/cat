@@ -17,7 +17,7 @@ Page({
     //   // type: 'http',
     //   // href: 'https://uskid.com',
     //   type: 'page',
-    //   href: 'detail/index?id=1',
+    //   href: 'article/index?id=1',
     // }],
     banners: [],
   },

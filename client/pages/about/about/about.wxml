@@ -2,7 +2,7 @@
   <view class="logo-box">
     <image src="/assets/image/logo.png" class="png" mode="widthFix"></image>
   </view>
-  <view class="text-xl">程小元像素画
+  <view class="text-xl">
     <text class="text-df">v1.1</text>
   </view>
   <view class="margin-top-sm">
@@ -11,9 +11,9 @@
 </view>
 <view class='margin-xl bg-white padding-xl radius shadow-lg'>
   <view class='text-content'>
-    <view>Hi！~欢迎使用程小元像素画！</view>
-    <view class='margin-top-sm'>这里是像素画爱好者的聚集地，未来会上线更多有趣的功能。赶快和程小元一起，玩转像素画吧。</view>
-    <view class='margin-top-sm'>下面是我用像素画画板画完之后，买了点拼豆，自己拼了一个程小元头像，你也可以哦！</view>
-    <image class='margin-top-sm' src="https://wx3.sinaimg.cn/mw690/9f7ff7afly1gabii0y6c4j23402c07wj.jpg" />
+    <view></view>
+    <view class='margin-top-sm'></view>
+    <view class='margin-top-sm'></view>
+    <image class='margin-top-sm' src="" />
   </view>
 </view>
