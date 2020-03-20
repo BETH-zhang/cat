@@ -1,0 +1,25 @@
+<block
+  class="action"
+  wx:for="{{nodes}}"
+  wx:key="id"
+>
+  <text
+    wx:if="{{item.type === 'text'}}"
+  >{{item.text}}</text>
+  <view
+    wx:if="{{item.name === 'p'}}"
+    bindtap="clickHandler"
+    data-cur="{{item.attrs.dataCur}}"
+  >
+    <richText wx:if="{{item.children.length}}" nodes="{{item.children}}" />
+  </view>
+  <span
+    wx:if="{{item.name === 'span'}}"
+    bindtap="clickHandler"
+    data-cur="{{item.attrs.dataCur}}"
+    class="{{item.attrs.class}}"
+    style="{{item.attrs.style}}"
+  >
+    <richText wx:if="{{item.children.length}}" nodes="{{item.children}}" />
+  </span>
+</block>

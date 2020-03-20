@@ -5,7 +5,7 @@
 <work role="master" wx:if="{{PageCur==='work'}}"></work>
 <pixel bindpixelevent="myEventListener" wx:if="{{PageCur==='pixel'}}"></pixel>
 <home bindhomeevent="myEventListener" wx:if="{{PageCur==='home'}}"></home>
-
+<!-- 
 <view class="cu-modal {{modalName=='image'?'show':''}}">
   <view class="cu-dialog">
     <view class="bg-img" style="background-image: url('/assets/image/index.jpg');height:200px;">
@@ -19,7 +19,7 @@
       <view class="action margin-0 flex-sub  solid-left" bindtap="hideModal">终于等到你了</view>
     </view>
   </view>
-</view>
+</view> -->
 
 <view wx:if="{{PageCur!=='pixel'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
   <view class="action" bindtap="NavChange" data-cur="home">
@@ -54,3 +54,4 @@
   </view>
 </view>
 
+<official-account></official-account>

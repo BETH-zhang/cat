@@ -1,5 +1,6 @@
 import ColorThief from '../../utils/color-thief.js'
 // import TestApplication from '../../utils/canvasApplication'
+import config from '../../config'
 import { saveImage, chooseImage, downLoadImg } from '../../utils/wxUtils'
 import { addCollection, uploadImage, add } from '../../api/index'
 import { setImagePath } from '../../api/image'
@@ -175,7 +176,7 @@ Component({
         // 上传图片
         const filePath = res.tempFilePaths[0]
 
-        uploadImage(filePath, 'color-card/my-image').then((res) => {
+        uploadImage(filePath, `${config.colorCard}/my-image`).then((res) => {
           app.globalData.fileID = res.fileID
           app.globalData.imagePath = filePath
 

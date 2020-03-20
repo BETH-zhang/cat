@@ -3,4 +3,5 @@ export default {
   env: 'dev-5x6mb',
 
   colorCard: 'color-card',
+  banner: 'banner',
 }

@@ -1,0 +1,8 @@
+<view class='container'>
+  <view class='titleContainer'>
+    <text class='titleText'>{{title}}</text>
+  </view>
+  <view class='extContainer'>
+    <slot></slot>
+  </view>
+</view>

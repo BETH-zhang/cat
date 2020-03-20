@@ -1,0 +1,22 @@
+<view class="UCenter-bg" style="background-image: url({{path}})">
+  <view bindtap="BackPage" class="cuIcon-back">
+    <text>返回</text>
+  </view>
+  <view class="logo-box">
+    <image src="{{logo}}" class="png" mode="widthFix"></image>
+  </view>
+  <view class="text-xl">
+    <text>{{title}}</text>
+  </view>
+  <view class="margin-top-sm">
+    <text>By:{{author}}</text>
+  </view>
+</view>
+<view class='margin-xl bg-white padding-xl radius shadow-lg'>
+  <view class='text-content'>
+    <view class='margin-top-sm' wx:for="{{content}}" wx:key="index">
+      <view class='margin-top-sm' wx:if="{{item.text}}">{{item.text}}</view>
+      <image class='margin-top-sm' wx:if="{{item.image}}" src="{{item.image}}" lazy-load="true" />
+    </view>
+  </view>
+</view>

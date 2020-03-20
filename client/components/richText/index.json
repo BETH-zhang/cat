@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "richText": "/components/richText/index"
+  }
+}

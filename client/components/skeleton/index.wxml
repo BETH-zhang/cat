@@ -1,0 +1,10 @@
+<view class="skeleton skeleton-{{active}}">
+  <view class="skeleton-content">
+    <view class="skeleton-title" style="width: 38%"></view>
+    <view class="skeleton-paragraph">
+      <view class="skeleton-item"></view>
+      <view class="skeleton-item"></view>
+      <view class="skeleton-item" style="width: 61%"></view>
+    </view>
+  </view>
+</view>

@@ -87,12 +87,9 @@ export const addCollection = ({ name, data }) => highFunction(name)((collectionN
 })
 
 export const add = ({ name, data }) => highFunction(name)((collectionName, resolve, reject) => {
-  console.log('add-1')
   db.collection(collectionName).add({ data }).then((res) => {
-    console.log('add-2', res)
     resolve(res)
   }).catch((err) => {
-    console.log('add-3', err)
     reject(err)
   })
 })
@@ -106,5 +103,9 @@ export const del = ({ name, data }) => highFunction(name)((collectionName, resol
 })
 
 export const query = ({ name, data }) => highFunction(name)((collectionName, resolve, reject) => {
-  console.log(collectionName)
+  db.collection(collectionName).where(data || {}).get().then((res) => {
+    resolve(res.data)
+  }).catch((err) => {
+    reject(err)
+  })
 })

@@ -1,6 +1,8 @@
 
 {
   "pages": [
+    "pages/adminBanner/index",
+    "pages/detail/index",
     "pages/index/index",
     "pages/gifmaker/index",
     "pages/home/index",
@@ -13,10 +15,7 @@
     "pages/about/log/log"
   ],
   "window": {
-    "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "程小元像素画",
-    "navigationBarTextStyle": "white"
+    "navigationStyle": "custom"
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2"

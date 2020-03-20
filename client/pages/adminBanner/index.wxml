@@ -1,0 +1,54 @@
+<customBar bgColor="bg-gradual-pink" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">管理 Banner</view>
+</customBar>
+<form>
+	<view class="cu-form-group">
+		<view class="title">主题名称</view>
+		<input bindinput="InputTheme" value="{{theme}}" placeholder="添加banner的主题"></input>
+	</view>
+	<view class="cu-form-group">
+		<view class="title">跳转链接</view>
+		<input bindinput="InputHref" value="{{href}}" placeholder="添加banner的链接"></input>
+	</view>
+	<view class="cu-form-group">
+		<view class="action">
+			图片上传
+		</view>
+	</view>
+	<view class="cu-form-group" style="border-top: 0;">
+		<view class="grid col-4 grid-square flex-sub">
+			<view class="bg-img" bindtap="ViewImage" data-url="{{imgPath}}" wx:if="{{imgPath}}">
+				<image src='{{imgPath}}' mode='aspectFill'></image>
+			</view>
+			<view class="solids" bindtap="ChooseImage">
+				<text class="iconfont icon-taking-picture text-grey" style="font-size: 96rpx;"></text>
+			</view>
+		</view>
+	</view>
+	<view class="margin-top flex">
+	  <button bindtap="AddBanner" class="cu-btn bg-{{theme && href && imgPath ? 'blue' : 'grey'}} lg" style="width: 80%">添加</button>
+	</view>
+</form>
+
+<view
+  wx:if="{{banners.length}}"
+	wx:for="{{banners}}"
+	wx:key="index"
+	bindtap="JumpPage"
+	data-type="{{item.type}}"
+	data-href="{{item.href}}"
+>
+	<view class="cu-bar bg-white margin-top">
+		<view class="action">
+			<text class="cuIcon-title text-blue"></text>{{item.theme}}
+		</view>
+	</view>
+	<view class="bg-img bg-mask padding-tb-xl" style="background-image: url('{{item.path}}');height: 414rpx;">
+		<view class="padding-xl text-white">
+			<view class="padding-xs text-xl">
+				{{item.href}}
+			</view>
+		</view>
+	</view>
+</view>

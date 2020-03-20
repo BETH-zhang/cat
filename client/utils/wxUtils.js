@@ -165,3 +165,23 @@ export const createSelectorQuery = (element, that) => {
     }).exec();
   })
 }
+
+export const jumpPage = (type, url) => {
+  console.log('jump: ', type, url)
+  switch(type) {
+    case 'http':
+      wx.navigateTo({
+        url: '/pages/webview/index?url=' + url,
+      })
+      break;
+    case 'page':
+      const path = url.indexOf('/index') > -1 ? '/pages/' + url : '/pages/' + url + '/index'
+      wx.navigateTo({
+        url: path,
+      })
+      // wx.redirectTo({
+      //   url: '/pages/' + url + '/index',
+      // })
+      break;
+  }
+}

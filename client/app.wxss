@@ -17,6 +17,10 @@ Page {
   box-sizing: border-box;
 } 
 
+.flex {
+  display: flex;
+}
+
 .scrollPage {
   height: 86vh;
   background: #f2f2f2;
