@@ -6,9 +6,9 @@ import config from '../../config'
 const app = getApp();
 Page({
   data: {
-    title: '程小元',
+    title: '',
     author: 'Beth',
-    content: 'j\nk',
+    content: '',
     
     articles: [],
   },

@@ -1,8 +1,8 @@
 
 {
   "pages": [
-    "pages/adminArticle/index",
     "pages/adminBanner/index",
+    "pages/adminArticle/index",
     "pages/color/index",
     "pages/article/index",
     "pages/index/index",

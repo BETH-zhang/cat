@@ -28,15 +28,19 @@ Page({
     query({
       name: 'banner',
     }).then((res) => {
-      const paths = []
-      res.forEach((item) => {
-        paths.push(getImagePath(item.path))
+      const cloudImgs = []
+      const cloudIndexs = []
+      res.forEach((item, index) => {
+        if (item.path.indexOf('https:') === -1) {
+          cloudIndexs.push(index)
+          cloudImgs.push(getImagePath(item.path))
+        }
       })
 
-      getTempFileURL(paths).then((imageRes) => {
+      getTempFileURL(cloudImgs).then((imageRes) => {
         imageRes.fileList.forEach((item, index) => {
-          res[index] = {
-            ...res[index],
+          res[cloudIndexs[index]] = {
+            ...res[cloudIndexs[index]],
             path: item.tempFileURL
           }
         })

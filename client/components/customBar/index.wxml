@@ -10,3 +10,5 @@
     <slot name="right"></slot>
   </view>
 </view>
+
+<view class="margin-left-40">-</view>

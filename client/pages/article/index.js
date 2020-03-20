@@ -2,7 +2,6 @@ import { getImagePath, getTempFileURL } from '../../api/image'
 import { query } from '../../api/index'
 import config from '../../config'
 
-// pages/webview/index.js
 Page({
 
   /**
@@ -96,8 +95,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: this.options.title || 'webview',
-      path: '/pages/article/index?id=' + this.options.url,
+      title: this.options.id || '无内容',
+      path: '/pages/article/index?id=' + this.options.id,
       imageUrl: ''
     }
   },

@@ -68,3 +68,7 @@
 	text-align: center;
 	font-size: 34rpx;
 }
+
+.margin-left-40 {
+	margin-left: -40rpx;
+}
