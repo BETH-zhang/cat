@@ -1,6 +1,6 @@
 import { chooseImage, jumpPage } from '../../utils/wxUtils' 
 import { add, uploadImage, query } from '../../api/index'
-import { getImagePath, setImagePath } from '../../api/image'
+import { getImagePath, setImagePath, getTempFileURL } from '../../api/image'
 import config from '../../config'
 
 const app = getApp();
@@ -33,24 +33,14 @@ Page({
         paths.push(getImagePath(item.path))
       })
 
-      wx.cloud.getTempFileURL({
-        fileList: paths,
-        success: imageRes => {
-          // fileList 是一个有如下结构的对象数组
-          // [{
-          //    fileID: 'cloud://xxx.png', // 文件 ID
-          //    tempFileURL: '', // 临时文件网络链接
-          //    maxAge: 120 * 60 * 1000, // 有效期
-          // }]
-          imageRes.fileList.forEach((item, index) => {
-            res[index] = {
-              ...res[index],
-              path: item.tempFileURL
-            }
-          })
-          this.setData({ banners: res })
-        },
-        fail: console.error
+      getTempFileURL(paths).then((imageRes) => {
+        imageRes.fileList.forEach((item, index) => {
+          res[index] = {
+            ...res[index],
+            path: item.tempFileURL
+          }
+        })
+        this.setData({ banners: res })
       })
     })
   },

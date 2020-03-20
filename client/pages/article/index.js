@@ -1,4 +1,4 @@
-import { getImagePath } from '../../api/image'
+import { getImagePath, getTempFileURL } from '../../api/image'
 import { query } from '../../api/index'
 import config from '../../config'
 
@@ -38,13 +38,17 @@ Page({
     }).then((res) => {
       console.log(res)
       const data = res[0] || {}
-      const content = data.content.split('\n').map((item) => {
+      const cloudImgs = []
+      const cloudIndexs = []
+      const content = data.content.split('\n').map((item, index) => {
         console.log(item)
         if (item.indexOf('https:') > -1) {
           return {
             image: item
           }
         } else if (item.indexOf('.jpg') > -1 || item.indexOf('.png') > -1 || item.indexOf('.jpeg') > -1 || item.indexOf('.gif') > -1) {
+          cloudImgs.push(getImagePath(item))
+          cloudIndexs.push(index)
           return {
             image: getImagePath(item)
           }
@@ -54,12 +58,33 @@ Page({
           }
         }
       })
+
+      if (data.path) {
+        cloudIndexs.push(100)
+        cloudImgs.push(getImagePath(data.path))
+      }
+      let path = data.path ? getImagePath(data.path) : config.defaultBg
       this.setData({
         title: data.title,
         author: data.data,
         content,
-        path: data.path ? getImagePath(data.path) : config.defaultBg,
+        path,
       })
+      if (cloudImgs.length) {
+        getTempFileURL(cloudImgs).then((imageRes) => {
+          imageRes.fileList.forEach((item, index) => {
+            if (cloudIndexs[index] === 100) {
+              path = item.tempFileURL
+            } else {
+              content[cloudIndexs[index]] = {
+                image: item.tempFileURL
+              }
+            }
+          })
+
+          this.setData({ content, path })
+        })
+      }
     })
   },
 
