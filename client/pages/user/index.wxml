@@ -1,0 +1,82 @@
+<customBar bgColor="bg-purple">
+	<view slot="content">我的</view>
+</customBar>
+
+<view class="UCenter-bg">
+	<view class="logo-box">
+		<image src="{{avatarUrl}}" class="png" mode="widthFix"></image>
+	</view>
+	<view class="text-xl">
+		{{nickName}}
+	</view>
+	<image src="{{wave}}" mode="scaleToFill" class="gif-wave"></image>
+</view>
+
+<view class="padding flex text-center text-grey bg-white shadow-warp">
+	<view class="flex flex-sub flex-direction solid-right">
+		<view class="text-xxl text-orange">{{visitTotal}}</view>
+		<view class="margin-top-sm">
+			<text class="iconfont icon-my-work"></text> 作品</view>
+	</view>
+	<view class="flex flex-sub flex-direction solid-right">
+		<view class="text-xxl text-green">{{starCount}}</view>
+		<view class="margin-top-sm">
+			<text class="iconfont icon-color-card"></text> 色卡</view>
+	</view>
+	<view class="flex flex-sub flex-direction">
+		<view class="text-xxl text-blue">{{forksCount}}</view>
+		<view class="margin-top-sm">
+			<text class="iconfont icon-admin"></text> 管理</view>
+	</view>
+</view>
+
+<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius border">
+	<!--
+	<view class="cu-item arrow">
+		<view class="content" bindtap="copyLink" data-link="https://github.com/BETH-zhang/cat">
+			<text class="iconfont icon-github text-grey"></text>
+			<text class="text-grey" style="margin-left: 12px">GitHub</text>
+		</view>
+	</view>
+	<view class="cu-item">
+		<navigator class="content" url="/pages/about/work/index" hover-class="none">
+			<text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
+			<text class="text-grey" style="margin-left: 5px">我的作品 ({{workCount}})</text>
+			<text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
+		</navigator>
+	</view>
+	<view class="cu-item">
+		<navigator class="content" url="/pages/about/setting/index" hover-class="none">
+			<text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
+			<text class="text-grey" style="margin-left: 5px">画板设置</text>
+			<text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
+		</navigator>
+	</view> 
+	-->
+	<view class="cu-item">
+		<navigator class="content" url="/pages/about/about/about" hover-class="none">
+			<image src="{{logo}}" class="png" mode="aspectFit"></image>
+			<text class="text-grey" style="margin-left: 5px">关于程小元像素</text>
+			<text style="font-size: 32rpx;" class="iconfont icon-right text-grey float-right"></text>
+		</navigator>
+	</view>
+	<view class="cu-item">
+		<view class="content" bindtap="showQrcode">
+			<text style="font-size: 32rpx;" class="iconfont icon-zan text-red"></text>
+			<text class="text-grey" style="margin-left: 5px">赞赏支持</text>
+			<text style="font-size: 32rpx;" class="iconfont icon-right text-grey float-right"></text>
+		</view>
+	</view>
+	<view class="cu-item">
+		<view class="content" style="line-height: 2.6em;">
+			<button style="background: none;padding: 0;border: 0;width: 100%;text-align: left;margin: 0;line-height: 2.6em;" class="text-grey float-right contact-author" open-type="contact">
+				<text style="font-size: 40rpx;" class="iconfont icon-author text-black"></text>
+				<text class="text-grey" style="font-size: 30rpx;margin-left: 5px">联系程小元</text>
+				<text style="font-size: 30rpx;" class="iconfont icon-right text-grey float-right"></text>
+			</button>
+		</view>
+	</view>
+</view>
+
+<view class="cu-tabbar-height"></view>
+<bottomNav pageCur="user" />

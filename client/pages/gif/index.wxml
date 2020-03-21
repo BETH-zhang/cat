@@ -1,0 +1,67 @@
+<customBar bgColor="bg-gradual-pink" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">暴走 GIF</view>
+</customBar>
+
+<!--index.wxml-->
+<view id="main_page">
+  <canvas hidden="" style="position:absolute; z-index:-1;width: 350px; height: 350px;" canvas-id="canvas"></canvas>
+  <camera flash='off' device-position="{{cam_position}}" id="camera" style='width:100vw; height:100vw'></camera>
+
+  <!-- 模式切换 -->
+  <text id='tip' class='horizontal_center tp10' style="color:#888;font-size:13px;">{{tool_tip}}</text>
+  <view class="horizontal_center">
+    <picker class="picker" mode="selector" value="{{fps_id}}" bindchange="bindFpsChange" range="{{fpsArray}}">
+      <view class='picker_text_parent'><text class='picker_text'>{{fps}}</text></view>
+    </picker>
+    <text bindtap='createGif' class='make'>制作</text>
+    <text bindtap='previewGif' class='make make1'>预览</text>
+
+    <picker class="picker image_size" mode="selector" value="{{imgSizeId}}" bindchange="bindImgSizeChange" range="{{imgSizeArray}}">
+      <view class='picker_text_parent'><text class='picker_text picker_text_img_size'>{{imgSize}}</text></view>
+    </picker>
+    <text bindtap='showInputText' class='make make2'>文字</text>
+    <image src="/static/camera.png" class='btn1' disabled='{{btnDisabled}}' bindtap='takePhoto'></image>
+    <image bindtap='clearImage' src='/static/trash.png' class='trash'></image>
+    <image bindtap='chooseImage'  class="album" src='/static/album.png'></image>
+    <image bindtap="changeCamera" class="reload" src='/static/campos.png'></image>
+    <!--
+    <navigator  class="link_faceoff" target="miniProgram" open-type="navigate" app-id="" path="" extra-data="" version="release">
+    </navigator>
+    -->
+  </view>
+  <scroll-view scroll-x style='display: flex; margin-left:8px;margin-right:8px; white-space: nowrap;'>
+    <view style='display:inline-block;position:relative;' wx:for="{{photos}}" wx:key="image" wx:for-item="item">
+    <image class="photo" src='{{item.path}}'></image>
+    <image bindtap='deletePhoto' data-id="{{item.path}}" style='position:absolute; z-index:9;bottom:0rpx;right:0rpx;width:40rpx;height:40rpx;padding:10rpx;' src='/static/delete.png'></image>
+    </view>
+  </scroll-view>
+  <view hidden="{{isInputTextHidden}}" class='input-view'>
+    <view style='display:flex'>
+      <text>文字颜色：</text>
+        <picker class="text_color" mode="selector" value="{{textColorId}}" bindchange="bindTextColorChange" range="{{textColorArray}}">
+        <view class='picker-text-parent'>
+        <text>{{textColor}}</text>
+        <view class='picker-arrow'></view>
+        </view>
+      </picker>
+    </view>
+    <input bindinput="bindText" placeholder='输入文字内容'></input>
+    <view style='display:flex'>
+      <button bindtap='clearText' style='min-width:200rpx;'>清除</button>
+      <button bindtap='setText' style='min-width:200rpx;'>确定</button>
+    </view>
+  </view>
+</view>
+
+<view hidden='{{showPreview}}' style='padding-bottom:20rpx;'>
+  <view class='preview-dialog'>
+    <view class='text title'>GIF动画制作完成</view>
+    <image mode='{{previewMode}}' src='{{previewGifPath}}'></image>
+    <view class='text tip tip1'>点击“预览”查看动图</view>
+    <view class='text tip tip2'>预览页面长按可保存或分享图片</view>
+    <view class="buttons">
+      <button bindtap='closePreviewDialog'>关闭</button><button bindtap='previewImage' class='preview'>预览</button>
+    </view>
+  </view>
+</view>

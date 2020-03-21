@@ -1,0 +1,6 @@
+{
+  "disableScroll": true,
+  "usingComponents": {
+    "customBar":"/components/customBar/index"
+  }
+}

@@ -17,7 +17,7 @@ export default {
     id: 1,
     key: 'colorcard',
     name: '色卡',
-    icon: 'icon-seqia',
+    icon: 'icon-color-card',
     pageTo: 'colorCard',
   }, {
     id: 2,
@@ -27,7 +27,7 @@ export default {
     pageTo: 'pixel',
   }, {
     id: 3,
-    key: 'tansuo',
+    key: 'explore',
     name: '探索',
     icon: 'icon-explore',
     pageTo: 'explore',

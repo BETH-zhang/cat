@@ -1,6 +1,9 @@
 
 {
   "pages": [
+    "pages/user/index",
+    "pages/pixel/index",
+    "pages/colorCard/index",
     "pages/explore/index",
     "pages/vip/index",
     "pages/adminBanner/index",
@@ -8,13 +11,10 @@
     "pages/color/index",
     "pages/article/index",
     "pages/index/index",
-    "pages/gifmaker/index",
+    "pages/gif/index",
     "pages/home/index",
     "pages/convert/index",
     "pages/about/setting/index",
-    "pages/about/home/home",
-    "pages/about/work/index",
-    "pages/about/about/about",
     "pages/about/log/log"
   ],
   "window": {

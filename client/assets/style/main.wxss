@@ -22,7 +22,8 @@ page {
 	/* --blue: #0081ff; */
 	/* --blue: #4e7dc2; */
 	--blue: #0081ff;
-	--purple: #6739b6;
+	/* --purple: #6739b6; */
+	--purple: #5e00ff;
 	--mauve: #9c26b0;
 	--pink: #e03997;
 	--brown: #a5673f;

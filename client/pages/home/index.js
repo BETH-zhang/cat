@@ -60,7 +60,7 @@ Component({
       id: 6,
       name: 'Gif图',
       icon: '',
-      link: '/pages/gifmaker/index',
+      link: '/pages/gif/index',
       type: 'nav',
       bg: 'bg-gradual-pink',
     }],

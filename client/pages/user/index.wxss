@@ -1,6 +1,7 @@
 .UCenter-bg {
-  background-image: url(https://s2.ax1x.com/2019/11/21/MIeqCd.jpg);
-  background-size: cover;
+  /* background-image: url(https://s2.ax1x.com/2019/11/21/MIeqCd.jpg);
+  background-size: cover; */
+  background-image: linear-gradient(0deg, #9000ff, #5e00ff);
   height: 550rpx;
   display: flex;
   justify-content: center;
@@ -12,6 +13,7 @@
   color: #fff;
   font-weight: 300;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  margin-top: -1rpx;
 }
 
 .UCenter-bg text {
@@ -46,14 +48,6 @@ button::after{
   border: 0;
 }
 
-map,.mapBox{
-  left: 0;
-  z-index: 99;
-  mix-blend-mode: screen;  
-  height: 100rpx;   
-}
-
-map,.mapBox{
-  width: 750rpx;
-  height: 300rpx;
+.border {
+  border: 1rpx solid #ddd;
 }
