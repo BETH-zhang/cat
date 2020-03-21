@@ -7,11 +7,9 @@ Page({
     logo: getImagePath('/home/logo.png'),
     wave: getImagePath('/home/wave.gif'),
     pay: getImagePath('/home/pay.jpg'),
-    starCount: 0,
-    forksCount: 0,
-    visitTotal: 0,
-    logCount: 0,
-    workCount: 0,
+    worksCount: 0,
+    colorsCount: 0,
+    adminCount: 0,
   },
   onLoad() {
     this.initData()
@@ -22,7 +20,10 @@ Page({
 
     this.setData({
       avatarUrl: userInfo1.avatarUrl || userInfo2.avatarUrl || this.data.logo,
-      nickName: userInfo1.nickName || userInfo2.nickName || '未登录'
+      nickName: userInfo1.nickName || userInfo2.nickName || '未登录',
+      worksCount: this.coutNum(1000),
+      colorsCount: this.coutNum(1000),
+      adminCount: this.coutNum(1000),
     })
     console.log(userInfo1, userInfo2)
   },

@@ -14,17 +14,17 @@
 
 <view class="padding flex text-center text-grey bg-white shadow-warp">
 	<view class="flex flex-sub flex-direction solid-right">
-		<view class="text-xxl text-orange">{{visitTotal}}</view>
+		<view class="text-xxl text-orange">{{worksCount}}</view>
 		<view class="margin-top-sm">
 			<text class="iconfont icon-my-work"></text> 作品</view>
 	</view>
 	<view class="flex flex-sub flex-direction solid-right">
-		<view class="text-xxl text-green">{{starCount}}</view>
+		<view class="text-xxl text-green">{{colorsCount}}</view>
 		<view class="margin-top-sm">
 			<text class="iconfont icon-color-card"></text> 色卡</view>
 	</view>
 	<view class="flex flex-sub flex-direction">
-		<view class="text-xxl text-blue">{{forksCount}}</view>
+		<view class="text-xxl text-blue">{{adminCount}}</view>
 		<view class="margin-top-sm">
 			<text class="iconfont icon-admin"></text> 管理</view>
 	</view>
@@ -38,23 +38,9 @@
 			<text class="text-grey" style="margin-left: 12px">GitHub</text>
 		</view>
 	</view>
-	<view class="cu-item">
-		<navigator class="content" url="/pages/about/work/index" hover-class="none">
-			<text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
-			<text class="text-grey" style="margin-left: 5px">我的作品 ({{workCount}})</text>
-			<text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
-		</navigator>
-	</view>
-	<view class="cu-item">
-		<navigator class="content" url="/pages/about/setting/index" hover-class="none">
-			<text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
-			<text class="text-grey" style="margin-left: 5px">画板设置</text>
-			<text style="font-size: 32rpx;" class="iconfont icon-jiantou text-grey float-right"></text>
-		</navigator>
-	</view> 
 	-->
 	<view class="cu-item">
-		<navigator class="content" url="/pages/about/about/about" hover-class="none">
+		<navigator class="content" url="/pages/article/index?id=程小元像素画" hover-class="none">
 			<image src="{{logo}}" class="png" mode="aspectFit"></image>
 			<text class="text-grey" style="margin-left: 5px">关于程小元像素</text>
 			<text style="font-size: 32rpx;" class="iconfont icon-right text-grey float-right"></text>
