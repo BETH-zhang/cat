@@ -1,3 +1,8 @@
+<customBar bgColor="bg-purple" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">我的</view>
+</customBar>
+
 <view class="UCenter-bg">
 	<view class="box-container">
     <image

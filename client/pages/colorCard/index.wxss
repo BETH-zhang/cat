@@ -2,7 +2,7 @@
   /* background-image: url(https://s2.ax1x.com/2019/11/21/MIeqCd.jpg);
   background-size: cover; */
   background-image: linear-gradient(0deg, #9000ff, #5e00ff);
-  height: 700rpx;
+  height: 600rpx;
   display: flex;
   justify-content: center;
   overflow: hidden;
@@ -21,7 +21,6 @@
 
 .box-container .img-placeholder {
   margin: 0 auto;
-  margin-top: 70rpx;
   width: 300rpx;
   height: 300rpx;
   background: #fff;
