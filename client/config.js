@@ -15,7 +15,7 @@ export default {
     pageTo: 'index',
   }, {
     id: 1,
-    key: 'colorcard',
+    key: 'colorCard',
     name: '色卡',
     icon: 'icon-color-card',
     pageTo: 'colorCard',

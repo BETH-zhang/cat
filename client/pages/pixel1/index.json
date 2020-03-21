@@ -1,8 +1,0 @@
-{  
-  "component": true,
-  "usingComponents": {
-    "authSetting": "/components/authSetting/index",
-    "colorSetting": "/components/colorSetting/index",
-    "painter":"/components/painter/painter"
-  }
-}

@@ -1,0 +1,60 @@
+.UCenter-bg {
+  /* background-image: url(https://s2.ax1x.com/2019/11/21/MIeqCd.jpg);
+  background-size: cover; */
+  background-image: linear-gradient(0deg, #9000ff, #5e00ff);
+  height: 700rpx;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-weight: 300;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  margin-top: -1rpx;
+}
+
+.box-container {
+  text-align: center;
+}
+
+.box-container .img-placeholder {
+  margin: 0 auto;
+  margin-top: 70rpx;
+  width: 300rpx;
+  height: 300rpx;
+  background: #fff;
+  border-radius: 50%;
+  line-height: 300rpx;
+  box-shadow: 0 0 0 10px rgba(255, 255, 255, .4);
+}
+
+.box-container .colors-container,
+.box-container .button-container,
+.box-container .image-handler {
+  margin: 0 auto;
+  margin-top: 30rpx;
+}
+
+.box-container .image-handler {
+  position: absolute;
+  top: 0;
+  left: -100%;
+}
+
+.color-card-export {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.bg-img {
+  color: #fff;
+  font-size: 35rpx;
+  line-height: 150rpx;
+}
+
+.bg-img-border {
+  border: 3px solide #000;
+}
