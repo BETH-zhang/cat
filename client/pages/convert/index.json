@@ -1,7 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "authSetting": "/pages/authSetting/index",
-    "painter":"/pages/painter/painter"
+    "authSetting": "/compnents/authSetting/index",
+    "painter":"/components/painter/painter"
   }
 }

@@ -1,6 +1,10 @@
 {
+  "disableScroll": true,
+  "enablePullDownRefresh": false,
   "usingComponents": {
     "customBar":"/components/customBar/index",
-    "bottomNav": "/components/bottomNav/index"
+    "authSetting": "/components/authSetting/index",
+    "colorSetting": "/components/colorSetting/index",
+    "painter":"/components/painter/painter"
   }
 }

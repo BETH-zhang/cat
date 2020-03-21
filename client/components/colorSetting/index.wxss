@@ -43,8 +43,8 @@
   clear: both;
 }
 
-// ----
-.cu-list.menu>.cu-item.arrow: before {
+/* // ---- */
+.cu-list.menu>.cu-item.arrow:before {
   content: ''!important;
 }
 
@@ -148,15 +148,30 @@
 
 .color-setting {
   background: #f2f2f2;
+  height: 140rpx;
 }
 
 .color-setting .cu-item,
 .current-color-setting .cu-item {
+  margin: 15px;
   width: 90rpx;
   height: 90rpx;
   background: #000;
   border-radius: 50%;
-  border: 1px solid #f2f2f2;
+  position: relative;
+}
+
+.current-color-setting .cu-item .cu-item-inner,
+.color-setting .cu-item .cu-item-inner {
+  position: absolute;
+  top: -10rpx;
+  left: -10rpx;
+
+  width: 110rpx;
+  height: 110rpx;
+  background: #000;
+  border-radius: 50%;
+  opacity: 0.5;
 }
 
 .current-color-setting {
@@ -175,5 +190,10 @@
 
 .current-color-setting-active,
 .current-color-setting .current-color-setting-active {
-  border: 2px solid #0081ff;
+  border: 4rpx solid #0081ff;
+}
+
+.current-color-setting .current-color-setting-active .cu-item-inner {
+  top: -14rpx;
+  left: -14rpx;
 }

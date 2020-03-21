@@ -1,7 +1,78 @@
 <customBar bgColor="bg-gradual-pink">
-	<view slot="content">我的</view>
+	<view slot="content">像素画画板</view>
 </customBar>
 
+<authSetting
+  bindauthsettingevent="SettingEventListener"
+  wx:if="{{setting==='login'}}"
+  setting="{{setting}}"
+></authSetting>
+<colorSetting
+  bindcolorsettingevent="SettingEventListener"
+  setting="{{pixelColor}}"
+  pixelColor="{{pixelColor}}"
+  bgColor="{{bgColor}}"
+  fontColor="{{fontColor}}"
+></colorSetting>
 
-<view class="cu-tabbar-height"></view>
-<bottomNav pageCur="user" />
+<painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
+
+<view class="cu-modal {{showModal && shareImg?'show':''}}">
+  <view class="cu-dialog">
+    <view class="action-close" bindtap="hideModal">
+      <text style="font-size: 60rpx;" class="iconfont icon-close text-grey"></text>
+    </view>
+    <view class="bg-img" style="padding: 50rpx;margin: 0 auto;width: 600rpx; height:900rpx;" bindtap='hideModal'>
+      <view class="cu-bar justify-end text-white">
+        <image src="{{shareImg}}" style="width: 600rpx; height:900rpx;" />
+      </view>
+    </view>
+    <view class="cu-bar bg-white" style="margin: 0 auto;padding: 40rpx;width:80%">
+      <button class="cu-btn round bg-blue" bindtap="saveImg" style="float: left;">保存</button>
+      <button class="cu-btn round bg-blue" open-type="share" data-cur="{{shareImg}}">转发</button>
+    </view>
+  </view>
+</view>
+
+<view class="show-canvas">
+  <canvas
+    canvas-id="bgCanvas"
+    class="bg-canvas"
+    disable-scroll='{{true}}'
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+  />
+  <canvas
+    canvas-id="mainCanvas"
+    class="main-canvas"
+    disable-scroll='{{true}}'
+    style="width: {{width}}px; height: {{height}}px; display: {{hideCanvas ? 'none' : 'black'}};"
+    bindtouchstart="dispatchTouchStart"
+    bindtouchmove="dispatchTouchMove"
+    bindtouchend="dispatchTouchEnd"
+  />
+</view>
+
+<view class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="ToolChange" data-cur="{{toolType=='eraser' ? 'brush' : 'eraser'}}">
+    <i style="font-size: 32rpx;" class="iconfont {{toolType=='eraser' ? 'icon-rubber' : 'icon-brush'}} text-blue"></i>
+    <view class="text-blue">{{toolType=='eraser' ? '橡皮' : '画笔'}}</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="straw">
+    <i style="font-size: 32rpx;" class="iconfont icon-straw {{toolType=='straw'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='straw'?'text-blue':'text-gray'}}">吸管</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="undo">
+    <i style="font-size: 32rpx;" class="iconfont icon-undo text-gray"></i>
+    <view class="text-gray">撤销</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="clean">
+    <i style="font-size: 32rpx;" class="iconfont icon-clear text-gray"></i>
+    <view class="text-gray">清除</view>
+  </view>
+  <view class="action" bindtap="ToolChange" data-cur="generate">
+    <i style="font-size: 32rpx;" class="iconfont icon-create {{toolType=='generate'?'text-blue':'text-gray'}}"></i>
+    <view class="{{toolType=='generate'?'text-blue':'text-gray'}}">生成</view>
+  </view>
+</view>
+
+

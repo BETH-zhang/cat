@@ -1,0 +1,28 @@
+.bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 140rpx - 100rpx - env(safe-area-inset-bottom) / 2);
+  z-index: 1;
+}
+
+.main-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 140rpx - 100rpx - env(safe-area-inset-bottom) / 2);
+  z-index: 3;
+}
+
+.show-canvas {
+  position: relative;
+  display: block;
+  translate: 1s all;
+}
+
+.hide-canvas {
+  display: none;
+  translate: 1s all;
+}

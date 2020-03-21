@@ -1,4 +1,3 @@
-//wxss
 .bg-canvas {
   position: absolute;
   top: 0;

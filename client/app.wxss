@@ -21,8 +21,12 @@ Page {
   display: flex;
 }
 
+.relative {
+  position: relative;
+}
+
 .scrollPage {
-  height: 86vh;
+  height: 80vh;
   background: #f2f2f2;
 }
 

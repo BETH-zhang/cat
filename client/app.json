@@ -1,22 +1,21 @@
 
 {
   "pages": [
-    "pages/admin/index",
-    "pages/user/index",
     "pages/pixel/index",
+    "pages/user/index",
+    "pages/log/index",
+    "pages/admin/index",
     "pages/colorCard/index",
     "pages/explore/index",
     "pages/vip/index",
     "pages/adminBanner/index",
     "pages/adminArticle/index",
+    "pages/gif/index",
     "pages/color/index",
     "pages/article/index",
     "pages/index/index",
-    "pages/gif/index",
     "pages/home/index",
-    "pages/convert/index",
-    "pages/about/setting/index",
-    "pages/about/log/log"
+    "pages/convert/index"
   ],
   "window": {
     "navigationStyle": "custom"
