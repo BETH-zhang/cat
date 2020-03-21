@@ -1,4 +1,3 @@
-import { downloadFile } from '../../api/index'
 import { getImagePath } from '../../api/image'
 
 const app = getApp();

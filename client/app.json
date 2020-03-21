@@ -1,6 +1,7 @@
 
 {
   "pages": [
+    "pages/admin/index",
     "pages/user/index",
     "pages/pixel/index",
     "pages/colorCard/index",
