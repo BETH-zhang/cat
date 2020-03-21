@@ -1,0 +1,24 @@
+<customBar bgColor="bg-gradual-pink">
+	<view slot="content">探索</view>
+</customBar>
+<view
+  class="cu-card case"
+  wx:if="{{data.length}}"
+	wx:for="{{data}}"
+	wx:key="index"
+	bindtap="jumpPage"
+	data-href="{{item.href}}"
+	wx:key="id"
+>
+	<view
+		class="cu-item bg-img shadow-blur explore-item"
+		style="background-image:url({{item.path}})"
+	>
+		<view class="cardTitle">
+			{{item.title}}
+		</view>
+	</view>
+</view>
+
+<view class="cu-tabbar-height"></view>
+<bottomNav pageCur="explore" />

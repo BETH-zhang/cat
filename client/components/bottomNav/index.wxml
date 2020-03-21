@@ -1,0 +1,14 @@
+<view class="main-bottom-bar cu-bar tabbar bg-white shadow foot">
+  <view
+    class="action"
+    wx:for="{{menus}}"
+    wx:key="id"
+    bindtap="NavChange"
+    data-cur="{{item.pageTo}}"
+  >
+    <i
+      style="font-size: 32rpx;"
+      class="iconfont {{item.icon}} {{pageCur==item.key?'bg-gradual-pink':'text-gray'}}"></i>
+    <view class="{{pageCur==item.key?'bg-gradual-pink':'text-gray'}}">{{item.name}}</view>
+  </view> 
+</view>

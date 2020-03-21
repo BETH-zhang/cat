@@ -1,6 +1,8 @@
 
 {
   "pages": [
+    "pages/explore/index",
+    "pages/vip/index",
     "pages/adminBanner/index",
     "pages/adminArticle/index",
     "pages/color/index",

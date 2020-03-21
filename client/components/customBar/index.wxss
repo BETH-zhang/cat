@@ -71,4 +71,5 @@
 
 .margin-left-40 {
 	margin-left: -40rpx;
+	height: 0px;
 }
