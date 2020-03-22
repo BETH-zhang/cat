@@ -1,9 +1,6 @@
-import { downloadFile } from '../../api/index'
-import { getImagePath } from '../../api/image'
 import ColorThief from '../../utils/color-thief.js'
-// import TestApplication from '../../utils/canvasApplication'
 import config from '../../config'
-import { saveImage, chooseImage, downLoadImg } from '../../utils/wxUtils'
+import { saveImage, chooseImage, downLoadImg, jumpPage } from '../../utils/wxUtils'
 import { addCollection, uploadImage, add } from '../../api/index'
 import { setImagePath } from '../../api/image'
 import colorCardTheme0 from '../../assets/data/colorCardTheme0'
@@ -68,10 +65,10 @@ Page({
     })
   },
   tabSelect(e) {
-    this.setData({
-      TabCur: e.currentTarget.dataset.id,
-      scrollLeft: (e.currentTarget.dataset.id-1)*60
-    })
+    const id =  e.currentTarget.dataset.id
+    if (id) {
+      jumpPage('page', 'colors')
+    }
   },
   themeSelect(e) {
     console.log(this.data.imgPath, this.data.shareImg)

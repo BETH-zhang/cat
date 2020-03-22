@@ -1,6 +1,8 @@
 
 {
   "pages": [
+    "pages/ai/index",
+    "pages/colors/index",
     "pages/colorCard/index",
     "pages/pixel/index",
     "pages/user/index",
@@ -13,8 +15,7 @@
     "pages/gif/index",
     "pages/article/index",
     "pages/index/index",
-    "pages/home/index",
-    "pages/convert/index"
+    "pages/home/index"
   ],
   "window": {
     "navigationStyle": "custom"

@@ -55,7 +55,6 @@
   </view>
 </view>
 
-
 <scroll-view scroll-x class="bg-white nav text-center">
   <view class="cu-item {{index==TabCur?'text-blue cur':''}}" wx:for="{{tabs}}" wx:key="item" bindtap="tabSelect" data-id="{{index}}">
     {{item.name}}

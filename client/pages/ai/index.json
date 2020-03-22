@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "customBar":"/components/customBar/index",
+    "bottomNav": "/components/bottomNav/index",
+    "authSetting": "/components/authSetting/index",
+    "painter":"/components/painter/painter"
+  }
+}
