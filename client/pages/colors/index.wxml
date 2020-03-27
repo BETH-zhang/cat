@@ -1,38 +1,31 @@
 <customBar bgColor="bg-gradual-pink" isBack="{{true}}">
 	<view slot="backText">返回</view>
-	<view slot="content">精选作品</view>
+	<view slot="content">我的色卡</view>
 </customBar>
 <view
   wx:if="{{data.length}}"
 	wx:for="{{data}}"
 	wx:key="index"
-	bindtap="viewImages"
 	data-url="{{item.path}}"
 	wx:key="id"
 >
 	<view class="cu-card case no-card">
 		<view class="cu-item shadow">
-			<view class="image">
-				<image src="{{item.path}}" mode="widthFix"></image>
-				<view class="cu-tag bg-blue">VIP</view>
+			<view class="image" style="height: 360rpx;">
+				<image src="{{item.path}}" mode="widthFix" bindtap="viewImages"></image>
+				<view class="cu-tag bg-blue" bindtap="edit" data-id="{{item._id}}">编辑</view>
+				<view class="cu-tag bg-blue" style="right: 120rpx" bindtap="del" data-id="{{item._id}}">删除</view>
 				<view class="cu-bar bg-shadeBottom">
-					<text class="text-cut">{{item.description}}</text>
+					<text class="text-cut">{{item.description || '作品'}}</text>
 				</view>
 			</view>
-			<view class="cu-list menu-avatar">
-				<view class="cu-item">
-					<view class="cu-avatar round lg" style="background-image:url({{item.path}});"></view>
-					<view class="content flex-sub">
-						<view class="text-grey">{{item.title}}</view>
-						<view class="text-gray text-sm flex justify-between">
-							程小元
-							<!-- <view class="text-gray text-sm">
-								<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-								<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
-								<text class="cuIcon-messagefill margin-lr-xs"></text> 30
-							</view> -->
-						</view>
-					</view>
+			<view class="cu-list">
+				<view class="cu-color-item">
+					<view
+						wx:for="{{item.colors}}"
+						wx:key="index"
+						class="cu-avatar round md"
+						style="background-color: {{item}}"></view>
 				</view>
 			</view>
 		</view>

@@ -94,8 +94,16 @@ export const add = ({ name, data }) => highFunction(name)((collectionName, resol
   })
 })
 
-export const del = ({ name, data }) => highFunction(name)((collectionName, resolve, reject) => {
-  db.collection(collectionName).add({ data }).then((res) => {
+export const del = ({ name, id }) => highFunction(name)((collectionName, resolve, reject) => {
+  db.collection(collectionName).doc(id).remove().then((res) => {
+    resolve(res)
+  }).catch((err) => {
+    reject(err)
+  })
+})
+
+export const update = ({ name, id, data }) => highFunction(name)((collectionName, resolve, reject) => {
+  db.collection(collectionName).doc(id).update({ data }).then((res) => {
     resolve(res)
   }).catch((err) => {
     reject(err)
@@ -103,6 +111,7 @@ export const del = ({ name, data }) => highFunction(name)((collectionName, resol
 })
 
 export const query = ({ name, data }) => highFunction(name)((collectionName, resolve, reject) => {
+  console.log(name, data)
   db.collection(collectionName).where(data || {}).get().then((res) => {
     resolve(res.data)
   }).catch((err) => {

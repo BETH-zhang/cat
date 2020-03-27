@@ -1,0 +1,12 @@
+.cu-list {
+  margin: 30rpx 30rpx 0;
+}
+
+.cu-color-item {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.cu-color-item .cu-avatar {
+  margin: 12px 12px 0 12px;
+}

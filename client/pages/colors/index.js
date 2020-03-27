@@ -1,5 +1,6 @@
-import { downloadFile } from '../../api/index'
+import { query, del } from '../../api/index'
 import { getImagePath } from '../../api/image'
+import { jumpPage } from '../../utils/wxUtils'
 
 const app = getApp();
 Page({
@@ -12,20 +13,40 @@ Page({
     this.initData()
   },
   initData() {
-    downloadFile('/json/11.json', 'json')
-      .then((data) => {
-        const urls = data.map((item) => item && item.path)
-        this.setData({
-          data,
-          urls,
-          loading: false,
+    query({
+      name: 'colorCard',
+    }).then((res) => {
+      const data = []
+      const urls = []
+      res.forEach((item, index) => {
+        data.push({
+          ...item,
+          path: getImagePath(item.imgPath)
         })
+        urls.push(getImagePath(item.imgPath))
       })
+      this.setData({ data, loading: false, urls })
+    })
   },
-  viewImages() {
+  viewImages(e) {
     wx.previewImage({
       urls: this.data.urls,
       current: e.currentTarget.dataset.url,
     })
   }, 
+  edit(e) {
+    console.log(e)
+    const id = e.target.dataset.id
+    jumpPage('page', 'colorCard/index?id=' + id)
+  },
+  del(e) {
+    console.log(e)
+    const id = e.target.dataset.id
+    del({
+      name: 'colorCard',
+      id,
+    }).then((res) => {
+      this.initData() 
+    })
+  },
 })

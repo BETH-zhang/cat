@@ -1,8 +1,8 @@
 import ColorThief from '../../utils/color-thief.js'
 import config from '../../config'
 import { saveImage, chooseImage, downLoadImg, jumpPage } from '../../utils/wxUtils'
-import { addCollection, uploadImage, add } from '../../api/index'
-import { setImagePath } from '../../api/image'
+import { addCollection, uploadImage, add, query } from '../../api/index'
+import { setImagePath, getImagePath, getTempFileURL } from '../../api/image'
 import colorCardTheme0 from '../../assets/data/colorCardTheme0'
 import colorCardTheme1 from '../../assets/data/colorCardTheme1'
 import colorCardTheme2 from '../../assets/data/colorCardTheme2'
@@ -43,10 +43,31 @@ Page({
 
     uploadedColorList: false,
   },
-  onLoad() {
+  onLoad(options) {
     this.initCanvas()
+    this.initData(options.id) 
   },
-  initData() {
+  initData(id) {
+    if (!id) return null
+    query({
+      name: 'colorCard',
+      data: {
+        _id: id,
+      },
+    }).then((res) => {
+      console.log(res)
+      if (res.length) {
+        downLoadImg(getImagePath(res[0].imgPath), this).then((imgInfo) => {
+          console.log('imgInfo: ', imgInfo)
+          this.setData({
+            imgPath: imgInfo.path,
+            imgInfo,
+            colors: res[0].colors,
+            id,
+          })
+        })
+      }
+    })
   },
   noUploadColorList() {
     this.setData({
@@ -208,7 +229,7 @@ Page({
     })
   },
   saveColorCard: function() {
-    if (this.data.colors.length && app.globalData.fileID) {
+    if (this.data.colors.length && app.globalData.fileID && !this.data.id) {
       console.log(this.data.colors)
       console.log(app.globalData.fileID)
       const imgPath = setImagePath(app.globalData.fileID)
