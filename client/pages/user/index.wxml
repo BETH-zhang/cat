@@ -14,19 +14,23 @@
 
 <view class="padding flex text-center text-grey bg-white shadow-warp">
 	<view class="flex flex-sub flex-direction solid-right">
-		<view class="text-xxl text-orange">{{worksCount}}</view>
+		<!-- <view class="text-xxl text-orange">{{worksCount}}</view> -->
 		<view class="margin-top-sm">
 			<text class="iconfont icon-my-work"></text> 作品</view>
 	</view>
 	<view class="flex flex-sub flex-direction solid-right">
-		<view class="text-xxl text-green">{{colorsCount}}</view>
-		<view class="margin-top-sm">
-			<text class="iconfont icon-color-card"></text> 色卡</view>
+		<navigator class="content" url="/pages/colors/index" hover-class="none">
+			<!-- <view class="text-xxl text-green">{{colorsCount}}</view> -->
+			<view class="margin-top-sm">
+				<text class="iconfont icon-color-card"></text> 色卡</view>
+		</navigator>
 	</view>
-	<view class="flex flex-sub flex-direction">
-		<view class="text-xxl text-blue">{{adminCount}}</view>
-		<view class="margin-top-sm">
-			<text class="iconfont icon-admin"></text> 管理</view>
+	<view wx:if="{{nickName === '哄哄'}}" class="flex flex-sub flex-direction">
+		<navigator class="content" url="/pages/admin/index" hover-class="none">
+			<!-- <view class="text-xxl text-blue">{{adminCount}}</view> -->
+			<view class="margin-top-sm">
+				<text class="iconfont icon-admin"></text> 管理</view>
+		</navigator>
 	</view>
 </view>
 
@@ -41,21 +45,21 @@
 	-->
 	<view class="cu-item">
 		<navigator class="content" url="/pages/article/index?id=程小元像素画" hover-class="none">
-			<image src="{{logo}}" class="png" mode="aspectFit"></image>
+			<view class="box-icon"><image src="{{logo}}" class="png" mode="aspectFit"></image></view>
 			<text class="text-grey" style="margin-left: 5px">关于程小元像素</text>
 			<text style="font-size: 32rpx;" class="iconfont icon-right text-grey float-right"></text>
 		</navigator>
 	</view>
-	<view class="cu-item">
+	<!-- <view class="cu-item">
 		<navigator class="content" url="/pages/log/index" hover-class="none">
-			<text style="font-size: 32rpx;" class="iconfont icon-rizhi text-blue"></text>
+			<view class="box-icon"><text style="font-size: 32rpx;" class="iconfont icon-rizhi text-black"></text></view>
 			<text class="text-grey" style="margin-left: 5px">日志</text>
 			<text style="font-size: 32rpx;" class="iconfont icon-right text-grey float-right"></text>
 		</navigator>
-	</view>
+	</view> -->
 	<view class="cu-item">
 		<view class="content" bindtap="showQrcode">
-			<text style="font-size: 32rpx;" class="iconfont icon-zan text-red"></text>
+			<view class="box-icon"><text style="font-size: 32rpx;" class="iconfont icon-zan text-black"></text></view>
 			<text class="text-grey" style="margin-left: 5px">赞赏支持</text>
 			<text style="font-size: 32rpx;" class="iconfont icon-right text-grey float-right"></text>
 		</view>
@@ -63,7 +67,7 @@
 	<view class="cu-item">
 		<view class="content" style="line-height: 2.6em;">
 			<button style="background: none;padding: 0;border: 0;width: 100%;text-align: left;margin: 0;line-height: 2.6em;" class="text-grey float-right contact-author" open-type="contact">
-				<text style="font-size: 40rpx;" class="iconfont icon-author text-blue"></text>
+				<view class="box-icon"><text style="font-size: 40rpx;" class="iconfont icon-author text-black"></text></view>
 				<text class="text-grey" style="font-size: 30rpx;margin-left: 5px">联系程小元</text>
 				<text style="font-size: 30rpx;" class="iconfont icon-right text-grey float-right"></text>
 			</button>

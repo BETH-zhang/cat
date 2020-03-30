@@ -8,7 +8,7 @@
   >
     <i
       style="font-size: 32rpx;"
-      class="iconfont {{item.icon}} {{pageCur==item.key?'bg-gradual-pink':'text-gray'}}"></i>
-    <view class="{{pageCur==item.key?'bg-gradual-pink':'text-gray'}}">{{item.name}}</view>
+      class="iconfont {{item.icon}} {{pageCur==item.key?'text-gradual-purple':'text-gray'}}"></i>
+    <view class="{{pageCur==item.key?'text-gradual-purple':'text-gray'}}">{{item.name}}</view>
   </view> 
 </view>

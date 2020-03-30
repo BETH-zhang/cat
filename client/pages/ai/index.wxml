@@ -1,9 +1,9 @@
-<customBar bgColor="bg-purple" isBack="{{true}}">
+<customBar bgColor="bg-gradual-orange" isBack="{{true}}">
 	<view slot="backText">返回</view>
 	<view slot="content">AI 像素</view>
 </customBar>
 
-<view class="UCenter-bg">
+<view class="UCenter-bg bg-gradual-orange">
 	<view class="box-container">
     <image
       wx:if="{{imgPath}}"

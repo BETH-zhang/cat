@@ -3,7 +3,7 @@
 	<view slot="content">我的</view>
 </customBar>
 
-<view class="UCenter-bg">
+<view class="UCenter-bg bg-gradual-purple">
 	<view class="box-container">
     <image
       wx:if="{{imgPath}}"

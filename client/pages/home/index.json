@@ -1,3 +1,6 @@
 {
-  "component": true
+  "usingComponents": {
+    "customBar":"/components/customBar/index",
+    "bottomNav": "/components/bottomNav/index"
+  }
 }

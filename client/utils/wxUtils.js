@@ -168,6 +168,7 @@ export const createSelectorQuery = (element, that) => {
 
 export const jumpPage = (type, url) => {
   console.log('jump: ', type, url)
+  if (!type || !url) return null
   switch(type) {
     case 'http':
       wx.navigateTo({

@@ -1,12 +1,12 @@
 
 {
   "pages": [
+    "pages/pixel/index",
+    "pages/home/index",
     "pages/colors/index",
-    
     "pages/vip/index",
     "pages/ai/index",
     "pages/colorCard/index",
-    "pages/pixel/index",
     "pages/user/index",
     "pages/log/index",
     "pages/admin/index",
@@ -16,7 +16,7 @@
     "pages/gif/index",
     "pages/article/index",
     "pages/index/index",
-    "pages/home/index"
+    "pages/webview/index"
   ],
   "window": {
     "navigationStyle": "custom"

@@ -70,6 +70,8 @@
 }
 
 .margin-left-40 {
-	margin-left: -40rpx;
-	height: 0px;
+	margin-top: -1px;
+	height: 1px;
+	visibility: hidden;
+	opacity: 0;
 }

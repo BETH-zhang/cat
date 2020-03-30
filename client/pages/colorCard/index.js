@@ -86,7 +86,7 @@ Page({
     })
   },
   tabSelect(e) {
-    const id =  e.currentTarget.dataset.id
+    const id =  e.target.dataset.id
     if (id) {
       jumpPage('page', 'colors')
     }

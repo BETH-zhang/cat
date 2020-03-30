@@ -44,10 +44,27 @@
   height: 100rpx;   
 }
 
+.cu-list .cu-item .text-grey {
+  font-weight: bolder;
+}
+
 button::after{
   border: 0;
 }
 
 .border {
   border: 1rpx solid #ddd;
+}
+
+.box-icon {
+  width: 50rpx;
+  height: 50rpx;
+  float: left;
+  text-align: center;
+  overflow: hidden;
+}
+
+.box-icon .iconfont {
+  margin: 0 auto;
+  float: left;
 }

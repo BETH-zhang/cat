@@ -1,5 +1,0 @@
-.bg-gradual-pink {
-  background-image: linear-gradient(0deg, #9000ff, #5e00ff);
-  -webkit-background-clip: text;
-  color: transparent;
-}

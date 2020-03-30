@@ -1,4 +1,4 @@
-<customBar bgColor="bg-gradual-pink" isBack="{{true}}">
+<customBar bgColor="bg-gradual-purple" isBack="{{true}}">
 	<view slot="backText">返回</view>
 	<view slot="content">我的色卡</view>
 </customBar>

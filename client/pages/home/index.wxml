@@ -1,19 +1,49 @@
-<scroll-view scroll-y class="scrollPage">
-  <swiper class="card-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
-    <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
-      <view class="swiper-item" bindtap="jumpPage" data-cur="{{index}}">
-        <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
-        <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
+<customBar bgColor="bg-purple">
+	<view slot="content">程小元像素</view>
+</customBar>
+
+<swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+  <swiper-item wx:for="{{banners}}" wx:key>
+    <image
+      bindtap="jumpPage"
+      data-type="{{item.type}}"
+      data-href="{{item.href}}"
+      data-cur="{{index}}"
+      src="{{item.path}}"
+      mode="aspectFill"
+    ></image>
+  </swiper-item>
+</swiper>
+
+<view class="bg-white margin-bottom">
+  <view class="grid col-4 text-center">
+    <!-- open-type="share" -->
+    <block wx:for="{{navs0}}" wx:key="index">
+      <button wx:if="{{item.button}}" open-type="share" class="share-btn">
+        <view class="padding text-grey">
+          <view class="iconfont {{item.icon}} {{item.color}}"></view>
+          {{item.name}}
+        </view>
+      </button>
+      <view wx:if="{{!item.button}}" class="padding text-grey" bindtap="jumpPage" data-type="page" data-href="{{item.pageTo}}">
+        <view style="font-size: 56rpx;" class="iconfont {{item.icon}} {{item.color}}"></view>
+        {{item.name}}
       </view>
-    </swiper-item>
-  </swiper>
-  <view class="grid col-2 padding-sm nav-list">
-    <view class="padding-sm" wx:for="{{navs}}" wx:key="item">
-      <view class="{{item.bg}} padding radius text-center shadow-blur" bindtap="selectNav" data-cur="{{item.link}}" data-type="{{item.type}}">
-        <view class="text-lg">{{item.name}}</view>
-        <i style="font-size: 56rpx;" class="iconfont {{item.icon}} text-white"></i>
-        <view class="line"></view>
-      </view>
+    </block>
+  </view>
+</view>
+
+<official-account></official-account>
+
+<view class="grid col-2 padding-sm nav-list bg-white">
+  <view class="padding-sm" wx:for="{{navs}}" wx:key="item">
+    <view class="{{item.bg}} padding radius text-center shadow-blur" bindtap="selectNav" data-cur="{{item.link}}" data-type="{{item.type}}">
+      <view class="text-lg">{{item.name}}</view>
+      <i style="font-size: 56rpx;" class="iconfont {{item.icon}} text-white"></i>
+      <view class="line"></view>
     </view>
   </view>
-</scroll-view>
+</view>
+
+<view class="cu-tabbar-height"></view>
+<bottomNav pageCur="home" />

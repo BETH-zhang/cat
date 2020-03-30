@@ -10,16 +10,15 @@ const EImageFillType = {
 }
 
 class TestApplication {
-  constructor(ctx, canvas, wx) {
+  constructor(ctx, canvas) {
     this.ctx = ctx
     this.canvas = canvas
-    this.wx = wx
 
     // 网格坐标
     this.offsetX = 0
     this.offsetY = 0
     this.interval = 12
-    this.numberGird = 25
+    this.numberGird = 16
     this.startCoord = [0, 0]
     this.endCoord = [0, 0]
 
@@ -31,7 +30,7 @@ class TestApplication {
     
     // this.print()
     // this.checkAllApi()
-    this.initGridInterval(25, 0, 0)
+    this.initGridInterval(16, 0, 0)
   }
 
   setStyle = (canvas) => {
