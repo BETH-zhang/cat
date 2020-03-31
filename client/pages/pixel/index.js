@@ -19,7 +19,7 @@ Page({
     setting: '',
 
     shareImg: 'http://tmp/wx44378f03ea3692aa.o6zAJszQ4YQ5dZy0aDA8SHOSKW48.DqrxCQWImWHwf6dcc788fb7f9e0a7a16233ed16fac5e.png',
-
+   
     showGrid: false,
     title: '程小元像素画',
     description: '',
@@ -36,6 +36,15 @@ Page({
   },
   initData() {
   },
+  // imgload: function(e) {
+  //   this.setData({
+  //     'baseWidth': e.detail.width, //获取图片真实宽度
+  //     'baseHeight': e.detail.height, //获取图片真实高度
+  //     'scaleWidth': '100%', //给图片设置宽度
+  //     'scaleHeight': '100%' //给图片设置高度
+  //   })
+  // },
+
   SettingEventListener(e) {
     console.log(e.detail, '..SettingEventListener...')
     switch(this.data.setting || e.detail.setting) {
@@ -286,6 +295,7 @@ Page({
       this.setData({
         toolType: 'brush',
       })
+      this.initCanvas()
     } else {
       wx.navigateBack({
         delta: 1
