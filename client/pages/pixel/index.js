@@ -90,7 +90,8 @@ Page({
     // undo, clean, brush, eraser, straw, generate
     switch(key) {
       case 'undo':
-        this.appCanvas.undo()
+        // this.appCanvas.undo()
+        this.move(100, 100)
         break
       case 'clean':
         this.appCanvas.clean()
@@ -364,5 +365,10 @@ Page({
         delta: 1
       });
     }
+  },
+
+  // 画布移动
+  canvasTranslate(x, y) {
+    
   },
 })
