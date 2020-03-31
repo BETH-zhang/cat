@@ -47,6 +47,12 @@
     bindtouchmove="dispatchTouchMove"
     bindtouchend="dispatchTouchEnd"
   />
+  <canvas
+    canvas-id="previewCanvas"
+    class="preview-canvas"
+    disable-scroll='{{true}}'
+    style="width: {{previewWidth}}px; height: {{previewHeight}}px; display: {{previewImage ? 'block' : 'none'}}"
+  />
 </view>
 
 <view wx:if="{{toolType !== 'generate'}}" class="main-bottom-bar cu-bar tabbar bg-white shadow foot">

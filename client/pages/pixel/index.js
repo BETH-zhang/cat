@@ -1,4 +1,4 @@
-import Pixel from '../../utils/pixelApplication'
+import { Pixel, Draw } from '../../utils/pixelApplication'
 import {
   createSelectorQuery,
   saveImage,
@@ -8,6 +8,9 @@ import GestureRecognition from '../../utils/gestureRecognition'
 import pixelCardTheme0 from '../../assets/data/pixelCardTheme0';
 
 const app = getApp();
+
+let timer = null
+let gesture = {}
 Page({
   data: {
     hideCanvas: false,
@@ -30,6 +33,8 @@ Page({
     arr: [],
     template: {},
     imgInfo: {},
+
+    previewImage: null,
   },
   onLoad() {
     this.initCanvas()
@@ -65,6 +70,7 @@ Page({
         if (this.data.bgColor !== e.detail.bgColor) {
           this.bgCanvas.update({ bgColor: e.detail.bgColor })
           this.bgCanvas.initGrid()
+          this.updatePreview(e.detail.bgColor)
         }
         this.setData({
           ...e.detail,
@@ -157,8 +163,10 @@ Page({
   },
 
   dispatchTouchStart(e) {
+    this.createTimer()
+
     if (this.data.toolType !== 'straw') {
-      const gesture = this.gestureRecognition.touchStartEvent(e)
+      gesture = this.gestureRecognition.touchStartEvent(e)
       console.log('gesture: ', gesture)
       switch (gesture.type) {
         case 'Single':
@@ -180,6 +188,7 @@ Page({
   },
 
   dispatchTouchMove(e) {
+    this.createTimer()
     if (this.data.toolType !== 'straw') {
       const gesture = this.gestureRecognition.touchMoveEvent(e)
       console.log('gesture: ', gesture)
@@ -202,17 +211,68 @@ Page({
   },
 
   dispatchTouchEnd(e) {
+    this.cancelTimer()
     if (this.data.toolType !== 'straw') {
-      const gesture = this.gestureRecognition.touchEndEvent(e)
+      gesture = this.gestureRecognition.touchEndEvent(e)
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchEnd(e)
+          this.appCanvas.touchEnd()
+          this.updatePreview()
           break;
         case 'Double':
           break;
       }
+      gesture = {}
     } else {
       this.setData({ toolType: 'brush' })
+    }
+  },
+
+  updatePreview(bgColor) {
+    canvasToTempFilePath('mainCanvas', {
+      x: 0,
+      y: 0,
+      width: this.appCanvas.canvas.width,
+      height: this.appCanvas.canvas.height,
+    }, this).then((res) => {
+      const previewImage = res.tempFilePath
+      const previewWidth = this.appCanvas.canvas.width / 4
+      const previewHeight = this.appCanvas.canvas.height / 4
+      this.setData({
+        previewImage,
+        previewWidth,
+        previewHeight,
+      })
+
+      this.viewCanvas.fillRect(0, 0, previewWidth, previewHeight, bgColor || this.data.bgColor)
+      this.viewCanvas.drawImage(
+        previewImage,
+        {x: 0, y: 0, width: previewWidth, height: previewHeight},
+        {x: 0, y: 0, width: this.appCanvas.canvas.width, height: this.appCanvas.canvas.height},
+      )
+      this.viewCanvas.ctx.draw(false)
+    })
+  },
+
+  createTimer() {
+    this.cancelTimer()
+    timer = setTimeout(() => {
+      switch (gesture.type) {
+        case 'Single':
+          this.appCanvas.touchEnd()
+          this.updatePreview()
+          break;
+        case 'Double':
+          break;
+      }
+      gesture = {}
+    }, 2000)
+  },
+
+  cancelTimer() {
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
     }
   },
 
@@ -227,6 +287,7 @@ Page({
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this) 
       const ctxBg = wx.createCanvasContext('bgCanvas', this)
+      const ctxView = wx.createCanvasContext('previewCanvas', this)
 
       this.bgCanvas = new Pixel(ctxBg, { width, height, id: 'bgCanvas' }, this)
       this.bgCanvas.update({ bgColor: this.data.bgColor })
@@ -234,6 +295,8 @@ Page({
 
       this.appCanvas = new Pixel(ctx, { width, height, id: 'mainCanvas' }, this)
       this.appCanvas.update({ color: this.data.pixelColor })
+
+      this.viewCanvas = new Draw(ctxView, { width: width / 3, height: height / 3, id: 'previewCanvas' }, this)
     })
   },
   
