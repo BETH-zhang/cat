@@ -6,22 +6,19 @@ import {
 } from '../../utils/wxUtils'
 import GestureRecognition from '../../utils/gestureRecognition'
 import pixelCardTheme0 from '../../assets/data/pixelCardTheme0';
-import {
-  requestAnimationFrame,
-  cancelAnimationFrame
-} from '../../utils/util'
 
 const app = getApp();
 Page({
   data: {
     hideCanvas: false,
     toolType: 'brush', // undo, clearn, brush, eraser, straw, generate
+    // toolType: 'generate',
     brushPanel: false,
     allowDraw: false,
 
     setting: '',
 
-    shareImg: '',
+    shareImg: 'http://tmp/wx44378f03ea3692aa.o6zAJszQ4YQ5dZy0aDA8SHOSKW48.DqrxCQWImWHwf6dcc788fb7f9e0a7a16233ed16fac5e.png',
 
     showGrid: false,
     title: '程小元像素画',
@@ -57,7 +54,8 @@ Page({
         break
       case 'color':
         if (this.data.bgColor !== e.detail.bgColor) {
-          this.bgCanvas.init(e.detail.bgColor)
+          this.bgCanvas.update({ bgColor: e.detail.bgColor })
+          this.bgCanvas.initGrid()
         }
         this.setData({
           ...e.detail,
@@ -65,8 +63,7 @@ Page({
           hideCanvas: false,
           toolType: 'brush',
         })
-        this.appCanvas.setColor(e.detail.pixelColor)
-        this.appCanvas.reDraw()
+        this.appCanvas.update({ color: e.detail.pixelColor })
         break
       default:
         break
@@ -78,36 +75,21 @@ Page({
     // undo, clean, brush, eraser, straw, generate
     switch(key) {
       case 'undo':
-        const undo = this.appCanvas.undo()
-        if (!undo) {
-          wx.showToast({
-            title: '没有历史记录了',
-            icon: 'none',
-            duration: 2000
-          })
-        }
+        this.appCanvas.undo()
         break
       case 'clean':
         this.appCanvas.clean()
         break
       case 'brush':
-        // if (this.data.toolType === 'generate') {
-        // }          
-        // this.setData({
-        //   toolType: 'brush',
-        //   hideCanvas: false,
-        //   setting: '',
-        //   brushPanel: false,
-        // })
+        this.setData({
+          toolType: 'brush'
+        })
         this.appCanvas.update({ toolType: 'brush' })
         break
       case 'eraser':
-        // this.setData({
-        //   toolType: 'eraser',
-        //   hideCanvas: false,
-        //   setting: '',
-        //   brushPanel: false,
-        // })
+        this.setData({
+          toolType: 'eraser'
+        })
         this.appCanvas.update({ toolType: 'eraser' })
         break
       case 'straw':
@@ -116,29 +98,25 @@ Page({
         })
         break
       case 'generate':
-        // if (this.appCanvas.data) {
-        //   this.appCanvas.ctx.clearRect(0, 0, this.data.width, this.data.height)
-        //   this.appCanvas.fillRect(0, 0, this.data.width, this.data.height, this.data.bgColor)
-        //   this.appCanvas.draw()
-        //   this.tempCanvas()
-        //   wx.showLoading({
-        //     title: '图片生成中',
-        //   })
-        //   setTimeout(() => {
-        //     this.setData({
-        //       toolType: '',
-        //       hideCanvas: false,
-        //     }, () => {
-        //       this.savePicture()
-        //     })
-        //   }, 500)
-        // } else {
-        //   wx.showToast({
-        //     title: '画点东西试试',
-        //     icon: 'none',
-        //     duration: 1000
-        //   }) 
-        // }
+        const history = this.appCanvas.canvasHistory.length
+        if (history) {
+          this.setData({
+            toolType: 'generate',
+          })
+  
+          wx.showLoading({
+            title: '图片生成中',
+          })
+          this.tempCanvas(() => {
+            this.savePicture()
+          })
+        } else {
+          wx.showToast({
+            title: '画点东西再预览',
+            icon: 'none',
+            duration: 1000
+          }) 
+        }
         break
     }
   },
@@ -151,206 +129,87 @@ Page({
     this.triggerEvent('pixelevent', myEventDetail, myEventOption)
   },
 
-  // getClipData(a) {
-  //   const data = a.split(' ')
-  //   const directionData = {
-  //     top: -1,
-  //     bottom: -1,
-  //     left: -1,
-  //     right: -1,
-  //   }
+  tempCanvas(callback) {
+    canvasToTempFilePath('mainCanvas', {
+      x: 0,
+      y: 0,
+      width: this.appCanvas.canvas.width,
+      height: this.appCanvas.canvas.height,
+    }, this).then((res) => {
+      this.setData({
+        shareImg: res.tempFilePath,
+        imgInfo: {
+          ...res,
+          width: this.appCanvas.canvas.width,
+          height: this.appCanvas.canvas.height,
+        },
+      }, callback)
+    })
+  },
 
-  //   const updateDirectionData = (direction, value, coef) => {
-  //     if (directionData[direction] < 0) {
-  //       directionData[direction] = value
-  //     } else if ((directionData[direction] - value) * coef > 0) {
-  //       directionData[direction] = value
-  //     }
-  //   }
+  dispatchTouchStart(e) {
+    if (this.data.toolType !== 'straw') {
+      const gesture = this.gestureRecognition.touchStartEvent(e)
+      console.log('gesture: ', gesture)
+      switch (gesture.type) {
+        case 'Single':
+          this.appCanvas.touchStart(e)
+          break;
+        case 'Double':
+          wx.showToast({
+            title: '缩放画布',
+            icon: 'none',
+            duration: 2000
+          })
+          break;
+      }
+    } else {
+      this.appCanvas.straw(e, (color) => {
+        this.setData({ pixelColor: color })
+      })
+    }
+  },
 
-  //   data.forEach((item) => {
-  //     if (item) {
-  //       const coord = item.split('-')
-  //       const x = coord[0]
-  //       const y = coord[1]
-  //       updateDirectionData('top', y, 1)
-  //       updateDirectionData('bottom', y, -1)
-  //       updateDirectionData('left', x, 1)
-  //       updateDirectionData('right', x, -1)
-  //     }
-  //   })
+  dispatchTouchMove(e) {
+    if (this.data.toolType !== 'straw') {
+      const gesture = this.gestureRecognition.touchMoveEvent(e)
+      console.log('gesture: ', gesture)
+      switch (gesture.type) {
+        case 'Single':
+          this.appCanvas.touchMove(e)
+          break;
+        case 'Double':
+          if (gesture.scale) {
+            this.setData({ scale: gesture.scale })
+          }
+          wx.showToast({
+            title: JSON.stringify(gesture),
+            icon: 'none',
+            duration: 2000
+          })
+          break;
+      }
+    }
+  },
 
-  //   return {
-  //     directionData,
-  //     interval: this.appCanvas.interval,
-  //     left: directionData.left * this.appCanvas.interval,
-  //     top: directionData.top * this.appCanvas.interval,
-  //     width: (directionData.right - directionData.left + 1) * this.appCanvas.interval,
-  //     height: (directionData.bottom - directionData.top + 1) * this.appCanvas.interval,
-  //   }
-  // },
-
-  // tempCanvas(callback) {
-  //   const getClipData = this.getClipData(this.appCanvas.data)
-  //   console.log('getClipData: ', getClipData)
-  //   canvasToTempFilePath('mainCanvas', this, {
-  //     x: getClipData.left,
-  //     y: getClipData.top,
-  //     width: getClipData.width,
-  //     height: getClipData.height,
-  //     destWidth: getClipData.width,
-  //     destHeight: getClipData.height,
-  //   }).then((res) => {
-  //     this.setData({
-  //       shareImg: res.tempFilePath,
-  //       imgInfo: {
-  //         ...res,
-  //         width: getClipData.width,
-  //         height: getClipData.height,
-  //       },
-  //       hideCanvas: true,
-  //     }, callback)
-  //   })
-  // },
-
-  // updateCanvas(x0, y0, x, y, color) {
-  //   if (this.appCanvas) {
-  //     if (this.data.toolType === 'brush') {
-  //       this.appCanvas.updateGrid(x0, y0, x, y, color)
-  //     } else if (this.data.toolType === 'eraser') {
-  //       this.appCanvas.eraser(x0, y0, x, y)
-  //     }
-  //   }
-  // },
-
-  // dispatchTouchStart(e) {
-  //   if (!this.data.allowDraw && this.data.toolType === 'brush') {
-  //     this.data.allowDraw = true
-
-  //     const gesture = this.gestureRecognition.touchStartEvent(e)
-  //     // console.log('start', gesture)
-  //     console.log('gesture-start: ', gesture.type)
-  //     switch (gesture.type) {
-  //       case 'Single':
-  //         this.data.arr = []
-  //         this.appCanvas.snapshot()
-  //         this.data.arr.push([e.touches[0].x, e.touches[0].y])
-  //         break;
-  //       case 'Double':
-  //         // wx.showToast({
-  //         //   title: '缩放画布',
-  //         //   icon: 'none',
-  //         //   duration: 2000
-  //         // })
-  //         break;
-  //     }
-  //   } else if (this.data.toolType === 'straw') {
-  //     console.log('e: ', e)
-  //     const x = e.touches[0].x
-  //     const y = e.touches[0].y
-  //     wx.canvasGetImageData({
-  //       canvasId: 'mainCanvas',
-  //       x: 0,
-  //       y: 0,
-  //       width: this.data.width,
-  //       height: this.data.height,
-  //       success: (res) => {
-  //         console.log('res: ', res.data.length, x, y, this.data.width, this.data.height)
-  //         const data = res.data
-  //         const index = (y - 1) * this.data.width * 4 + x * 4
-  //         console.log(index, `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`)
-  //         this.setData({
-  //           pixelColor: `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`,
-  //           toolType: 'brush',
-  //         }) 
-  //       },
-  //     }, this)
-  //   }
-  // },
-
-  // dispatchTouchMove(e) {
-  //   if (this.data.allowDraw && this.data.toolType === 'brush') {
-  //     this.gestureRecognition.touchMoveEvent(e, (gesture) => {
-  //       // console.log('gesture: ', gesture)
-  //       // console.log('gesture-move: ', gesture.type)
-  //       switch (gesture.type) {
-  //         case 'Single':
-  //           this.data.arr.push([e.touches[0].x, e.touches[0].y])
-  //           this.render()
-  //           break;
-  //         case 'Double':
-  //           // if (gesture.scale) {
-  //           //   console.log('move')
-  //           //   this.bgCanvas.initGridInterval(gesture.scale * 25, 0, 0)
-  //           //   this.bgCanvas.init(this.data.bgColor)
-  //           //   this.appCanvas.initGridInterval(gesture.scale * 25, 0, 0)
-  //           //   this.appCanvas.reDraw()
-  //           // }
-  //           break;
-  //       }
-  //     })
-  //   }
-  // },
-
-  // dispatchTouchEnd(e) {
-  //   if (this.data.allowDraw && this.data.toolType === 'brush') {
-  //     this.data.allowDraw = false
-
-  //     const gesture = this.gestureRecognition.touchEndEvent(e)
-  //     // console.log('gesture-end: ', gesture.type)
-  //     switch (gesture.type) {
-  //       case 'Single':
-  //         // this.render()
-  //         break;
-  //       case 'Double':
-  //         // console.log(gesture)
-  //         break;
-  //     }
-  //   }
-  // },
-
-  // animate(lastTime) {
-  //   this.animateId = requestAnimationFrame((t) => {
-  //     this.render()
-  //     if (this.animateId) {
-  //       this.animate(t)
-  //     }
-  //   }, lastTime)
-  // },
-
-  // stop() {
-  //   cancelAnimationFrame(this.animateId)
-  //   this.animateId = null
-  // },
-
-  // render() {
-  //   // console.log('--', this.data.arr.length)
-  //   if (this.data.arr.length >= 2) {
-  //     this.updateCanvas(
-  //       this.data.arr[0][0],
-  //       this.data.arr[0][1],
-  //       this.data.arr[1][0],
-  //       this.data.arr[1][1],
-  //       this.data.pixelColor,
-  //     )
-  //     this.data.arr.splice(0, 1)
-  //   } else if (this.data.arr.length === 1) {
-  //     this.updateCanvas(
-  //       this.data.arr[0][0],
-  //       this.data.arr[0][1],
-  //       this.data.arr[0][0],
-  //       this.data.arr[0][1],
-  //       this.data.pixelColor,
-  //     )
-  //     this.data.arr.splice(0, 1)
-  //   } else if (!this.data.allowDraw) {
-  //     console.log('本次画完')
-  //     this.stop()
-  //   }
-  // },
+  dispatchTouchEnd(e) {
+    if (this.data.toolType !== 'straw') {
+      const gesture = this.gestureRecognition.touchEndEvent(e)
+      switch (gesture.type) {
+        case 'Single':
+          this.appCanvas.touchEnd(e)
+          break;
+        case 'Double':
+          break;
+      }
+    } else {
+      this.setData({ toolType: 'brush' })
+    }
+  },
 
   initCanvas() {
     console.log('globalData', app.globalData)
+    this.setData({ containerHeight: app.globalData.systemInfo.windowHeight - app.globalData.CustomBar })
     this.gestureRecognition = new GestureRecognition()
     createSelectorQuery('.main-bottom-bar', this).then((rect) => {
       const bottomBarStyle = rect.height
@@ -360,11 +219,12 @@ Page({
       const ctx = wx.createCanvasContext('mainCanvas', this) 
       const ctxBg = wx.createCanvasContext('bgCanvas', this)
 
-      this.bgCanvas = new Pixel(ctxBg, { width, height, id: 'bgCanvas' })
-      this.bgCanvas.initGrid(this.data.bgColor)
+      this.bgCanvas = new Pixel(ctxBg, { width, height, id: 'bgCanvas' }, this)
+      this.bgCanvas.update({ bgColor: this.data.bgColor })
+      this.bgCanvas.initGrid()
 
-      // this.appCanvas = new Pixel(ctx, { width, height, id: 'mainCanvas' })
-      // this.appCanvas.setColor(this.data.pixelColor)
+      this.appCanvas = new Pixel(ctx, { width, height, id: 'mainCanvas' }, this)
+      this.appCanvas.update({ color: this.data.pixelColor })
     })
   },
   
@@ -382,16 +242,6 @@ Page({
     }
   },
 
-  hideModal() {
-    this.setData({
-      shareImg: '',
-      showModal: false,
-      hideCanvas: false,
-      toolType: 'brush',
-    })
-    this.appCanvas.reDraw()
-  },
-  
   optPictureData() {
     console.log('读取图片', this.data.shareImg)    
     const date = new Date;
@@ -428,8 +278,18 @@ Page({
 
   // 长按保存事件
   saveImg() {
-    saveImage(this.data.shareImg, this).then(() => {
-      this.hideModal()
-    })
+    saveImage(this.data.shareImg, this)
+  },
+
+  backUp() {
+    if (this.data.toolType === 'generate') {
+      this.setData({
+        toolType: 'brush',
+      })
+    } else {
+      wx.navigateBack({
+        delta: 1
+      });
+    }
   },
 })

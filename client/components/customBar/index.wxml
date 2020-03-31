@@ -11,4 +11,4 @@
   </view>
 </view>
 
-<view class="margin-left-40" style="margin-top: -1px;height: 1px;visibility: hidden;opacity: 0;">-</view>
+<view class="margin-left-40" style="height: 1px;">-</view>

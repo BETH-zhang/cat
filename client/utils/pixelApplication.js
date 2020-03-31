@@ -1,8 +1,9 @@
 class Pixel {
-  constructor(ctx, canvas) {
+  constructor(ctx, canvas, that) {
     // 网格坐标
     this.ctx = ctx
     this.canvas = canvas
+    this.that = that
 
     this.toolType = 'brush' // brush eraser straw
     this.bgColor = 'white'
@@ -33,7 +34,7 @@ class Pixel {
   }
 
   initGrid = () => {
-    this.ctx.setFillStyle('white');
+    this.ctx.setFillStyle(this.bgColor);
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.setLineWidth(0.5);
@@ -43,7 +44,7 @@ class Pixel {
       this.ctx.lineTo(i * this.interval, this.canvas.height);
     }
     for (var i = 0; i <= this.numberGird_Y; i++) {
-      this.ctx.moveTo(0, i * this.interval + 1);
+      this.ctx.moveTo(0, i * this.interval);
       this.ctx.lineTo(this.canvas.width, i * this.interval);
     }
 
@@ -58,12 +59,12 @@ class Pixel {
     var py = y < this.interval ? 0 : parseInt(y / this.interval) * this.interval;
 
     if (this.toolType === 'brush') {
-      context.setFillStyle(this.color);
-      context.fillRect(px, py, this.interval, this.interval);
+      this.ctx.setFillStyle(this.color);
+      this.ctx.fillRect(px, py, this.interval, this.interval);
     } else if (this.toolType === 'eraser') {
-      context.clearRect(px, py, this.interval, this.interval);
+      this.ctx.clearRect(px, py, this.interval, this.interval);
     }
-    context.draw(true);
+    this.ctx.draw(true);
   }
 
   recoredOperation = () => {
@@ -71,27 +72,28 @@ class Pixel {
     if (this.step < this.canvasHistory.length) {
       this.canvasHistory.length = this.step + 1;
     }
+
     wx.canvasGetImageData({
       canvasId: this.canvas.id,
       x: 0,
       y: 0,
       width: this.canvas.width,
       height: this.canvas.height,
-      success(res) {
+      success: (res) => {
         this.canvasHistory.push(res.data)
         console.log(res.data)
       },
-      fail(){
+      fail: () => {
         console.log("canvasGetImageData fail")
       }
-    })
+    }, this.that)
   }
 
   // 绘制开始
   touchStart = (e) => {
     this.touchX = e.touches[0].x; // 获取触摸时的原点  
     this.touchY = e.touches[0].y; // 获取触摸时的原点
-    if (this.touchX > this.canvas.width || this.touchY > this.canvas.width){
+    if (this.touchX > this.canvas.width || this.touchY > this.canvas.height){
       return;
     }
     
@@ -102,7 +104,7 @@ class Pixel {
   touchMove = (e) => {
     this.touchX = e.touches[0].x;
     this.touchY = e.touches[0].y;
-    if (this.touchX > this.canvas.width || this.touchY > this.canvas.width) {
+    if (this.touchX > this.canvas.width || this.touchY > this.canvas.height) {
       return;
     }
     this.drawPixel(this.touchX, this.touchY);
@@ -113,21 +115,51 @@ class Pixel {
     this.recoredOperation()
   }
 
+  straw = (e, callback) => {
+    const x = e.touches[0].x
+    const y = e.touches[0].y
+    wx.canvasGetImageData({
+      canvasId: this.canvas.id,
+      x: 0,
+      y: 0,
+      width: this.canvas.width,
+      height: this.canvas.height,
+      success: (res) => {
+        const data = res.data
+        const index = (y - 1) * this.canvas.width * 4 + x * 4
+
+        console.log(index, `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`)
+        this.color = `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`
+        if (callback) {callback(this.color)}
+      },
+    }, this.that)
+  }
+
   // 撤销
   undo = () => {
-    if (this.step > 0){
+    // console.log(this.step, this.canvasHistory)
+    if (this.step > -1){
       this.step--;
       const imgData = this.canvasHistory[this.step];
-      wx.canvasPutImageData({
-        canvasId: this.canvas.id,
-        data: imgData,
-        x: 0,
-        y: 0,
-        width: this.canvas.width,
-        height: this.canvas.height,
-        success(res){
-          console.log('undo success')
-        }
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      this.ctx.draw(true, () => {
+        wx.canvasPutImageData({
+          canvasId: this.canvas.id,
+          data: imgData,
+          x: 0,
+          y: 0,
+          width: this.canvas.width,
+          height: this.canvas.height,
+          success(res){
+            console.log('undo success')
+          }
+        }, this.that)
+      })
+    } else {
+      wx.showToast({
+        title: '没有历史记录了',
+        icon: 'none',
+        duration: 2000
       })
     }
   }
@@ -147,13 +179,15 @@ class Pixel {
         success(res) {
           console.log('restore success')
         }
-      })
+      }, this.that)
     }
   }
 
   // 清除
-  clear = () => {
+  clean = () => {
     this.ctx.draw(false)
+    this.canvasHistory = []
+    this.step = -1
   }
 }
 

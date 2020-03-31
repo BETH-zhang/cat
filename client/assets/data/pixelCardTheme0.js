@@ -9,13 +9,15 @@ export default class PixelCard {
   palette(data) {
     console.log('data: ', data)
     const proportion = data.imgInfo.width / data.imgInfo.height
-    let imgWidth = width - startLeft * 4
-    let imgHeight = height - footerHeight - startLeft * 4
-    let imgTop = startLeft * 2
-    let imgLeft = startLeft * 2
+
+    let imgWidth = width - startLeft
+    let imgHeight = height - footerHeight - startLeft
+    let imgTop = startLeft / 2
+    let imgLeft = startLeft / 2
+
     if (proportion > defaultProportion) {
       imgHeight = imgWidth / proportion
-      imgTop = (height - imgHeight) / 2
+      imgTop = (height - footerHeight - imgHeight) / 2
     } else if (proportion < defaultProportion) {
       imgWidth = imgHeight * proportion
       imgLeft = (width - imgWidth) / 2

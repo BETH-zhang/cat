@@ -323,8 +323,8 @@ class GestureRecognition {
 
       let scale = this.touch.scale + 0.005 * this.touch.distanceEnd
 
-      if (scale >= 2) {
-        scale = 1
+      if (scale > 3) {
+        scale = 3
       } else if (this.touch.scale < 0.4) {
         scale = 0.4
       }
@@ -374,15 +374,15 @@ class GestureRecognition {
     console.log(this.touch.zoom, this.deltaX, this.deltaY)
   }
 
-  touchMoveEvent = (e, callback) => {
+  touchMoveEvent = (e) => {
     // console.log('---')
     // this.move(e)
     if (e.touches.length === 1) {
-      callback({
+      return {
         type: gestures.Single,
         x: e.touches[0].x,
         y: e.touches[0].y,
-      })
+      }
     }
 
     if (e.touches.length > 1) {
@@ -391,16 +391,14 @@ class GestureRecognition {
 
     const newScale = this.getNewScale(e.touches[0], e.touches[1])
     if (newScale) {
-      callback({
+      return {
         type: gestures.Double,
         scale: newScale,
         translateX: this.touch.translateX,
         translateY: this.touch.translateY,
-      })
+      }
     }
   }
-
-  // touchMoveEvent = throttle(this.throttleTouchMoveEvent, 500, 200)
 
   touchEndEvent = (e) => {
     // this.end(e)

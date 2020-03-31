@@ -25,6 +25,10 @@ Page {
   position: relative;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .scrollPage {
   height: 80vh;
   background: #f2f2f2;
