@@ -51,7 +51,7 @@
     canvas-id="previewCanvas"
     class="preview-canvas"
     disable-scroll='{{true}}'
-    style="width: {{previewWidth}}px; height: {{previewHeight}}px; display: {{previewImage ? 'block' : 'none'}}"
+    style="width: {{previewWidth}}px; height: {{previewHeight}}px; display: {{previewImage ? 'block' : 'none'}}; background: {{bgColor}}"
   />
 </view>
 

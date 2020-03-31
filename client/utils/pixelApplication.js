@@ -12,7 +12,10 @@ class PixelApplication {
     this.numberGird = 16
     this.numberGird_Y = 16
     this.interval = 0
+    this.offsetX = 0
+    this.offsetY = 0
 
+    this.height = 0
     this.step = -1
     this.touchX = 0;
     this.touchY = 0;
@@ -30,18 +33,18 @@ class PixelApplication {
   init = () => {
     this.interval = (this.canvas.width / this.numberGird);
     this.numberGird_Y = Math.floor(this.canvas.height / this.interval)
-    this.canvas.height = this.numberGird_Y * this.interval
+    this.height = this.numberGird_Y * this.interval
   }
 
   initGrid = () => {
     this.ctx.setFillStyle(this.bgColor);
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.height);
 
     this.ctx.setLineWidth(0.5);
     this.ctx.setStrokeStyle('grey');
     for (var i = 0; i <= this.numberGird; i++) {
       this.ctx.moveTo(i * this.interval, 0);
-      this.ctx.lineTo(i * this.interval, this.canvas.height);
+      this.ctx.lineTo(i * this.interval, this.height);
     }
     for (var i = 0; i <= this.numberGird_Y; i++) {
       this.ctx.moveTo(0, i * this.interval);
@@ -60,14 +63,14 @@ class PixelApplication {
 
     if (this.toolType === 'brush') {
       this.ctx.setFillStyle(this.color);
-      this.ctx.fillRect(px, py, this.interval, this.interval);
+      this.ctx.fillRect(px - this.offsetX, py - this.offsetY, this.interval, this.interval);
     } else if (this.toolType === 'eraser') {
-      this.ctx.clearRect(px, py, this.interval, this.interval);
+      this.ctx.clearRect(px - this.offsetX, py - this.offsetY, this.interval, this.interval);
     }
     this.ctx.draw(true);
   }
 
-  recoredOperation = () => {
+  recoredOperation = (callback) => {
     this.step += 1;
     if (this.step < this.canvasHistory.length) {
       this.canvasHistory.length = this.step + 1;
@@ -77,11 +80,12 @@ class PixelApplication {
       canvasId: this.canvas.id,
       x: 0,
       y: 0,
-      width: this.canvas.width,
-      height: this.canvas.height,
+      width: this.canvas.width + this.offsetX,
+      height: this.canvas.height + this.offsetY,
       success: (res) => {
         this.canvasHistory.push(res.data)
         console.log(res.data)
+        if (callback) { callback() } 
       },
       fail: () => {
         console.log("canvasGetImageData fail")
@@ -93,7 +97,7 @@ class PixelApplication {
   touchStart = (e) => {
     this.touchX = e.touches[0].x; // 获取触摸时的原点  
     this.touchY = e.touches[0].y; // 获取触摸时的原点
-    if (this.touchX > this.canvas.width || this.touchY > this.canvas.height){
+    if (this.touchX > this.canvas.width || this.touchY > this.height){
       return;
     }
     
@@ -104,15 +108,15 @@ class PixelApplication {
   touchMove = (e) => {
     this.touchX = e.touches[0].x;
     this.touchY = e.touches[0].y;
-    if (this.touchX > this.canvas.width || this.touchY > this.canvas.height) {
+    if (this.touchX > this.canvas.width || this.touchY > this.height) {
       return;
     }
     this.drawPixel(this.touchX, this.touchY);
   }
 
   // 绘制结束
-  touchEnd = () => {
-    this.recoredOperation()
+  touchEnd = (callback) => {
+    this.recoredOperation(callback)
   }
 
   straw = (e, callback) => {
@@ -136,31 +140,25 @@ class PixelApplication {
   }
 
   // 撤销
-  undo = () => {
-    // console.log(this.step, this.canvasHistory)
+  undo = (callback) => {
+    console.log(this.step, this.canvasHistory)
+    this.step--;
     if (this.step > -1){
-      this.step--;
       const imgData = this.canvasHistory[this.step];
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-      this.ctx.draw(true, () => {
-        wx.canvasPutImageData({
-          canvasId: this.canvas.id,
-          data: imgData,
-          x: 0,
-          y: 0,
-          width: this.canvas.width,
-          height: this.canvas.height,
-          success(res){
-            console.log('undo success')
-          }
-        }, this.that)
-      })
+      wx.canvasPutImageData({
+        canvasId: this.canvas.id,
+        data: imgData,
+        x: 0,
+        y: 0,
+        width: this.canvas.width,
+        height: this.canvas.height,
+        success(res){
+          console.log('undo success')
+          if (callback) { callback() }
+        }
+      }, this.that)
     } else {
-      wx.showToast({
-        title: '没有历史记录了',
-        icon: 'none',
-        duration: 2000
-      })
+      this.clean(callback)
     }
   }
 
@@ -184,10 +182,12 @@ class PixelApplication {
   }
 
   // 清除
-  clean = () => {
+  clean = (callback) => {
     this.ctx.draw(false)
     this.canvasHistory = []
     this.step = -1
+
+    if (callback) { callback() }
   }
 }
 

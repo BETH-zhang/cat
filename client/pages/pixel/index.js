@@ -70,7 +70,6 @@ Page({
         if (this.data.bgColor !== e.detail.bgColor) {
           this.bgCanvas.update({ bgColor: e.detail.bgColor })
           this.bgCanvas.initGrid()
-          this.updatePreview(e.detail.bgColor)
         }
         this.setData({
           ...e.detail,
@@ -90,11 +89,15 @@ Page({
     // undo, clean, brush, eraser, straw, generate
     switch(key) {
       case 'undo':
-        // this.appCanvas.undo()
-        this.move(100, 100)
+        this.appCanvas.undo(() => {
+          this.updatePreview()
+        })
+        // this.canvasTranslate()
         break
       case 'clean':
-        this.appCanvas.clean()
+        this.appCanvas.clean(() => {
+          this.updatePreview()
+        })
         break
       case 'brush':
         this.setData({
@@ -217,8 +220,9 @@ Page({
       gesture = this.gestureRecognition.touchEndEvent(e)
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchEnd()
-          this.updatePreview()
+          this.appCanvas.touchEnd(() => {
+            this.updatePreview()
+          })
           break;
         case 'Double':
           break;
@@ -229,30 +233,35 @@ Page({
     }
   },
 
-  updatePreview(bgColor) {
-    canvasToTempFilePath('mainCanvas', {
-      x: 0,
-      y: 0,
-      width: this.appCanvas.canvas.width,
-      height: this.appCanvas.canvas.height,
-    }, this).then((res) => {
-      const previewImage = res.tempFilePath
-      const previewWidth = this.appCanvas.canvas.width / 4
-      const previewHeight = this.appCanvas.canvas.height / 4
-      this.setData({
-        previewImage,
-        previewWidth,
-        previewHeight,
+  updatePreview() {
+    if (this.appCanvas.canvasHistory.length) {
+      canvasToTempFilePath('mainCanvas', {
+        x: 0,
+        y: 0,
+        width: this.appCanvas.canvas.width + this.appCanvas.canvas.offsetX,
+        height: this.appCanvas.canvas.height + this.appCanvas.canvas.offsetY,
+      }, this).then((res) => {
+        const previewImage = res.tempFilePath
+        const previewWidth = this.appCanvas.canvas.width / 4
+        const previewHeight = this.appCanvas.canvas.height / 4
+        this.setData({
+          previewImage,
+          previewWidth,
+          previewHeight,
+        })
+  
+        this.viewCanvas.drawImage(
+          previewImage,
+          {x: 0, y: 0, width: previewWidth, height: previewHeight},
+          {x: 0, y: 0, width: this.appCanvas.canvas.width, height: this.appCanvas.canvas.height},
+        )
+        this.viewCanvas.ctx.draw(false)
       })
-
-      this.viewCanvas.fillRect(0, 0, previewWidth, previewHeight, bgColor || this.data.bgColor)
-      this.viewCanvas.drawImage(
-        previewImage,
-        {x: 0, y: 0, width: previewWidth, height: previewHeight},
-        {x: 0, y: 0, width: this.appCanvas.canvas.width, height: this.appCanvas.canvas.height},
-      )
-      this.viewCanvas.ctx.draw(false)
-    })
+    } else {
+      this.setData({
+        previewImage: null,
+      })
+    }
   },
 
   createTimer() {
@@ -260,8 +269,9 @@ Page({
     timer = setTimeout(() => {
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchEnd()
-          this.updatePreview()
+          this.appCanvas.touchEnd(() => {
+            this.updatePreview()
+          })
           break;
         case 'Double':
           break;
@@ -368,7 +378,33 @@ Page({
   },
 
   // 画布移动
-  canvasTranslate(x, y) {
-    
+  canvasTranslate() {
+    const x = this.appCanvas.interval * 3
+    const y = 0
+    this.appCanvas.update({
+      offsetX: this.appCanvas.offsetX + x,
+      offsetY: this.appCanvas.offsetY + y,
+    })
+
+    this.appCanvas.ctx.translate(x, y)
+    wx.canvasPutImageData({
+      canvasId: 'mainCanvas',
+      data: this.appCanvas.canvasHistory[this.appCanvas.canvasHistory.length - 1],
+      x,
+      y,
+      width: this.appCanvas.canvas.width,
+      height: this.appCanvas.canvas.height,
+      success(res){
+        console.log('undo success')
+      },
+      fail(err) {
+        console.log(err)
+      },
+      complete() {
+        console.log('complete') 
+      },
+    }, this)
+
+    this.appCanvas.ctx.draw(true)
   },
 })
