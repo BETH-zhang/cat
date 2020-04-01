@@ -174,7 +174,8 @@ Page({
       console.log('gesture: ', gesture)
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchStart(e)
+          // this.appCanvas.touchStart(e)
+          this.appCanvas.touchMoveStart(e)
           break;
         case 'Double':
           wx.showToast({
@@ -198,7 +199,8 @@ Page({
       console.log('gesture: ', gesture)
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchMove(e)
+          // this.appCanvas.touchMove(e)
+          this.appCanvas.touchMoveMove(e)
           break;
         case 'Double':
           if (gesture.scale) {
@@ -220,9 +222,10 @@ Page({
       gesture = this.gestureRecognition.touchEndEvent(e)
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchEnd(() => {
-            this.updatePreview()
-          })
+          // this.appCanvas.touchEnd(() => {
+          //   this.updatePreview()
+          // })
+          this.appCanvas.touchMoveEnd(e)
           break;
         case 'Double':
           break;
@@ -269,9 +272,9 @@ Page({
     timer = setTimeout(() => {
       switch (gesture.type) {
         case 'Single':
-          this.appCanvas.touchEnd(() => {
-            this.updatePreview()
-          })
+          // this.appCanvas.touchEnd(() => {
+          //   this.updatePreview()
+          // })
           break;
         case 'Double':
           break;
@@ -297,15 +300,19 @@ Page({
       const height = app.globalData.systemInfo.windowHeight - bottomBarStyle * 2.5 - app.globalData.CustomBar
       this.setData({ width, height })
       const ctx = wx.createCanvasContext('mainCanvas', this) 
-      const ctxBg = wx.createCanvasContext('bgCanvas', this)
+      // const ctxBg = wx.createCanvasContext('bgCanvas', this)
       const ctxView = wx.createCanvasContext('previewCanvas', this)
 
-      this.bgCanvas = new Pixel(ctxBg, { width, height, id: 'bgCanvas' }, this)
-      this.bgCanvas.update({ bgColor: this.data.bgColor })
-      this.bgCanvas.initGrid()
+      // this.bgCanvas = new Pixel(ctxBg, { width, height, id: 'bgCanvas' }, this)
+      // this.bgCanvas.update({ bgColor: this.data.bgColor })
+      // this.bgCanvas.initGrid()
 
       this.appCanvas = new Pixel(ctx, { width, height, id: 'mainCanvas' }, this)
-      this.appCanvas.update({ color: this.data.pixelColor })
+      this.appCanvas.update({
+        bgColor: this.data.bgColor,
+        color: this.data.pixelColor,
+      })
+      this.appCanvas.initGrid()
 
       this.viewCanvas = new Draw(ctxView, { width: width / 3, height: height / 3, id: 'previewCanvas' }, this)
     })
