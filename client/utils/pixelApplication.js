@@ -13,13 +13,12 @@ class PixelApplication {
     this.numberGird_Y = 16
     this.interval = 25
 
-    // 移动标示
-    this.startX = 0
-    this.startY = 0
     // this.offsetX = wx.getStorageSync('offsetX') || 0
     // this.offsetY = wx.getStorageSync('offsetY') || 0
-    this.offsetX = 100
-    this.offsetY = 100
+    this.startPoint = { x: 0, y: 0 }
+    this.offsetX = 0
+    this.offsetY = 0
+    this.zoom = 1
 
     this.height = 0
     this.step = -1
@@ -50,7 +49,7 @@ class PixelApplication {
     this.ctx.translate(this.offsetX, this.offsetY);
 
     this.ctx.setFillStyle(this.bgColor);
-    this.ctx.fillRect(0, 0, this.canvas.width, this.height);
+    this.ctx.fillRect(-this.offsetX, -this.offsetY, this.canvas.width, this.canvas.height);
 
     this.ctx.setLineWidth(0.5);
     this.ctx.setStrokeStyle('grey');
@@ -58,12 +57,15 @@ class PixelApplication {
     const cc = Math.floor(this.offsetX / this.interval)
     const rc = Math.floor(this.offsetY / this.interval)
     console.log(this.offsetX, this.offsetY)
-    console.log(cc, rc)
-    for (var i = -cc; i <= this.numberGird - cc; i++) {
-      this.ctx.moveTo(i * this.interval, -rc * this.interval);
-      this.ctx.lineTo(i * this.interval, this.canvas.height);
+    console.log(cc, rc, this.numberGird)
+
+    this.ctx.moveTo((1 - cc) * this.interval, (-rc - 1) * this.interval)
+    this.ctx.lineTo((1 - cc) * this.interval, -rc * this.interval + this.canvas.height)
+    for (var i = 1 - cc; i <= this.numberGird - cc; i++) {
+      this.ctx.moveTo(i * this.interval, (-rc - 1) * this.interval);
+      this.ctx.lineTo(i * this.interval, -rc * this.interval + this.canvas.height);
     }
-    for (var i = -rc; i <= this.numberGird_Y - rc; i++) {
+    for (var i = -rc - 1; i <= this.numberGird_Y - rc; i++) {
       this.ctx.moveTo(-cc * this.interval, i * this.interval);
       this.ctx.lineTo(this.canvas.width - cc * this.interval, i * this.interval);
     }
@@ -86,6 +88,11 @@ class PixelApplication {
     this.ctx.draw(true);
   }
 
+  fillRect = (x, y, w, h, fillStyle = this.color) => {
+    this.ctx.setFillStyle(fillStyle);
+    this.ctx.fillRect(x, y, w, h);
+  }
+
   draw = () => {
     this.data.forEach((item) => {
       const x = item.x * this.interval
@@ -96,10 +103,10 @@ class PixelApplication {
         y + this.offsetY >= -this.interval &&
         y + this.offsetY <= this.canvas.height
       ) {
-        this.ctx.setFillStyle(item.color);
-        this.ctx.fillRect(x + 1, y + 1, this.interval - 2, this.interval - 2);
+        this.fillRect(x + 1, y + 1, this.interval - 2, this.interval - 2, item.color)
       }
     })
+
     this.ctx.draw();
   }
 
@@ -149,26 +156,6 @@ class PixelApplication {
 
   // 绘制结束
   touchEnd = (callback) => {
-    this.recoredOperation(callback)
-  }
-
-  // 开始移动
-  touchMoveStart = (e) => {
-    this.startX = Math.floor(e.touches[0].x)
-    this.startY = Math.floor(e.touches[0].y)
-  }
-
-  touchMoveMove = (e) => {
-    const x = Math.floor(e.touches[0].x)
-    const y = Math.floor(e.touches[0].y)
-    this.offsetX += (x - this.startX)
-    this.offsetY += (y - this.startY)
-    this.startX = x
-    this.startY = y
-    this.initGrid()
-  }
-
-  touchMoveEnd = (e) => {
     if (this.point) {
       const index = this.data.findIndex(item => {
         return item.x === this.point.x && item.y === this.point.y;
@@ -194,6 +181,76 @@ class PixelApplication {
       key: 'pixelData',
       data: this.data,
     })
+
+    this.recoredOperation(callback)
+  }
+
+  // 开始移动
+  touchMoveStart = (e) => {
+    const p1 = e.touches[0]
+   
+    this.update({
+      startPoint: {
+        x: p1.x - this.offsetX,
+        y: p1.y - this.offsetY,
+        rowIdx: Math.floor((p1.x - this.offsetX) / this.interval),
+        colIdx: Math.floor((p1.y - this.offsetY) / this.interval),
+        offsetX: Math.floor((p1.x - this.offsetX) / this.interval) * this.interval,
+        offsetY: Math.floor((p1.y - this.offsetY) / this.interval) * this.interval,
+      },
+    }) 
+
+    if (e.touches.length === 1) {
+      
+    } else if (e.touches.length > 1) {
+      const p1 = e.touches[0]
+      const p2 = e.touches[1]
+
+      this.update({
+        startPoint: {
+          x: Math.sqrt(Math.pow((p1.x + p2.x) / 2, 2)) - this.offsetX,
+          y: Math.sqrt(Math.pow((p1.y + p2.y) / 2, 2)) - this.offsetY,
+          distance: Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)),
+        },
+      })
+    }
+  }
+
+  touchMoveMove = (e) => {
+    const p1 = e.touches[0]
+    const distance = Math.sqrt(Math.pow(p1.x - this.startPoint.x, 2) + Math.pow(p1.y - this.startPoint.y, 2))
+    // this.zoom = 1 - distance * 0.005
+    this.zoom = 1 + distance * 0.005
+    console.log('rowIdx: ', this.startPoint.rowIdx, this.startPoint.colIdx)
+    this.interval = Math.max(Math.min(this.interval * this.zoom, 50), 12)
+    this.numberGird = Math.floor(this.canvas.width / this.interval)
+    this.offsetX = this.startPoint.offsetX - this.startPoint.rowIdx * this.interval
+    this.offsetY = this.startPoint.offsetY - this.startPoint.colIdx * this.interval
+
+    this.init()
+    this.initGrid()
+
+    if (e.touches.length > 1) {
+      const p1 = e.touches[0]
+      const p2 = e.touches[1]
+
+      const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
+      const zoom = Math.max(0, distance / this.startPoint.distance)
+
+      // 获取偏移值
+      this.update({
+        offsetX: Math.sqrt(Math.pow((p1.x + p2.x) / 2, 2)) - this.startPoint.x,
+        offsetY: Math.sqrt(Math.pow((p1.y + p2.y) / 2, 2)) - this.startPoint.y,
+        zoom,
+        offsetStartX: this.startPoint.x * zoom - this.startPoint.x,
+        offsetStartY: this.startPoint.y * zoom - this.startPoint.y,
+      })
+      
+      this.initGrid()
+    }
+  }
+
+  touchMoveEnd = (e) => {
   }
 
   straw = (e, callback) => {
@@ -268,50 +325,4 @@ class PixelApplication {
   }
 }
 
-class DrawApplication {
-  constructor(ctx, canvas, that) {
-    this.ctx = ctx
-    this.canvas = this.canvas
-    this.that = that
-    this.color = 'white'
-  }
-
-  update = (options = {}) => {
-    Object.keys(options).forEach((key) => {
-      this[key] = options[key]
-    })
-  }
-
-  check = () => {
-    if (this.ctx === null) {
-      return
-    }
-  }
-
-  fillRect = (x, y, width, height, fillStyle = this.color) => {
-    this.check()
-    this.ctx.save()
-    this.ctx.setFillStyle(fillStyle)
-    this.ctx.fillRect(x, y, width, height)
-    this.ctx.restore()
-  }
-
-  drawImage = (img, destRect = {}, srcRect = {}) => {
-    this.check()
-    this.ctx.drawImage(img,
-      // 源
-      srcRect.x,
-      srcRect.y,
-      srcRect.width,
-      srcRect.height,
-      // 目标
-      destRect.x,
-      destRect.y,
-      destRect.width,
-      destRect.height,
-    )
-  }
-}
-
-export const Pixel = PixelApplication
-export const Draw = DrawApplication
+export default PixelApplication
