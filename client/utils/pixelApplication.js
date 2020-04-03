@@ -54,20 +54,19 @@ class PixelApplication {
     this.ctx.setLineWidth(0.5);
     this.ctx.setStrokeStyle('grey');
     
-    const cc = Math.floor(this.offsetX / this.interval)
-    const rc = Math.floor(this.offsetY / this.interval)
-    console.log(this.offsetX, this.offsetY)
-    console.log(cc, rc, this.numberGird)
+    const cc = Math.floor(this.offsetX / this.interval) + 1
+    const rc = Math.floor(this.offsetY / this.interval) + 1
 
-    this.ctx.moveTo((1 - cc) * this.interval, (-rc - 1) * this.interval)
-    this.ctx.lineTo((1 - cc) * this.interval, -rc * this.interval + this.canvas.height)
-    for (var i = 1 - cc; i <= this.numberGird - cc; i++) {
-      this.ctx.moveTo(i * this.interval, (-rc - 1) * this.interval);
-      this.ctx.lineTo(i * this.interval, -rc * this.interval + this.canvas.height);
+    // console.log(this.offsetX, this.offsetY)
+    // console.log(cc, rc, this.numberGird)
+
+    for (var i = 0 - cc; i <= this.numberGird - cc + 1; i++) {
+      this.ctx.moveTo(i * this.interval, - rc * this.interval);
+      this.ctx.lineTo(i * this.interval, this.canvas.height - (rc - 1) * this.interval);
     }
-    for (var i = -rc - 1; i <= this.numberGird_Y - rc; i++) {
-      this.ctx.moveTo(-cc * this.interval, i * this.interval);
-      this.ctx.lineTo(this.canvas.width - cc * this.interval, i * this.interval);
+    for (var i = 0 - rc; i <= this.numberGird_Y - rc + 1; i++) {
+      this.ctx.moveTo(- cc * this.interval, i * this.interval);
+      this.ctx.lineTo(this.canvas.width - (cc - 1) * this.interval, i * this.interval);
     }
 
     this.ctx.stroke();
@@ -195,8 +194,8 @@ class PixelApplication {
         y: p1.y - this.offsetY,
         rowIdx: Math.floor((p1.x - this.offsetX) / this.interval),
         colIdx: Math.floor((p1.y - this.offsetY) / this.interval),
-        offsetX: Math.floor((p1.x - this.offsetX) / this.interval) * this.interval,
-        offsetY: Math.floor((p1.y - this.offsetY) / this.interval) * this.interval,
+        offsetX: p1.x / this.interval,
+        offsetY: p1.y / this.interval,
       },
     }) 
 
@@ -219,13 +218,13 @@ class PixelApplication {
   touchMoveMove = (e) => {
     const p1 = e.touches[0]
     const distance = Math.sqrt(Math.pow(p1.x - this.startPoint.x, 2) + Math.pow(p1.y - this.startPoint.y, 2))
-    // this.zoom = 1 - distance * 0.005
-    this.zoom = 1 + distance * 0.005
+    this.zoom = 1 - distance * 0.005
+    // this.zoom = 1 + distance * 0.005
     console.log('rowIdx: ', this.startPoint.rowIdx, this.startPoint.colIdx)
     this.interval = Math.max(Math.min(this.interval * this.zoom, 50), 12)
     this.numberGird = Math.floor(this.canvas.width / this.interval)
-    this.offsetX = this.startPoint.offsetX - this.startPoint.rowIdx * this.interval
-    this.offsetY = this.startPoint.offsetY - this.startPoint.colIdx * this.interval
+    this.offsetX = this.startPoint.x - this.startPoint.offsetX * this.interval
+    this.offsetY = this.startPoint.y - this.startPoint.offsetY * this.interval
 
     this.init()
     this.initGrid()

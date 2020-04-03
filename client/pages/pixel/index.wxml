@@ -33,12 +33,6 @@
 
 <view class="show-canvas absolute" style="left: {{toolType !== 'generate' ? '0rpx' : '5000rpx'}}">
   <canvas
-    canvas-id="bgCanvas"
-    class="bg-canvas"
-    disable-scroll='{{true}}'
-    style="width: {{width}}px; height: {{height}}px;"
-  />
-  <canvas
     canvas-id="mainCanvas"
     class="main-canvas"
     disable-scroll='{{true}}'
