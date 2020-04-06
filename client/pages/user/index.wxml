@@ -15,7 +15,7 @@
 </view>
 
 <view class="padding flex text-center text-grey bg-white shadow-warp">
-	<view class="flex flex-sub flex-direction solid-right">
+	<view wx:if="{{nickName === '哄哄'}}" class="flex flex-sub flex-direction solid-right">
 		<!-- <view class="text-xxl text-orange">{{worksCount}}</view> -->
 		<view class="margin-top-sm">
 			<text class="iconfont icon-my-work"></text> 作品</view>

@@ -1,8 +1,8 @@
 
 {
   "pages": [
-    "pages/user/index",
     "pages/home/index",
+    "pages/user/index",
     "pages/pixel/index",
     "pages/preview/index",
     "pages/colors/index",
