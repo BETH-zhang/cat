@@ -181,6 +181,7 @@
   width: 140rpx;
   height: 140rpx;
   z-index: 99;
+  border: 4rpx solid #fff;
 }
 
 .current-color-setting .cu-item {
