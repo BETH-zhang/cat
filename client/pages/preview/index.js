@@ -25,10 +25,12 @@ Page({
     console.log(e.detail, '..SettingEventListener...')
     switch(this.data.setting || e.detail.setting) {
       case 'login':
-        this.setData({
-          setting: '',
-        })
-        this.createImage()
+        if (!e.detail.close) {
+          this.setData({
+            setting: '',
+          })
+          this.createImage()
+        }
         break
       default:
         break
