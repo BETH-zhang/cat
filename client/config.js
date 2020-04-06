@@ -81,7 +81,7 @@ export default {
     bg: 'bg-gradual-orange',
   }, {
     id: 2,
-    name: 'Gif图',
+    name: '暴走Gif',
     icon: 'icon-gif',
     link: 'gif',
     bg: 'bg-gradual-green',
