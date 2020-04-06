@@ -124,8 +124,8 @@ Page({
       }
     } else {
       this.appCanvas.straw(e, (color) => {
-        console.log('color: ', color)
-        this.setData({ pixelColor: color })
+        this.setData({ pixelColor: color, toolType: 'brush' })
+        this.appCanvas.update({ toolType: 'brush' })
       })
     }
   },
