@@ -41,7 +41,15 @@ Page({
   jumpPage(e) {
     const type = e.currentTarget.dataset.type
     const href = e.currentTarget.dataset.href
-    jumpPage(type, href)
+    const openImg = e.currentTarget.dataset.openimg
+
+    if (href) {
+      jumpPage(type, href)
+    } else if (openImg) {
+      wx.previewImage({
+        urls: [getImagePath(openImg)]
+      });
+    }
   },
   DotStyle(e) {
     this.setData({

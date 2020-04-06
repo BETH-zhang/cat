@@ -25,7 +25,7 @@
           {{item.name}}
         </view>
       </button>
-      <view wx:if="{{!item.button}}" class="padding text-grey" bindtap="jumpPage" data-type="page" data-href="{{item.pageTo}}">
+      <view wx:if="{{!item.button}}" class="padding text-grey" bindtap="jumpPage" data-type="page" data-href="{{item.pageTo}}" data-openimg="{{item.openImg}}">
         <view style="font-size: 56rpx;" class="iconfont {{item.icon}} {{item.color}}"></view>
         {{item.name}}
       </view>

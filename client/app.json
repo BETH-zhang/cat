@@ -1,9 +1,9 @@
 
 {
   "pages": [
+    "pages/home/index",
     "pages/pixel/index",
     "pages/preview/index",
-    "pages/home/index",
     "pages/colors/index",
     "pages/vip/index",
     "pages/ai/index",
@@ -16,7 +16,6 @@
     "pages/adminArticle/index",
     "pages/gif/index",
     "pages/article/index",
-    "pages/index/index",
     "pages/webview/index"
   ],
   "window": {

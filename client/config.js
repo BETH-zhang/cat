@@ -25,12 +25,18 @@ export default {
     name: '像素画',
     icon: 'icon-add',
     pageTo: 'pixel',
+  // }, {
+  //   id: 3,
+  //   key: 'explore',
+  //   name: '探索',
+  //   icon: 'icon-explore',
+  //   pageTo: 'explore',
   }, {
     id: 3,
-    key: 'explore',
-    name: '探索',
-    icon: 'icon-explore',
-    pageTo: 'explore',
+    key: 'vip',
+    name: '精选作品',
+    icon: 'icon-vip',
+    pageTo: 'vip',
   }, {
     id: 4,
     key: 'user',
@@ -58,6 +64,7 @@ export default {
     name: '公众号',
     icon: 'icon-more',
     color: 'text-gradual-orange',
+    openImg: '/home/wxgzh.png',
   }],
 
   homeMenus: [{
