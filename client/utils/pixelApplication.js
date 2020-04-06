@@ -1,3 +1,7 @@
+import {
+  canvasToTempFilePath,
+} from './wxUtils'
+
 class PixelApplication {
   constructor(ctx, canvas, that) {
     // 网格坐标
@@ -13,21 +17,19 @@ class PixelApplication {
     this.numberGird_Y = 16
     this.interval = 25
 
-    // this.offsetX = wx.getStorageSync('offsetX') || 0
-    // this.offsetY = wx.getStorageSync('offsetY') || 0
+    this.offsetX = wx.getStorageSync('offsetX') || 0
+    this.offsetY = wx.getStorageSync('offsetY') || 0
     this.startPoint = { x: 0, y: 0 }
-    this.offsetX = 0
-    this.offsetY = 0
     this.zoom = 1
 
     this.height = 0
     this.step = -1
-    this.touchX = 0;
-    this.touchY = 0;
     this.canvasHistory = [];
 
     this.point = null
-    this.data = wx.getStorageSync('pixelData') || [{"x":3,"y":11,"color":"#081921"},{"x":4,"y":11,"color":"#081921"},{"x":5,"y":12,"color":"#081921"},{"x":6,"y":12,"color":"#081921"},{"x":6,"y":13,"color":"#081921"},{"x":7,"y":13,"color":"#081921"},{"x":7,"y":14,"color":"#081921"},{"x":7,"y":15,"color":"#081921"},{"x":3,"y":15,"color":"#081921"},{"x":4,"y":15,"color":"#081921"},{"x":5,"y":15,"color":"#081921"},{"x":6,"y":15,"color":"#081921"},{"x":7,"y":16,"color":"#081921"},{"x":7,"y":17,"color":"#081921"},{"x":9,"y":10,"color":"#081921"},{"x":10,"y":11,"color":"#081921"},{"x":10,"y":12,"color":"#081921"},{"x":11,"y":13,"color":"#081921"},{"x":11,"y":14,"color":"#081921"},{"x":11,"y":15,"color":"#081921"},{"x":3,"y":4,"color":"#081921"},{"x":4,"y":4,"color":"#081921"},{"x":5,"y":4,"color":"#081921"},{"x":6,"y":5,"color":"#081921"},{"x":7,"y":5,"color":"#081921"},{"x":7,"y":6,"color":"#081921"},{"x":8,"y":6,"color":"#081921"},{"x":9,"y":7,"color":"#081921"},{"x":10,"y":8,"color":"#081921"},{"x":2,"y":6,"color":"#D9B43F"},{"x":2,"y":7,"color":"#D9B43F"},{"x":3,"y":7,"color":"#D9B43F"},{"x":3,"y":8,"color":"#D9B43F"},{"x":4,"y":8,"color":"#D9B43F"},{"x":4,"y":9,"color":"#D9B43F"},{"x":5,"y":9,"color":"#D9B43F"},{"x":5,"y":10,"color":"#D9B43F"},{"x":6,"y":10,"color":"#D9B43F"},{"x":4,"y":5,"color":"#D9B43F"},{"x":5,"y":5,"color":"#D9B43F"},{"x":5,"y":6,"color":"#D9B43F"},{"x":6,"y":6,"color":"#D9B43F"},{"x":7,"y":7,"color":"#D9B43F"},{"x":7,"y":8,"color":"#D9B43F"},{"x":8,"y":8,"color":"#D9B43F"},{"x":8,"y":9,"color":"#D9B43F"},{"x":9,"y":9,"color":"#D9B43F"}]
+    this.data = wx.getStorageSync('pixelData') || []
+    // this.data = [{"x":3,"y":11,"color":"#081921"},{"x":4,"y":11,"color":"#081921"},{"x":5,"y":12,"color":"#081921"},{"x":6,"y":12,"color":"#081921"},{"x":6,"y":13,"color":"#081921"},{"x":7,"y":13,"color":"#081921"},{"x":7,"y":14,"color":"#081921"},{"x":7,"y":15,"color":"#081921"},{"x":3,"y":15,"color":"#081921"},{"x":4,"y":15,"color":"#081921"},{"x":5,"y":15,"color":"#081921"},{"x":6,"y":15,"color":"#081921"},{"x":7,"y":16,"color":"#081921"},{"x":7,"y":17,"color":"#081921"},{"x":9,"y":10,"color":"#081921"},{"x":10,"y":11,"color":"#081921"},{"x":10,"y":12,"color":"#081921"},{"x":11,"y":13,"color":"#081921"},{"x":11,"y":14,"color":"#081921"},{"x":11,"y":15,"color":"#081921"},{"x":3,"y":4,"color":"#081921"},{"x":4,"y":4,"color":"#081921"},{"x":5,"y":4,"color":"#081921"},{"x":6,"y":5,"color":"#081921"},{"x":7,"y":5,"color":"#081921"},{"x":7,"y":6,"color":"#081921"},{"x":8,"y":6,"color":"#081921"},{"x":9,"y":7,"color":"#081921"},{"x":10,"y":8,"color":"#081921"},{"x":2,"y":6,"color":"#D9B43F"},{"x":2,"y":7,"color":"#D9B43F"},{"x":3,"y":7,"color":"#D9B43F"},{"x":3,"y":8,"color":"#D9B43F"},{"x":4,"y":8,"color":"#D9B43F"},{"x":4,"y":9,"color":"#D9B43F"},{"x":5,"y":9,"color":"#D9B43F"},{"x":5,"y":10,"color":"#D9B43F"},{"x":6,"y":10,"color":"#D9B43F"},{"x":4,"y":5,"color":"#D9B43F"},{"x":5,"y":5,"color":"#D9B43F"},{"x":5,"y":6,"color":"#D9B43F"},{"x":6,"y":6,"color":"#D9B43F"},{"x":7,"y":7,"color":"#D9B43F"},{"x":7,"y":8,"color":"#D9B43F"},{"x":8,"y":8,"color":"#D9B43F"},{"x":8,"y":9,"color":"#D9B43F"},{"x":9,"y":9,"color":"#D9B43F"}]
+    // this.data = []
 
     this.init()
   }
@@ -75,21 +77,18 @@ class PixelApplication {
   }
 
   drawPixel = (x, y) => {
-    var px = x < this.interval ? 0 : parseInt(x / this.interval) * this.interval;
-    var py = y < this.interval ? 0 : parseInt(y / this.interval) * this.interval;
-
     if (this.toolType === 'brush') {
-      this.ctx.setFillStyle(this.color);
-      this.ctx.fillRect(px, py, this.interval, this.interval);
+      this.fillPixelGrid(x + this.offsetX, y + this.offsetY, this.color)
     } else if (this.toolType === 'eraser') {
-      this.ctx.clearRect(px, py, this.interval, this.interval);
+      // this.ctx.clearRect(x + this.offsetX + 1, y + this.offsetY + 1, this.interval - 2, this.interval - 2);
+      this.fillPixelGrid(x + this.offsetX, y + this.offsetY, this.bgColor) 
     }
     this.ctx.draw(true);
   }
 
-  fillRect = (x, y, w, h, fillStyle = this.color) => {
+  fillPixelGrid = (x, y, fillStyle = this.color) => {
     this.ctx.setFillStyle(fillStyle);
-    this.ctx.fillRect(x, y, w, h);
+    this.ctx.fillRect(x + 1, y + 1, this.interval - 2, this.interval - 2);
   }
 
   draw = () => {
@@ -102,7 +101,7 @@ class PixelApplication {
         y + this.offsetY >= -this.interval &&
         y + this.offsetY <= this.canvas.height
       ) {
-        this.fillRect(x + 1, y + 1, this.interval - 2, this.interval - 2, item.color)
+        this.fillPixelGrid(x, y, item.color)
       }
     })
 
@@ -123,7 +122,7 @@ class PixelApplication {
       height: this.canvas.height,
       success: (res) => {
         this.canvasHistory.push(res.data)
-        console.log(res.data)
+        // console.log(res.data)
         if (callback) { callback() } 
       },
       fail: () => {
@@ -132,42 +131,145 @@ class PixelApplication {
     }, this.that)
   }
 
+  updatePoint = (point) => {
+    const index = this.data.findIndex(item => {
+      return item.x == point.x && item.y == point.y;
+    })
+    if (index > -1) {
+      this.data.splice(index, 1);
+    }
+    if (this.toolType === 'brush') {
+      this.data.push(point);
+    }
+  }
+
   // 绘制开始
   touchStart = (e) => {
-    this.touchX = e.touches[0].x; // 获取触摸时的原点  
-    this.touchY = e.touches[0].y; // 获取触摸时的原点
-    if (this.touchX > this.canvas.width || this.touchY > this.height){
-      return;
-    }
-    
-    this.drawPixel(this.touchX, this.touchY);
+    const { x, y } = this.formatPoint(e.touches[0])
+    this.point = { x, y, color: this.color };
+    this.startPoint = { x, y }
+
+    this.initGrid()
   }
 
   // 绘制过程中
   touchMove = (e) => {
-    this.touchX = e.touches[0].x;
-    this.touchY = e.touches[0].y;
-    if (this.touchX > this.canvas.width || this.touchY > this.height) {
-      return;
+    this.point = null;
+    const { x, y } = this.formatPoint(e.touches[0])
+    if (Math.abs(x - this.startPoint.x) >= 1 || Math.abs(y - this.startPoint.y) >= 1) {
+      if (Math.abs(x - this.startPoint.x) > Math.abs(y - this.startPoint.y)) {
+        for (let i = 0; i < Math.abs(x - this.startPoint.x); i++) {
+          const point = {
+            x: this.startPoint.x + (x - this.startPoint.x) / Math.abs(x - this.startPoint.x) * i,
+            y: this.startPoint.y + Math.round((y - this.startPoint.y) / Math.abs(x - this.startPoint.x) * i),
+            color: this.color,
+          }
+          this.updatePoint(point)
+        }
+      } else {
+        for (let i = 0; i < Math.abs(y - this.startPoint.y); i++) {
+          const point = {
+            x: this.startPoint.x + Math.round((x - this.startPoint.x) / Math.abs(y - this.startPoint.y) * i),
+            y: this.startPoint.y + (y - this.startPoint.y) / Math.abs(y - this.startPoint.y) * i,
+            color: this.color
+          }
+          this.updatePoint(point) 
+        }
+      }
+
+      this.startPoint = { x, y }
+      this.initGrid()
     }
-    this.drawPixel(this.touchX, this.touchY);
   }
 
   // 绘制结束
   touchEnd = (callback) => {
+    console.log(this.data.length)
     if (this.point) {
-      const index = this.data.findIndex(item => {
-        return item.x === this.point.x && item.y === this.point.y;
-      })
-      if (index > -1) {
-        this.data.splice(index, 1)
-      }
-      if (this.toolType !== 'eraser') {
-        this.data.push(this.point)
-      }
-      this.draw()
+      this.updatePoint(this.point)
+      this.initGrid()
+      this.point = null
     }
 
+    wx.setStorage({
+      key: 'pixelData',
+      data: this.data,
+    })
+
+    // this.recoredOperation(callback)
+    if (callback) {callback(this.data)}
+  }
+
+  // 开始移动
+  touchMoveStart = (e) => {
+    // const p1 = e.touches[0]
+   
+    // this.update({
+    //   startPoint: {
+    //     x: p1.x - this.offsetX,
+    //     y: p1.y - this.offsetY,
+    //     rowIdx: Math.floor((p1.x - this.offsetX) / this.interval),
+    //     colIdx: Math.floor((p1.y - this.offsetY) / this.interval),
+    //     offsetX: p1.x / this.interval,
+    //     offsetY: p1.y / this.interval,
+    //   },
+    // }) 
+
+    if (e.touches.length > 1) {
+      const p1 = e.touches[0]
+      const p2 = e.touches[1]
+      const p = {
+        x: Math.sqrt(Math.pow((p1.x + p2.x) / 2, 2)),
+        y: Math.sqrt(Math.pow((p1.y + p2.y) / 2, 2)),
+      }
+
+      this.update({
+        startPoint: {
+          x: p.x - this.offsetX,
+          y: p.y - this.offsetY,
+          distance: Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)),
+          offsetX: p.x / this.interval,
+          offsetY: p.y / this.interval,
+        },
+      })
+    }
+  }
+
+  touchMoveMove = (e) => {
+    // const p1 = e.touches[0]
+    // const distance = Math.sqrt(Math.pow(p1.x - this.startPoint.x, 2) + Math.pow(p1.y - this.startPoint.y, 2))
+    // this.zoom = 1 + distance * 0.005
+    // console.log('startPoint: ', this.startPoint)
+    // this.interval = Math.max(Math.min(this.interval * this.zoom, 50), 12)
+    // this.numberGird = Math.floor(this.canvas.width / this.interval)
+    // this.offsetX = p1.x - this.startPoint.offsetX * this.interval
+    // this.offsetY = p1.y - this.startPoint.offsetY * this.interval
+    // console.log(this.offsetX, this.offsetY)
+
+    // this.init()
+    // this.initGrid()
+
+    if (e.touches.length > 1) {
+      const p1 = e.touches[0]
+      const p2 = e.touches[1]
+      const p = {
+        x: Math.sqrt(Math.pow((p1.x + p2.x) / 2, 2)),
+        y: Math.sqrt(Math.pow((p1.y + p2.y) / 2, 2)),
+      }
+
+      const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
+      const zoom = Math.max(0, distance / this.startPoint.distance)
+      this.interval = Math.max(Math.min(this.interval * zoom * 0.8, 50), 12)
+      this.numberGird = Math.floor(this.canvas.width / this.interval)
+      this.offsetX = p.x - this.startPoint.x
+      this.offsetY = p.y - this.startPoint.y
+
+      this.init() 
+      this.initGrid()
+    }
+  }
+
+  touchMoveEnd = (e) => {
     wx.setStorage({
       key: 'offsetX',
       data: this.offsetX,
@@ -176,100 +278,52 @@ class PixelApplication {
       key: 'offsetY',
       data: this.offsetY,
     })
-    wx.setStorage({
-      key: 'pixelData',
-      data: this.data,
-    })
-
-    this.recoredOperation(callback)
   }
 
-  // 开始移动
-  touchMoveStart = (e) => {
-    const p1 = e.touches[0]
-   
-    this.update({
-      startPoint: {
-        x: p1.x - this.offsetX,
-        y: p1.y - this.offsetY,
-        rowIdx: Math.floor((p1.x - this.offsetX) / this.interval),
-        colIdx: Math.floor((p1.y - this.offsetY) / this.interval),
-        offsetX: p1.x / this.interval,
-        offsetY: p1.y / this.interval,
-      },
-    }) 
-
-    if (e.touches.length === 1) {
-      
-    } else if (e.touches.length > 1) {
-      const p1 = e.touches[0]
-      const p2 = e.touches[1]
-
-      this.update({
-        startPoint: {
-          x: Math.sqrt(Math.pow((p1.x + p2.x) / 2, 2)) - this.offsetX,
-          y: Math.sqrt(Math.pow((p1.y + p2.y) / 2, 2)) - this.offsetY,
-          distance: Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)),
-        },
-      })
+  formatPoint = (point) => {
+    // console.log('移动前：', Math.floor(point.x / this.interval), Math.floor(point.y / this.interval))
+    // console.log('移动后：', Math.floor((point.x - this.offsetX) / this.interval), Math.floor((point.y - this.offsetY) / this.interval))
+    return {
+      x: Math.floor((point.x - this.offsetX) / this.interval),
+      y: Math.floor((point.y - this.offsetY) / this.interval)
     }
   }
 
-  touchMoveMove = (e) => {
-    const p1 = e.touches[0]
-    const distance = Math.sqrt(Math.pow(p1.x - this.startPoint.x, 2) + Math.pow(p1.y - this.startPoint.y, 2))
-    this.zoom = 1 - distance * 0.005
-    // this.zoom = 1 + distance * 0.005
-    console.log('rowIdx: ', this.startPoint.rowIdx, this.startPoint.colIdx)
-    this.interval = Math.max(Math.min(this.interval * this.zoom, 50), 12)
-    this.numberGird = Math.floor(this.canvas.width / this.interval)
-    this.offsetX = this.startPoint.x - this.startPoint.offsetX * this.interval
-    this.offsetY = this.startPoint.y - this.startPoint.offsetY * this.interval
+  reset = () => {
+    this.offsetX = 0
+    this.offsetY = 0
+    this.numberGird = 16
+    this.numberGird_Y = 16
+    this.interval = 25
 
     this.init()
     this.initGrid()
-
-    if (e.touches.length > 1) {
-      const p1 = e.touches[0]
-      const p2 = e.touches[1]
-
-      const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
-      const zoom = Math.max(0, distance / this.startPoint.distance)
-
-      // 获取偏移值
-      this.update({
-        offsetX: Math.sqrt(Math.pow((p1.x + p2.x) / 2, 2)) - this.startPoint.x,
-        offsetY: Math.sqrt(Math.pow((p1.y + p2.y) / 2, 2)) - this.startPoint.y,
-        zoom,
-        offsetStartX: this.startPoint.x * zoom - this.startPoint.x,
-        offsetStartY: this.startPoint.y * zoom - this.startPoint.y,
-      })
-      
-      this.initGrid()
-    }
-  }
-
-  touchMoveEnd = (e) => {
   }
 
   straw = (e, callback) => {
-    const x = e.touches[0].x
-    const y = e.touches[0].y
-    wx.canvasGetImageData({
-      canvasId: this.canvas.id,
-      x: 0,
-      y: 0,
-      width: this.canvas.width,
-      height: this.canvas.height,
-      success: (res) => {
-        const data = res.data
-        const index = (y - 1) * this.canvas.width * 4 + x * 4
+    const { x, y } = this.formatPoint(e.touches[0])
+    let currentPoint = this.data.find((item) => {
+      return item.x === x && item.y === y;
+    });
 
-        console.log(index, `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`)
-        this.color = `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`
-        if (callback) {callback(this.color)}
-      },
-    }, this.that)
+    this.color = currentPoint ? currentPoint.color : this.color
+    if (callback) {callback(this.color)}
+
+    // wx.canvasGetImageData({
+    //   canvasId: this.canvas.id,
+    //   x: 0,
+    //   y: 0,
+    //   width: this.canvas.width,
+    //   height: this.canvas.height,
+    //   success: (res) => {
+    //     const data = res.data
+    //     const index = (y - 1) * this.canvas.width * 4 + x * 4
+
+    //     console.log(index, `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`)
+    //     this.color = `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${data[index + 3]})`
+    //     if (callback) {callback(this.color)}
+    //   },
+    // }, this.that)
   }
 
   // 撤销
@@ -316,11 +370,84 @@ class PixelApplication {
 
   // 清除
   clean = (callback) => {
-    this.ctx.draw(false)
-    this.canvasHistory = []
-    this.step = -1
+    wx.showModal({
+      title: '温馨提示',
+      content: '确定要清空画布吗？',
+      cancelText: "再想想",
+      confirmText: "立刻马上",
+      success: (res) => {
+        if (res.confirm) {
+          this.data = []
+          this.reset() 
+          if (callback) { callback() }
+        }
+      }
+    })
+  }
 
-    if (callback) { callback() }
+  //预览图
+  preview(data, bgColor){
+    this.ctx.setFillStyle(bgColor || this.bgColor);
+    this.ctx.fillRect(0, 0, 100, 100);
+    this.ctx.setStrokeStyle('#000');
+    this.ctx.strokeRect(0, 0, 100, 100);
+
+    let minX = 0;
+    let minY = 0;
+    let maxX = 0;
+    let maxY = 0;
+
+    if (data.length > 0) {
+      minX = data[0].x;
+      minY = data[0].y;
+      maxX = data[0].x;
+      maxY = data[0].y;
+    }
+
+    console.log(data.length, data)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].x < minX) {
+        minX = data[i].x + 1
+      }
+      if (data[i].y < minY) {
+        minY = data[i].y + 1
+      }
+      if (data[i].x > maxX) {
+        maxX = data[i].x
+      }
+      if (data[i].y > maxY) {
+        maxY = data[i].y
+      }
+    }
+    console.log(minX, minY, maxX, maxY)
+    let tx = minX;
+    let ty = minY;
+    let mv = tx;
+    if (tx > ty) {
+      mv = ty;
+    }
+    let width = maxX - minX + 1;
+    let height = maxY - minY + 1;
+    let interval = 0;
+    if (width >= height) {
+      interval = Math.floor(1000 / width) / 10;
+    } else {
+      interval = Math.floor(1000 / height) / 10;
+    }
+    if (interval < 1) {
+      interval = 1;
+    }
+
+    if (width > height) {
+      this.ctx.translate(0, (width - height) * interval / 2);
+    } else {
+      this.ctx.translate((height - width) * interval / 2, 0);
+    }
+    for (let i = 0; i < data.length; i++) {
+      this.ctx.setFillStyle(data[i].color);
+      this.ctx.fillRect((data[i].x - tx) * interval, (data[i].y - ty) * interval, interval, interval);
+    }
+    this.ctx.draw();
   }
 }
 

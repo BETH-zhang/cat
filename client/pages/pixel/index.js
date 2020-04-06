@@ -36,6 +36,8 @@ Page({
     imgInfo: {},
 
     previewImage: null,
+    previewWidth: 100,
+    previewHeight: 100,
   },
   onLoad() {
     this.initCanvas()
@@ -63,14 +65,13 @@ Page({
         if (this.data.bgColor !== e.detail.bgColor) {
           this.appCanvas.update({ bgColor: e.detail.bgColor })
           this.appCanvas.initGrid()
+          this.updatePreview(this.appCanvas.data, e.detail.bgColor)
         }
+        this.appCanvas.update({ color: e.detail.pixelColor })
         this.setData({
           ...e.detail,
           setting: '',
-          hideCanvas: false,
-          toolType: 'brush',
         })
-        this.appCanvas.update({ color: e.detail.pixelColor })
         break
       default:
         break
@@ -81,11 +82,8 @@ Page({
     const key = e.currentTarget.dataset.cur
     // undo, clean, brush, eraser, straw, generate
     switch(key) {
-      case 'undo':
-        this.appCanvas.undo(() => {
-          this.updatePreview()
-        })
-        // this.canvasTranslate()
+      case 'reset':
+        this.appCanvas.reset()
         break
       case 'clean':
         this.appCanvas.clean(() => {
@@ -160,49 +158,44 @@ Page({
   },
 
   dispatchTouchStart(e) {
-    this.createTimer()
-
+    this.isMove = false
+    this.isDraw = false
     if (this.data.toolType !== 'straw') {
-      gesture = this.gestureRecognition.touchStartEvent(e)
-      switch (gesture.type) {
-        case 'Single':
-          // this.appCanvas.touchStart(e)
-          this.appCanvas.touchMoveStart(e)
-          break;
-        case 'Double':
-          wx.showToast({
-            title: '缩放画布',
-            icon: 'none',
-            duration: 2000
-          })
-          break;
+      this.touchLen = e.touches.length
+      this.setData({
+        scale: `start-${e.touches.length}`
+      })
+      if (e.touches.length === 1) {
+        this.isDraw = true
+        this.createTimer()
+        this.appCanvas.touchStart(e)
+      } else if (e.touches.length > 1) {
+        this.isMove = true
+        this.appCanvas.touchMoveStart(e)
       }
     } else {
       this.appCanvas.straw(e, (color) => {
+        console.log('color: ', color)
         this.setData({ pixelColor: color })
       })
     }
   },
 
   dispatchTouchMove(e) {
-    this.createTimer()
+    this.isMove = false
+    this.isDraw = false
     if (this.data.toolType !== 'straw') {
-      const gesture = this.gestureRecognition.touchMoveEvent(e)
-      switch (gesture.type) {
-        case 'Single':
-          // this.appCanvas.touchMove(e)
-          this.appCanvas.touchMoveMove(e)
-          break;
-        case 'Double':
-          if (gesture.scale) {
-            this.setData({ scale: gesture.scale })
-          }
-          wx.showToast({
-            title: JSON.stringify(gesture),
-            icon: 'none',
-            duration: 2000
-          })
-          break;
+      this.touchLen = e.touches.length
+      this.setData({
+        scale: `move-${e.touches.length}`
+      })
+      if (e.touches.length === 1) {
+        this.isDraw = true
+        this.createTimer()
+        this.appCanvas.touchMove(e)
+      } else if (e.touches.length > 1) {
+        this.isMove = true
+        this.appCanvas.touchMoveMove(e)
       }
     }
   },
@@ -210,67 +203,41 @@ Page({
   dispatchTouchEnd(e) {
     this.cancelTimer()
     if (this.data.toolType !== 'straw') {
-      gesture = this.gestureRecognition.touchEndEvent(e)
-      switch (gesture.type) {
-        case 'Single':
-          // this.appCanvas.touchEnd(() => {
-          //   this.updatePreview()
-          // })
-          this.appCanvas.touchMoveEnd(e)
-          break;
-        case 'Double':
-          break;
+      if (this.isDraw) {
+        this.appCanvas.touchEnd((data) => {
+          this.updatePreview(data)
+        })
       }
-      gesture = {}
+      if (this.isMove) {
+        this.appCanvas.touchMoveEnd(e)
+      }
     } else {
       this.setData({ toolType: 'brush' })
     }
   },
 
-  updatePreview() {
-    if (this.appCanvas.canvasHistory.length) {
-      canvasToTempFilePath('mainCanvas', {
-        x: 0,
-        y: 0,
-        width: this.appCanvas.canvas.width + this.appCanvas.canvas.offsetX,
-        height: this.appCanvas.canvas.height + this.appCanvas.canvas.offsetY,
-      }, this).then((res) => {
-        const previewImage = res.tempFilePath
-        const previewWidth = this.appCanvas.canvas.width / 4
-        const previewHeight = this.appCanvas.canvas.height / 4
-        this.setData({
-          previewImage,
-          previewWidth,
-          previewHeight,
-        })
-  
-        this.viewCanvas.drawImage(
-          previewImage,
-          {x: 0, y: 0, width: previewWidth, height: previewHeight},
-          {x: 0, y: 0, width: this.appCanvas.canvas.width, height: this.appCanvas.canvas.height},
-        )
-        this.viewCanvas.ctx.draw(false)
+  updatePreview(data, bgColor) {
+    if (data && data.length) {
+      this.setData({
+        previewImage: true,
       })
+      this.viewCanvas.preview(data, bgColor || this.data.bgColor)
     } else {
       this.setData({
-        previewImage: null,
-      })
+        previewImage: false,
+      }) 
     }
   },
 
   createTimer() {
     this.cancelTimer()
     timer = setTimeout(() => {
-      switch (gesture.type) {
-        case 'Single':
-          // this.appCanvas.touchEnd(() => {
-          //   this.updatePreview()
-          // })
-          break;
-        case 'Double':
-          break;
+      if (this.isDraw) {
+        this.appCanvas.touchEnd((data) => {
+          this.updatePreview(data)
+        })
       }
-      gesture = {}
+      this.touchLen = 0
     }, 2000)
   },
 
@@ -284,7 +251,6 @@ Page({
   initCanvas() {
     console.log('globalData', app.globalData)
     this.setData({ containerHeight: app.globalData.systemInfo.windowHeight - app.globalData.CustomBar })
-    this.gestureRecognition = new GestureRecognition()
     createSelectorQuery('.main-bottom-bar', this).then((rect) => {
       const bottomBarStyle = rect.height
       const width = app.globalData.systemInfo.windowWidth
@@ -300,7 +266,8 @@ Page({
       })
       this.appCanvas.initGrid()
 
-      this.viewCanvas = new Draw(ctxView, { width: width / 3, height: height / 3, id: 'previewCanvas' }, this)
+      // this.viewCanvas = new Draw(ctxView, { width: width / 3, height: height / 3, id: 'previewCanvas' }, this)
+      this.viewCanvas = new Pixel(ctxView, { width: 100, height: 100, id: 'previewCanvas' }, this)
     })
   },
   

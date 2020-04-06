@@ -10,10 +10,10 @@
 
 .preview-canvas {
   position: absolute;
-  top: 0;
+  top: 5px;
   right: 0;
   z-index: 3;
-  border: 1px solid #ccc;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
 .show-canvas {
