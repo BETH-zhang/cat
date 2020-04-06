@@ -1,0 +1,13 @@
+<customBar bgColor="bg-gradual-red" isBack="{{true}}">
+  <view slot="backText" bindtap="backUp">返回</view>
+  <view slot="content">预览</view>
+</customBar>
+<authSetting
+  bindauthsettingevent="SettingEventListener"
+  wx:if="{{setting==='login'}}"
+  setting="{{setting}}"
+></authSetting>
+<painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000" />
+<canvas canvas-id="previewCanvas" style="width: {{width}}px; height: {{height}}px;"></canvas>
+<view class="tips">长按图片保存或分享给朋友</view>
+<image src="{{shareImg}}" show-menu-by-longpress style="width: {{width * 0.8}}px; height: {{height * 0.8}}px"></image>

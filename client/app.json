@@ -1,6 +1,7 @@
 
 {
   "pages": [
+    "pages/preview/index",
     "pages/pixel/index",
     "pages/home/index",
     "pages/colors/index",

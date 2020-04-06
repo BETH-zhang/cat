@@ -1,6 +1,4 @@
-import {
-  canvasToTempFilePath,
-} from './wxUtils'
+import { canvasToTempFilePath } from './wxUtils'
 
 class PixelApplication {
   constructor(ctx, canvas, that) {
@@ -10,8 +8,8 @@ class PixelApplication {
     this.that = that
 
     this.toolType = 'brush' // brush eraser straw
-    this.bgColor = 'white'
-    this.color = 'black'
+    this.bgColor = wx.getStorageSync('bgColor') || 'white'
+    this.color = wx.getStorageSync('color') || 'black'
 
     this.numberGird = 16
     this.numberGird_Y = 16
@@ -28,8 +26,6 @@ class PixelApplication {
 
     this.point = null
     this.data = wx.getStorageSync('pixelData') || []
-    // this.data = [{"x":3,"y":11,"color":"#081921"},{"x":4,"y":11,"color":"#081921"},{"x":5,"y":12,"color":"#081921"},{"x":6,"y":12,"color":"#081921"},{"x":6,"y":13,"color":"#081921"},{"x":7,"y":13,"color":"#081921"},{"x":7,"y":14,"color":"#081921"},{"x":7,"y":15,"color":"#081921"},{"x":3,"y":15,"color":"#081921"},{"x":4,"y":15,"color":"#081921"},{"x":5,"y":15,"color":"#081921"},{"x":6,"y":15,"color":"#081921"},{"x":7,"y":16,"color":"#081921"},{"x":7,"y":17,"color":"#081921"},{"x":9,"y":10,"color":"#081921"},{"x":10,"y":11,"color":"#081921"},{"x":10,"y":12,"color":"#081921"},{"x":11,"y":13,"color":"#081921"},{"x":11,"y":14,"color":"#081921"},{"x":11,"y":15,"color":"#081921"},{"x":3,"y":4,"color":"#081921"},{"x":4,"y":4,"color":"#081921"},{"x":5,"y":4,"color":"#081921"},{"x":6,"y":5,"color":"#081921"},{"x":7,"y":5,"color":"#081921"},{"x":7,"y":6,"color":"#081921"},{"x":8,"y":6,"color":"#081921"},{"x":9,"y":7,"color":"#081921"},{"x":10,"y":8,"color":"#081921"},{"x":2,"y":6,"color":"#D9B43F"},{"x":2,"y":7,"color":"#D9B43F"},{"x":3,"y":7,"color":"#D9B43F"},{"x":3,"y":8,"color":"#D9B43F"},{"x":4,"y":8,"color":"#D9B43F"},{"x":4,"y":9,"color":"#D9B43F"},{"x":5,"y":9,"color":"#D9B43F"},{"x":5,"y":10,"color":"#D9B43F"},{"x":6,"y":10,"color":"#D9B43F"},{"x":4,"y":5,"color":"#D9B43F"},{"x":5,"y":5,"color":"#D9B43F"},{"x":5,"y":6,"color":"#D9B43F"},{"x":6,"y":6,"color":"#D9B43F"},{"x":7,"y":7,"color":"#D9B43F"},{"x":7,"y":8,"color":"#D9B43F"},{"x":8,"y":8,"color":"#D9B43F"},{"x":8,"y":9,"color":"#D9B43F"},{"x":9,"y":9,"color":"#D9B43F"}]
-    // this.data = []
 
     this.init()
   }
@@ -41,8 +37,7 @@ class PixelApplication {
   }
 
   init = () => {
-    this.interval = (this.canvas.width / this.numberGird);
-    console.log('this.interval', this.interval)
+    this.interval = (this.canvas.width / this.numberGird)
     this.numberGird_Y = Math.floor(this.canvas.height / this.interval)
     this.height = this.numberGird_Y * this.interval
   }
@@ -58,9 +53,6 @@ class PixelApplication {
     
     const cc = Math.floor(this.offsetX / this.interval) + 1
     const rc = Math.floor(this.offsetY / this.interval) + 1
-
-    // console.log(this.offsetX, this.offsetY)
-    // console.log(cc, rc, this.numberGird)
 
     for (var i = 0 - cc; i <= this.numberGird - cc + 1; i++) {
       this.ctx.moveTo(i * this.interval, - rc * this.interval);
@@ -184,7 +176,6 @@ class PixelApplication {
 
   // 绘制结束
   touchEnd = (callback) => {
-    console.log(this.data.length)
     if (this.point) {
       this.updatePoint(this.point)
       this.initGrid()
@@ -259,8 +250,13 @@ class PixelApplication {
 
       const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
       const zoom = Math.max(0, distance / this.startPoint.distance)
-      this.interval = Math.max(Math.min(this.interval * zoom * 0.8, 50), 12)
-      this.numberGird = Math.floor(this.canvas.width / this.interval)
+      // this.interval = (zoom > 1 ? this.interval + zoom * 0.5 + 1 : this.interval - (zoom + 1) * 5)
+      // if (this.interval > 25) {
+      //   this.interval = 25
+      // } else if (this.interval < 12) {
+      //   this.interval = 12
+      // }
+      // this.numberGird = Math.floor(this.canvas.width / this.interval)
       this.offsetX = p.x - this.startPoint.x
       this.offsetY = p.y - this.startPoint.y
 
@@ -386,11 +382,9 @@ class PixelApplication {
   }
 
   //预览图
-  preview(data, bgColor){
+  preview(data, bgColor, callback){
     this.ctx.setFillStyle(bgColor || this.bgColor);
-    this.ctx.fillRect(0, 0, 100, 100);
-    this.ctx.setStrokeStyle('#000');
-    this.ctx.strokeRect(0, 0, 100, 100);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     let minX = 0;
     let minY = 0;
@@ -404,7 +398,6 @@ class PixelApplication {
       maxY = data[0].y;
     }
 
-    console.log(data.length, data)
     for (let i = 0; i < data.length; i++) {
       if (data[i].x < minX) {
         minX = data[i].x + 1
@@ -419,7 +412,6 @@ class PixelApplication {
         maxY = data[i].y
       }
     }
-    console.log(minX, minY, maxX, maxY)
     let tx = minX;
     let ty = minY;
     let mv = tx;
@@ -430,9 +422,9 @@ class PixelApplication {
     let height = maxY - minY + 1;
     let interval = 0;
     if (width >= height) {
-      interval = Math.floor(1000 / width) / 10;
+      interval = Math.floor(this.canvas.width / width);
     } else {
-      interval = Math.floor(1000 / height) / 10;
+      interval = Math.floor(this.canvas.height / height);
     }
     if (interval < 1) {
       interval = 1;
@@ -447,7 +439,25 @@ class PixelApplication {
       this.ctx.setFillStyle(data[i].color);
       this.ctx.fillRect((data[i].x - tx) * interval, (data[i].y - ty) * interval, interval, interval);
     }
-    this.ctx.draw();
+    this.ctx.draw(false, () => {
+      if (callback) {
+        canvasToTempFilePath(this.canvas.id, {
+          x: 0,
+          y: 0,
+          width: this.canvas.width,
+          height: this.canvas.height,
+        }, this).then((res) => {
+          callback({
+            shareImg: res.tempFilePath,
+            imgInfo: {
+              ...res,
+              width: this.canvas.width,
+              height: this.canvas.height,
+            },
+          })
+        })
+      }
+    });
   }
 }
 
