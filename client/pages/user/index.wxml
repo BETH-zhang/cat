@@ -3,12 +3,14 @@
 </customBar>
 
 <view class="UCenter-bg">
-	<view class="logo-box">
-		<image src="{{avatarUrl}}" class="png" mode="widthFix"></image>
-	</view>
-	<view class="text-xl">
-		{{nickName}}
-	</view>
+	<button open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" style="width: auto;background: none;color: #fff;">
+		<view class="logo-box">
+			<image src="{{avatarUrl}}" class="png" mode="widthFix"></image>
+		</view>
+		<view class="text-xl">
+			{{nickName}}
+		</view>
+	</button>
 	<image src="{{wave}}" mode="scaleToFill" class="gif-wave"></image>
 </view>
 

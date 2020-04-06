@@ -18,8 +18,10 @@ Page({
     const userInfo2 = wx.getStorageSync('userInfo') || {}
 
     this.setData({
-      avatarUrl: userInfo1.avatarUrl || userInfo2.avatarUrl || this.data.logo,
-      nickName: userInfo1.nickName || userInfo2.nickName || '未登录',
+      // avatarUrl: userInfo1.avatarUrl || userInfo2.avatarUrl || this.data.logo,
+      // nickName: userInfo1.nickName || userInfo2.nickName || '未登录',
+      avatarUrl: this.data.logo,
+      nickName: '未登录',
       worksCount: this.coutNum(1000),
       colorsCount: this.coutNum(1000),
       adminCount: this.coutNum(1000),
@@ -61,5 +63,18 @@ Page({
       urls: [this.data.pay],
       current: this.data.pay // 当前显示图片的http链接      
     })
+  },
+  onGotUserInfo (e) {
+    app.globalData.userInfo = e.detail.userInfo
+    wx.setStorage({
+      key: 'userInfo',
+      data: e.detail.userInfo,
+    })
+    const userInfo = app.globalData.userInfo || {}
+
+    this.setData({
+      avatarUrl: userInfo.avatarUrl,
+      nickName: userInfo.nickName,
+    }) 
   },
 })

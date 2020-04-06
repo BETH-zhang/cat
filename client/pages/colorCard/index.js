@@ -40,8 +40,6 @@ Page({
 
     setting: '',
     template: {},
-
-    uploadedColorList: false,
   },
   onLoad(options) {
     this.initCanvas()
@@ -67,22 +65,6 @@ Page({
           })
         })
       }
-    })
-  },
-  noUploadColorList() {
-    this.setData({
-      uploadedColorList: true,
-    })
-  },
-  uploadColorList() {
-    const data = this.data.colorList
-    addCollection({
-      name: 'colorCard',
-      data,
-    }).then(() => {
-      wx.removeStorageSync('colors')
-      this.setData({ uploadedColorList: true })
-      wx.showToast({ title: '上传成功', icon: 'none' })
     })
   },
   tabSelect(e) {

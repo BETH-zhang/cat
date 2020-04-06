@@ -1,6 +1,7 @@
 
 {
   "pages": [
+    "pages/user/index",
     "pages/home/index",
     "pages/pixel/index",
     "pages/preview/index",
@@ -8,7 +9,6 @@
     "pages/vip/index",
     "pages/ai/index",
     "pages/colorCard/index",
-    "pages/user/index",
     "pages/log/index",
     "pages/admin/index",
     "pages/explore/index",

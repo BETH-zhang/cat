@@ -162,22 +162,3 @@
     </view>
 </view> -->
 
-<view wx:if="{{colorList.length && !uploadedColorList}}" class="cu-modal show">
-  <view class="cu-dialog">
-    <view class="cu-bar bg-white justify-end">
-      <view class="content">本地有色卡数据</view>
-      <view class="action" bindtap="hideModal">
-        <text class="cuIcon-close text-red"></text>
-      </view>
-    </view>
-    <view class="padding-xl">
-      是否将本地色卡上传至云端，让更多人看到你的色卡
-    </view>
-    <view class="cu-bar bg-white justify-end" style="padding: 30rpx;">
-      <view class="action">
-        <button class="cu-btn line-blue text-blue" bindtap="noUploadColorList">取消</button>
-        <button class="cu-btn bg-blue margin-left" bindtap="uploadColorList">确定</button>
-      </view>
-    </view>
-  </view>
-</view>
