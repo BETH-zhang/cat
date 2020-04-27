@@ -8,6 +8,7 @@ import ColorCardTheme2 from '../../assets/data/colorCardTheme2'
 import pixelCardTheme0 from '../../assets/data/pixelCardTheme0'
 import pixelCardTheme1 from '../../assets/data/pixelCardTheme1'
 import themeText from '../../assets/data/themeText'
+import qrcodeTheme from '../../assets/data/qrcodeTheme'
 const app = getApp();
 
 Component({
@@ -18,7 +19,7 @@ Component({
     template: {},
     image: '',
 
-    id: '10',
+    id: '11',
   },
   lifetimes: {
     created() {
@@ -158,6 +159,21 @@ Component({
         case '10':
           this.setData({
             template: new themeText().palette()
+          })
+          break;
+        case '11':
+          const aa = {
+            logo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            avatar: userInfo.avatarUrl,
+            name: userInfo.nickName,
+            title: '请长按下方二维码',
+            subTitle: 'geziabb123',
+            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            fingerprint: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            description: '添加微信时请说明来意'
+          } 
+          this.setData({
+            template: new qrcodeTheme().palette(aa)
           })
           break;
         default:

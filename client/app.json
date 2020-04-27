@@ -1,6 +1,8 @@
 
 {
   "pages": [
+    "pages/test/index",
+    "pages/qrcode/index",
     "pages/home/index",
     "pages/user/index",
     "pages/pixel/index",
@@ -16,7 +18,6 @@
     "pages/adminArticle/index",
     "pages/gif/index",
     "pages/article/index",
-    "pages/test/index",
     "pages/webview/index"
   ],
   "window": {

@@ -1,4 +1,4 @@
-<scroll-view scroll-y class="scrollPage">
+<scroll-view scroll-y class="scrollPage" style="background: #ccc">
   <view style='position: relative;'>
     <painter customStyle='position: absolute; left: -9999rpx;' palette="{{template}}" bind:imgOK="onImgOK" widthPixels="1000"/>
     <image src="{{image}}" mode='aspectFit' style="width: 654rpx; height: 1000rpx; margin-left:40rpx;"/>

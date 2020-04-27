@@ -25,14 +25,14 @@ export default class Painter {
       this._drawAbsolute(view);
     }
 
-    const height = this.heights.reduce((a, b) => (a + b))
+    // const height = this.heights.reduce((a, b) => (a + b))
     // this.ctx.fillStyle = 'red';
     // this.ctx.fillRect(0, 0, 50, height);
 
-    this.ctx.height = height
-    this.style.height = height
+    // this.ctx.height = height
+    // this.style.height = height
     this.ctx.draw(false, () => {
-      console.log('this.style: ', this.style)
+      // console.log('this.style: ', this.style)
       callback(this.style);
     });
   }
@@ -235,7 +235,7 @@ export default class Painter {
         break;
     }
 
-    console.log('this.heights: ', this.heights, view)
+    // console.log('this.heights: ', this.heights, view)
     this.style.height = this.heights.length ? Math.max(this.style.height, this.heights.reduce((a, b) => (a + b))) : this.style.height
     let x;
     if (view.css && view.css.right) {
@@ -293,10 +293,10 @@ export default class Painter {
       this._doClip(view.css.borderRadius, width, height);
     }
     this._doShadow(view);
-    if (view.id) {
-      this.globalWidth[view.id] = width;
-      this.globalHeight[view.id] = height;
-    }
+    // if (view.id) {
+    //   this.globalWidth[view.id] = width;
+    //   this.globalHeight[view.id] = height;
+    // }
     return {
       width: width,
       height: height,
@@ -401,9 +401,9 @@ export default class Painter {
     this.ctx.restore();
     this._doBorder(view, width, height);
 
-    if (view.id) {
-      this.heights.push(rHeight)
-    }
+    // if (view.id) {
+    //   this.heights.push(rHeight)
+    // }
   }
 
   _fillAbsText(view) {
@@ -429,13 +429,13 @@ export default class Painter {
       linesArray,
     } = extra;
     // 如果设置了id，则保留 text 的长度
-    if (view.id) {
-      let textWidth = 0;
-      for (let i = 0; i < textArray.length; ++i) {
-        textWidth = this.ctx.measureText(textArray[i]).width > textWidth ? this.ctx.measureText(textArray[i]).width : textWidth;
-      }
-      this.globalWidth[view.id] = width ? (textWidth < width ? textWidth : width) : textWidth;
-    }
+    // if (view.id) {
+    //   let textWidth = 0;
+    //   for (let i = 0; i < textArray.length; ++i) {
+    //     textWidth = this.ctx.measureText(textArray[i]).width > textWidth ? this.ctx.measureText(textArray[i]).width : textWidth;
+    //   }
+    //   this.globalWidth[view.id] = width ? (textWidth < width ? textWidth : width) : textWidth;
+    // }
 
     let lineIndex = 0;
     for (let j = 0; j < textArray.length; ++j) {
@@ -525,10 +525,10 @@ export default class Painter {
     this.ctx.restore();
     this._doBorder(view, width, height);
 
-    if (view.id) {
-      const minHeight = view.css.minHeight ? view.css.minHeight.toPx() : 0
-      this.heights.push(Math.max(minHeight, lines * lineHeight + view.css.top.toPx() + view.css.padding.toPx()))
-    }
+    // if (view.id) {
+    //   const minHeight = view.css.minHeight ? view.css.minHeight.toPx() : 0
+    //   this.heights.push(Math.max(minHeight, lines * lineHeight + view.css.top.toPx() + view.css.padding.toPx()))
+    // }
   }
 
   _drawAbsRect(view) {
@@ -557,9 +557,9 @@ export default class Painter {
     this.ctx.restore();
     this._doBorder(view, width, height);
 
-    if (view.id) {
-      this.heights.push(height)
-    }
+    // if (view.id) {
+    //   this.heights.push(height)
+    // }
   }
 
   // shadow 支持 (x, y, blur, color), 不支持 spread
