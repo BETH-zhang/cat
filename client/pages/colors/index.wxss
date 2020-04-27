@@ -5,8 +5,9 @@
 .cu-color-item {
   display: flex;
   flex-flow: row wrap;
+  background: #f2f2f2;
 }
 
 .cu-color-item .cu-avatar {
-  margin: 12px 12px 0 12px;
+  margin: 12rpx;
 }

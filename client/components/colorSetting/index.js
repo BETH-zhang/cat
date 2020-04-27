@@ -1,11 +1,6 @@
+import { ColorList } from '../../assets/data/colorData'
+
 const app = getApp();
-var colorList = wx.getStorageSync('colors') || []
-let data = []
-if (colorList.length) {
-  colorList.forEach((item) => {
-    data = data.concat(item.colors)
-  })
-}
 
 Component({
   options: {
@@ -24,7 +19,7 @@ Component({
     fontColor: { type: 'String', value: '' },
   },
   data: {
-    colorList: app.globalData.ColorList,
+    colorList: ColorList,
     type: 'pixel',
 
     rgba: {
@@ -39,7 +34,6 @@ Component({
   },
   attached() {
     console.log("colorsetting", this.data)
-    this.setData({ colorList: this.data.colorList.concat(data) })
   },
   methods: {
     updateProps() {

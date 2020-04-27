@@ -34,6 +34,11 @@ Page({
       current: e.currentTarget.dataset.url,
     })
   }, 
+  colorCard(e) {
+    const index = e.target.dataset.index
+    const colors = this.data.data[index]
+    console.log(index, colors)
+  },
   edit(e) {
     console.log(e)
     const id = e.target.dataset.id

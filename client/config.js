@@ -25,18 +25,18 @@ export default {
     name: '像素画',
     icon: 'icon-add',
     pageTo: 'pixel',
-  // }, {
-  //   id: 3,
-  //   key: 'explore',
-  //   name: '探索',
-  //   icon: 'icon-explore',
-  //   pageTo: 'explore',
   }, {
     id: 3,
-    key: 'vip',
-    name: '精选作品',
-    icon: 'icon-vip',
-    pageTo: 'vip',
+    key: 'explore',
+    name: '探索',
+    icon: 'icon-explore',
+    pageTo: 'explore',
+  // }, {
+  //   id: 3,
+  //   key: 'vip',
+  //   name: '精选作品',
+  //   icon: 'icon-vip',
+  //   pageTo: 'vip',
   }, {
     id: 4,
     key: 'user',
@@ -92,4 +92,25 @@ export default {
     link: 'colorCard',
     bg: 'bg-gradual-blue',
   }],
+
+  exploreData: [
+    {
+        "title": "暴走 GIF",
+        "href": "gif",
+        "bg": "bg-gradual-green",
+        "path": "https://wx4.sinaimg.cn/mw690/9f7ff7afly1g9feta2b4qj20j60j6wi3.jpg"
+    },
+    {
+        "title": "AI 像素",
+        "href": "ai",
+        "bg": "bg-gradual-orange",
+        "path": "https://wx4.sinaimg.cn/mw690/9f7ff7afly1g9feta2b4qj20j60j6wi3.jpg"
+    },
+    {
+        "title": "精选作品",
+        "href": "vip",
+        "bg": "bg-gradual-red",
+        "path": "https://wx4.sinaimg.cn/mw690/9f7ff7afly1g9feta2b4qj20j60j6wi3.jpg"
+    }
+  ],
 }

@@ -18,10 +18,8 @@ Page({
     const userInfo2 = wx.getStorageSync('userInfo') || {}
 
     this.setData({
-      // avatarUrl: userInfo1.avatarUrl || userInfo2.avatarUrl || this.data.logo,
-      // nickName: userInfo1.nickName || userInfo2.nickName || '未登录',
-      avatarUrl: this.data.logo,
-      nickName: '未登录',
+      avatarUrl: userInfo1.avatarUrl || userInfo2.avatarUrl || this.data.logo,
+      nickName: userInfo1.nickName || userInfo2.nickName,
       worksCount: this.coutNum(1000),
       colorsCount: this.coutNum(1000),
       adminCount: this.coutNum(1000),

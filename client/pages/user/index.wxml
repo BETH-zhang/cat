@@ -3,7 +3,7 @@
 </customBar>
 
 <view class="UCenter-bg">
-	<button open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" style="width: auto;background: none;color: #fff;">
+	<button wx:if="{{!nickName}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" style="width: auto;background: none;color: #fff;">
 		<view class="logo-box">
 			<image src="{{avatarUrl}}" class="png" mode="widthFix"></image>
 		</view>
@@ -11,6 +11,15 @@
 			{{nickName}}
 		</view>
 	</button>
+
+	<view wx:if="{{nickName}}" style="width: auto;background: none;color: #fff; text-align: center;">
+		<view class="logo-box">
+			<image src="{{avatarUrl}}" class="png" mode="widthFix"></image>
+		</view>
+		<view class="text-xl">
+			{{nickName}}
+		</view>
+	</view>
 	<image src="{{wave}}" mode="scaleToFill" class="gif-wave"></image>
 </view>
 

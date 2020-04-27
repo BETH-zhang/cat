@@ -5,7 +5,7 @@ export const setImagePath = (path) => {
 }
 
 export const getImagePath = (path) => {
-  return `${config.cdn}${path}`
+  return path ? `${config.cdn}${path}` : ''
 }
 
 export const getTempFileURL = (paths) => new Promise((resolve, reject) => {

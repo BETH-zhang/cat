@@ -1,17 +1,12 @@
 //app.js
-import { ColorList } from '/assets/data/colorData'
-
 App({
   globalData: {
     userInfo: null,
-    ColorList, ColorList,
     userDataPath: `${wx.env.USER_DATA_PATH}/`,
   },
 
   onLaunch (e) {
     this.autoUpdate()
-    // 检查数据打点
-    this.trackSrc(e)
     // 获取用户信息
     this.getUserInfo()
     // 自定义设置导航条样式

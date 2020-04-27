@@ -10,9 +10,9 @@
 	data-href="{{item.href}}"
 	wx:key="id"
 >
+		<!-- style="background-image:url({{item.path}})" -->
 	<view
-		class="cu-item bg-img shadow-blur explore-item"
-		style="background-image:url({{item.path}})"
+		class="cu-item explore-item {{item.bg}}"
 	>
 		<view class="cardTitle">
 			{{item.title}}

@@ -1,4 +1,4 @@
-var ColorList = [{
+export const ColorList = [{
   title: '嫣红',
   name: 'red',
   color: '#e54d42'
@@ -73,7 +73,3 @@ var ColorList = [{
   name: 'white',
   color: '#ffffff'
 }]
-
-module.exports = {
-  ColorList: ColorList
-}
