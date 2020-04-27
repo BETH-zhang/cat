@@ -1,22 +1,21 @@
 //app.js
-import { isEmpty, compareVersion, formatTime1 } from './utils/util'
 import { ColorList } from '/assets/data/colorData'
 
 App({
+  globalData: {
+    userInfo: null,
+    ColorList, ColorList,
+    userDataPath: `${wx.env.USER_DATA_PATH}/`,
+  },
+
   onLaunch (e) {
-    // 展示本地存储能力
-    this.updateLog()
-    // 检查是否是iphone X
-    this.isIpx()
-    // 检查程序更新同步
-    // this.checkUpdate()
     this.autoUpdate()
     // 检查数据打点
     this.trackSrc(e)
     // 获取用户信息
     this.getUserInfo()
     // 自定义设置导航条样式
-    this.customSystemBarStyle()
+    this.globalData()
     // 初始化云服务
     this.initCloudServer()
   },
@@ -30,15 +29,6 @@ App({
       env: 'dev-5x6mb',
       traceUser: true,
     })
-  },
-
-  updateLog() {
-    var logs = wx.getStorageSync('logs') || []
-    var time = formatTime1(Date.now(), 'YMD')
-    if (logs.indexOf(time) === -1) {
-      logs.unshift(time)
-      wx.setStorageSync('logs', logs)
-    }
   },
 
   getUserInfo() {
@@ -81,125 +71,28 @@ App({
     })
   },
 
-  customSystemBarStyle() {
+  globalData() {
     wx.getSystemInfo({
       success: e => {
-        // console.log('wx.getSystemInfo:', e)
+        // console.log('getSystemInfo: ', e)
+        this.globalData.systemInfo = e
         this.globalData.StatusBar = e.statusBarHeight;
-        let capsule = null
-        if (wx.getMenuButtonBoundingClientRect) {
-          capsule = wx.getMenuButtonBoundingClientRect();
-        }
-        if (capsule) {
-          this.globalData.Custom = capsule;
-          this.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;
-        } else {
-          this.globalData.CustomBar = e.statusBarHeight + 50;
-        }
-
-        const version = wx.getSystemInfoSync().SDKVersion
-
-        if (compareVersion(version, '1.1.0') >= 0) {
-          wx.openBluetoothAdapter()
-        } else {
-          // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-          wx.showModal({
-            title: '提示',
-            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-          })
+        let custom = wx.getMenuButtonBoundingClientRect();
+        custom = this.globalData.Custom = custom.bottom ? custom : {
+          bottom: 56,
+          top: 24,
+        };
+        this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
+        this.globalData.container = {
+          width: e.windowWidth,
+          height: e.platform === 'android' ? e.windowHeight : e.windowHeight - this.globalData.CustomBar
         }
       }
     })
-  },
-
-  /**
-   * 是否是Iphonex
-   */
-  isIpx() {
-    var that = this
-    wx.getSystemInfo({
-      success(res) {
-        let pixelRation = res.windowWidth / res.windowHeight;
-        that.globalData.isIpx = !!~res.model.toString().indexOf('iPhone X') || (pixelRation < 0.6)
-      },
-    })
-  },
-  
-  trackSrc(e) {
-    const {
-      scene,
-      query
-    } = e
-    if (isEmpty(query)) {
-      switch (scene) {
-        case 1021:
-        case 1043:
-        case 1058:
-        case 1067:
-        case 1074:
-        case 1082:
-        case 1091:
-        case 1102:
-          this.track('open_way', {
-            enterWay: '公众号'
-          })
-          break;
-        case 1011:
-        case 1012:
-        case 1013:
-          this.track('open_way', {
-            enterWay: '常规二维码'
-          })
-          break;
-        case 1036:
-        case 1044:
-          this.track('open_way', {
-            enterWay: '分享卡片'
-          })
-          break;
-      }
-    } else {
-      this.track('open_way', {
-        enterWay: '参数二维码'
-      })
-    }
-  },
-
-  /**
-   * 事件追踪
-   */
-  track(eventName, properties) {
-    console.log(eventName, properties)
-    // sensors.track(eventName, properties);
   },
 
   onShow(options) {
     this.scene = options.scene;
-  },
-
-  checkUpdate() {
-    const updateManager = wx.getUpdateManager()
-
-    updateManager.onUpdateReady(() => {
-      wx.showModal({
-        title: '更新提示',
-        content: '新版本已经准备好，是否重启应用？',
-        success(res) {
-          if (res.confirm) {
-            updateManager.applyUpdate()
-          }
-        }
-      })
-    })
-
-    updateManager.onUpdateFailed((res) => {
-      console.log("update.fail", res)
-      wx.showModal({
-        title: '更新提示',
-        content: '新版本下载失败',
-        showCancel: false
-        })
-    })
   },
 
   autoUpdate() {
@@ -262,9 +155,4 @@ App({
     }
   },
 
-  globalData: {
-    userInfo: null,
-    ColorList, ColorList,
-    userDataPath: `${wx.env.USER_DATA_PATH}/`,
-  }
 })

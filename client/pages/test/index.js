@@ -6,7 +6,8 @@ import ColorCardTheme0 from '../../assets/data/colorCardTheme0'
 import ColorCardTheme1 from '../../assets/data/colorCardTheme1'
 import ColorCardTheme2 from '../../assets/data/colorCardTheme2'
 import pixelCardTheme0 from '../../assets/data/pixelCardTheme0'
-import pixelCardTheme1 from '../../assets/data/pixelCardTheme1';
+import pixelCardTheme1 from '../../assets/data/pixelCardTheme1'
+import themeText from '../../assets/data/themeText'
 const app = getApp();
 
 Component({
@@ -16,6 +17,8 @@ Component({
   data: {
     template: {},
     image: '',
+
+    id: '10',
   },
   lifetimes: {
     created() {
@@ -26,7 +29,7 @@ Component({
     },
     ready() {
       console.log('flag')
-      this.createTemplate('9')
+      this.createTemplate(this.data.id)
     },
     moved() {
       console.log('moved')
@@ -151,6 +154,11 @@ Component({
           this.setData({
             template: new pixelCardTheme1().palette(data4),
           });
+          break;
+        case '10':
+          this.setData({
+            template: new themeText().palette()
+          })
           break;
         default:
           break;

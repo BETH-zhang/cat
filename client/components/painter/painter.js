@@ -101,13 +101,18 @@ Component({
         }
   
         this.canvasHeightInPx = height.toPx();
+
+        console.log('this.canvasHeightInPx', this.canvasHeightInPx)
         this.setData({
           painterStyle: `width:${this.canvasWidthInPx}px;height:${this.canvasHeightInPx}px;`,
         });
         const ctx = wx.createCanvasContext('k-canvas', this);
-        const pen = new Pen(ctx, palette);
-        pen.paint(() => {
-          this.saveImgToLocal();
+        this.pen = new Pen(ctx, palette);
+        this.pen.paint((style) => {
+          this.setData({
+            customStyle: `width: ${style.width}px; height: ${style.height}px;position: absolute;left: -4999px;`,
+          })
+          this.saveImgToLocal(style);
         });
       });
     },
@@ -173,13 +178,15 @@ Component({
       });
     },
 
-    saveImgToLocal() {
+    saveImgToLocal(style) {
       const that = this;
+      console.log('style: ', style, typeof that.canvasHeightInPx, typeof style.height, that.canvasHeightInPx, style.height)
+      console.log(this.pen.ctx)
       setTimeout(() => {
         wx.canvasToTempFilePath({
           canvasId: 'k-canvas',
           destWidth: that.canvasWidthInPx,
-          destHeight: that.canvasHeightInPx,
+          destHeight: style.height,
           success: function (res) {
             that.getImageInfo(res.tempFilePath);
           },
@@ -207,14 +214,17 @@ Component({
             return;
           }
           // 比例相符时才证明绘制成功，否则进行强制重绘制
-          if (Math.abs((infoRes.width * that.canvasHeightInPx - that.canvasWidthInPx * infoRes.height) / (infoRes.height * that.canvasHeightInPx)) < 0.01) {
-            that.triggerEvent('imgOK', {
-              path: filePath
-            });
-          } else {
-            that.startPaint();
-          }
-          that.paintCount++;
+          that.triggerEvent('imgOK', {
+            path: filePath
+          });
+          // if (Math.abs((infoRes.width * that.canvasHeightInPx - that.canvasWidthInPx * infoRes.height) / (infoRes.height * that.canvasHeightInPx)) < 0.01) {
+          //   that.triggerEvent('imgOK', {
+          //     path: filePath
+          //   });
+          // } else {
+          //   that.startPaint();
+          // }
+          // that.paintCount++;
         },
         fail: (error) => {
           console.error(`getImageInfo failed, ${JSON.stringify(error)}`);

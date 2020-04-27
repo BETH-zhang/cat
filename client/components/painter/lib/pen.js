@@ -7,6 +7,12 @@ export default class Painter {
     this.data = data;
     this.globalWidth = {};
     this.globalHeight = {};
+
+    this.style = {
+      width: 100,
+      height: 100,
+    }
+    this.heights = []
   }
 
   paint(callback) {
@@ -18,8 +24,16 @@ export default class Painter {
     for (const view of this.data.views) {
       this._drawAbsolute(view);
     }
+
+    const height = this.heights.reduce((a, b) => (a + b))
+    // this.ctx.fillStyle = 'red';
+    // this.ctx.fillRect(0, 0, 50, height);
+
+    this.ctx.height = height
+    this.style.height = height
     this.ctx.draw(false, () => {
-      callback();
+      console.log('this.style: ', this.style)
+      callback(this.style);
     });
   }
 
@@ -175,6 +189,7 @@ export default class Painter {
         lines = view.css.maxLines < lines ? view.css.maxLines : lines;
         const lineHeight = view.css.lineHeight ? view.css.lineHeight.toPx() : view.css.fontSize.toPx();
         height = lineHeight * lines;
+
         extra = {
           lines: lines,
           lineHeight: lineHeight,
@@ -219,6 +234,9 @@ export default class Painter {
         height = view.css.height.toPx();
         break;
     }
+
+    console.log('this.heights: ', this.heights, view)
+    this.style.height = this.heights.length ? Math.max(this.style.height, this.heights.reduce((a, b) => (a + b))) : this.style.height
     let x;
     if (view.css && view.css.right) {
       if (typeof view.css.right === 'string') {
@@ -382,6 +400,10 @@ export default class Painter {
     }
     this.ctx.restore();
     this._doBorder(view, width, height);
+
+    if (view.id) {
+      this.heights.push(rHeight)
+    }
   }
 
   _fillAbsText(view) {
@@ -414,6 +436,7 @@ export default class Painter {
       }
       this.globalWidth[view.id] = width ? (textWidth < width ? textWidth : width) : textWidth;
     }
+
     let lineIndex = 0;
     for (let j = 0; j < textArray.length; ++j) {
       const preLineLength = Math.round(textArray[j].length / linesArray[j]);
@@ -427,6 +450,7 @@ export default class Painter {
         alreadyCount = preLineLength;
         let text = textArray[j].substr(start, alreadyCount);
         let measuredWith = this.ctx.measureText(text).width;
+
         // 如果测量大小小于width一个字符的大小，则进行补齐，如果测量大小超出 width，则进行减除
         // 如果已经到文本末尾，也不要进行该循环
         while ((start + alreadyCount <= textArray[j].length) && (width - measuredWith > view.css.fontSize.toPx() || measuredWith > width)) {
@@ -454,6 +478,7 @@ export default class Painter {
           text += '...';
           measuredWith = this.ctx.measureText(text).width;
         }
+
         this.ctx.setTextAlign(view.css.textAlign ? view.css.textAlign : 'left');
         let x;
         switch (view.css.textAlign) {
@@ -467,7 +492,9 @@ export default class Painter {
             x = -(width / 2);
             break;
         }
+
         const y = -(height / 2) + (lineIndex === 0 ? view.css.fontSize.toPx() : (view.css.fontSize.toPx() + lineIndex * lineHeight));
+
         lineIndex++;
         if (view.css.textStyle === 'stroke') {
           this.ctx.strokeText(text, x, y, measuredWith);
@@ -497,6 +524,11 @@ export default class Painter {
     }
     this.ctx.restore();
     this._doBorder(view, width, height);
+
+    if (view.id) {
+      const minHeight = view.css.minHeight ? view.css.minHeight.toPx() : 0
+      this.heights.push(Math.max(minHeight, lines * lineHeight + view.css.top.toPx() + view.css.padding.toPx()))
+    }
   }
 
   _drawAbsRect(view) {
@@ -524,6 +556,10 @@ export default class Painter {
     this.ctx.fill();
     this.ctx.restore();
     this._doBorder(view, width, height);
+
+    if (view.id) {
+      this.heights.push(height)
+    }
   }
 
   // shadow 支持 (x, y, blur, color), 不支持 spread
