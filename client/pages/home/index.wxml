@@ -3,12 +3,15 @@
 </customBar>
 
 <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-  <swiper-item wx:for="{{banners}}" wx:key>
+  <swiper-item
+    wx:for="{{banners}}"
+    wx:key
+    bindtap="jumpPage"
+    data-type="{{item.type}}"
+    data-href="{{item.href}}"
+    data-cur="{{index}}"
+  >
     <image
-      bindtap="jumpPage"
-      data-type="{{item.type}}"
-      data-href="{{item.href}}"
-      data-cur="{{index}}"
       src="{{item.path}}"
       mode="aspectFill"
     ></image>

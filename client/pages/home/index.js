@@ -35,13 +35,13 @@ Page({
     })
   },
   selectNav(e) {
-    const nav = e.currentTarget.dataset.cur;
+    const nav = e.target.dataset.cur;
     jumpPage('page', nav)
   },
   jumpPage(e) {
-    const type = e.currentTarget.dataset.type
-    const href = e.currentTarget.dataset.href
-    const openImg = e.currentTarget.dataset.openimg
+    const type = e.target.dataset.type
+    const href = e.target.dataset.href
+    const openImg = e.target.dataset.openimg
 
     if (href) {
       jumpPage(type, href)
