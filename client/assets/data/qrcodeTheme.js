@@ -144,13 +144,46 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: "请长按下方二维码",
+          text: "请 长 按 下 方 二 维 码",
           css: {
             width: `${width}rpx`,
             left: `${width / 2}rpx`,
             top: `${height / 5 / 3 * 4 + 1 + 20}rpx`,
             fontSize: '30rpx',
             color: '#2e2c42',
+            align: 'center',
+            textAlign: 'center',
+          },
+        },
+        {
+          type: 'rect',
+          css: {
+            top: `${height / 5 * 2}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            color: '#fff',
+          },
+        },
+        {
+          type: 'rect',
+          css: {
+            top: `${height / 5 * 2 + 250}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            color: '#fff',
+          },
+        },
+        {
+          type: 'text',
+          text: "添加微信时请说明来意",
+          css: {
+            width: `${width}rpx`,
+            left: `${width / 2}rpx`,
+            bottom: `70rpx`,
+            fontSize: '26rpx',
+            color: '#ccc',
             align: 'center',
             textAlign: 'center',
           },
