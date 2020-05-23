@@ -35,14 +35,15 @@ Page({
     })
   },
   selectNav(e) {
-    const nav = e.target.dataset.cur;
+    const nav = e.target.dataset.cur || e.currentTarget.dataset.cur;
     jumpPage('page', nav)
   },
   jumpPage(e) {
-    const type = e.target.dataset.type
-    const href = e.target.dataset.href
-    const openImg = e.target.dataset.openimg
+    const type = e.target.dataset.type || e.currentTarget.dataset.type
+    const href = e.target.dataset.href || e.currentTarget.dataset.href
+    const openImg = e.target.dataset.openimg || e.currentTarget.dataset.openimg
 
+    console.log(type, href, openImg)
     if (href) {
       jumpPage(type, href)
     } else if (openImg) {
