@@ -41,12 +41,20 @@ class ConvertPixel {
       const red = data[i]
       const green = data[i + 1]
       const blue = data[i + 2]
-      const alpha = data[i + 3]
+      const alpha = 1
       
-      colorData.push({x: row, y: col, color: `rgba(${red},${green},${blue},${alpha})`})
+      if (red === 255 && green === 255 && blue === 255) {
+
+      } else {
+        colorData.push({x: row, y: col, color: `rgba(${red},${green},${blue},${alpha})`})
+      }
     }
 
-    // console.log('colorData: ', colorData)
+    console.log('colorData: ', colorData[0])
+    wx.setStorage({
+      key: 'bgColor',
+      data: 'white',
+    })
     wx.setStorage({
       key: 'offsetX',
       data: 0,
