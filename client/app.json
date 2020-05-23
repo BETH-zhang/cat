@@ -1,9 +1,9 @@
 
 {
   "pages": [
+    "pages/home/index",
     "pages/qrcode/index",
     "pages/test/index",
-    "pages/home/index",
     "pages/user/index",
     "pages/pixel/index",
     "pages/preview/index",

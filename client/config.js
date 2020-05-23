@@ -111,6 +111,12 @@ export default {
         "href": "vip",
         "bg": "bg-gradual-red",
         "path": "https://wx4.sinaimg.cn/mw690/9f7ff7afly1g9feta2b4qj20j60j6wi3.jpg"
-    }
+    },
+    {
+        "title": "名片",
+        "href": "qrcode",
+        "bg": "bg-gradual-blue",
+        "path": "",
+    },
   ],
 }
