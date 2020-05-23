@@ -44,31 +44,21 @@ export default class ColorCard {
         {
           type: 'rect',
           css: {
-            top: `${height / 5 / 3}rpx`,
-            left: `${width / 2 / 4}rpx`,
-            width: `${width / 3}rpx`,
-            height: `${height / 5 / 3}rpx`,
+            top: `${height / 5 / 3.3}rpx`,
+            left: `${width / 2 / 8}rpx`,
+            width: `${width / 2.2}rpx`,
+            height: `${height / 5 / 2.8}rpx`,
             color: '#000',
           },
         },
         {
           type: 'image',
-          url: data.avatar,
+          url: data.logoText,
           css: {
-            top: `${height / 5 / 3}rpx`,
-            left: `${width / 2 / 4}rpx`,
-            width: `${width / 3}rpx`,
-            height: `${height / 5 / 3}rpx`,
-          },
-        },
-        {
-          type: 'rect',
-          css: {
-            top: `${height / 5 / 4}rpx`,
-            left: `${width / 2 + width / 3 / 7}rpx`,
-            width: `${height / 5 / 2}rpx`,
-            height: `${height / 5 / 2}rpx`,
-            color: '#000',
+            top: `${height / 5 / 3.3}rpx`,
+            left: `${width / 2 / 8}rpx`,
+            width: `${width / 2.2}rpx`,
+            height: `${height / 5 / 2.8}rpx`,
           },
         },
         {
@@ -84,18 +74,8 @@ export default class ColorCard {
           },
         },
         {
-          type: 'rect',
-          css: {
-            top: `${height / 5 / 4}rpx`,
-            left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
-            width: `${height / 5 / 2 * 3}rpx`,
-            height: `${height / 5 / 2}rpx`,
-            color: '#ccc',
-          },
-        },
-        {
           type: 'text',
-          text: '程小元像素',
+          text: 'Beth',
           css: {
             top: `${height / 5 / 3}rpx`,
             left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
@@ -108,7 +88,7 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: 'chengxiaoyuan',
+          text: 'geziabb123',
           css: {
             top: `${height / 5 / 3 + 45}rpx`,
             left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
@@ -166,6 +146,17 @@ export default class ColorCard {
           },
         },
         {
+          type: 'image',
+          url: data.qrcode,
+          css: {
+            top: `${height / 5 * 2}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            rotate: 0,
+          },
+        },
+        {
           type: 'rect',
           css: {
             top: `${height / 5 * 2 + 250}rpx`,
@@ -173,6 +164,17 @@ export default class ColorCard {
             width: `220rpx`,
             height: `220rpx`,
             color: '#fff',
+          },
+        },
+        {
+          type: 'image',
+          url: data.fingerprint,
+          css: {
+            top: `${height / 5 * 2 + 250}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            rotate: 0,
           },
         },
         {

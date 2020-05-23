@@ -9,6 +9,9 @@ import pixelCardTheme0 from '../../assets/data/pixelCardTheme0'
 import pixelCardTheme1 from '../../assets/data/pixelCardTheme1'
 import themeText from '../../assets/data/themeText'
 import qrcodeTheme from '../../assets/data/qrcodeTheme'
+
+import { getImagePath, getTempFileURL } from '../../api/image'
+
 const app = getApp();
 
 Component({
@@ -162,18 +165,27 @@ Component({
           })
           break;
         case '11':
-          const aa = {
-            logo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            avatar: userInfo.avatarUrl,
-            name: userInfo.nickName,
-            title: '请长按下方二维码',
-            subTitle: 'geziabb123',
-            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            fingerprint: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            description: '添加微信时请说明来意'
-          } 
-          this.setData({
-            template: new qrcodeTheme().palette(aa)
+          getTempFileURL([
+            getImagePath('/home/logo-text.png'),
+            getImagePath('/home/gongzhonghao_qrcode.jpeg'),
+            getImagePath('/home/IMG_3740.JPG'),
+          ]).then((imageRes) => {
+            console.log(imageRes.fileList) 
+
+            const aa = {
+              logoText: imageRes.fileList[0].tempFileURL,
+              logo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+              avatar: userInfo.avatarUrl,
+              name: userInfo.nickName,
+              title: '请长按下方二维码',
+              subTitle: 'geziabb123',
+              qrcode: imageRes.fileList[1].tempFileURL,
+              fingerprint: imageRes.fileList[2].tempFileURL,
+              description: '添加微信时请说明来意'
+            } 
+            this.setData({
+              template: new qrcodeTheme().palette(aa)
+            })
           })
           break;
         default:
