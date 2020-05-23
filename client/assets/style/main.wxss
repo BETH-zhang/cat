@@ -3047,7 +3047,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .grid.col-6>view {
-	width: 16%;
+	width: 15%;
 }
 
 /*  -- 内外边距 -- */

@@ -50,6 +50,6 @@
 
 .bg-btn {
   padding-top: 16rpx;
-  margin-right: 14rpx!important;
+  margin-right: 12rpx!important;
   line-height: 1.5em;
 }
