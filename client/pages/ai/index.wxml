@@ -10,7 +10,7 @@
       src='{{imgPath}}'
       mode='widthFix'
       class='target'
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
+      style='{{"width:"+width+"px;height:"+height+"px;"}};'
       bindtap='chooseImg'
     ></image>
 
@@ -20,28 +20,11 @@
     
     <canvas
       wx:if="{{imgPath}}"
-      style='{{"width:"+canvasWidth *0.25+"px;height:"+canvasHeight *0.25+"px;"}};'
+      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
       canvas-id="cvCanvas"
       class="image-handler"
       bindtap='chooseImg'
     />
-    <canvas
-      wx:if="{{imgPath}}"
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
-      canvas-id="cvCanvasBig"
-      class="image-handler"
-      bindtap='chooseImg'
-    />
-
-    <image
-      wx:if="{{imgPath}}"
-      src='{{imgPath}}'
-      mode='widthFix'
-      class='target'
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
-      bindtap='chooseImg'
-    ></image>
-  
   </view>
 </view>
 
@@ -72,9 +55,10 @@
 
 <scroll-view scroll-x class="cu-bar foot color-card-export">
 	<view class="bg-white padding">
-		<view class="grid col-4 grid-square" style="text-align: center;">
-			<view class="bg-img {{themeCur===index ? 'bg-img-border' : ''}}" wx:for="{{themes}}" bindtap="themeSelect" data-id="{{index}}" style="background-image:url(https://wx2.sinaimg.cn/mw690/9f7ff7afly1gb222ufmooj20ew0eutkf.jpg);">
-				{{item}}
+		<view class="grid col-6 grid-square" style="text-align: center;">
+			<view class="bg-btn bg-blue {{themeCur===index ? 'bg-img-border' : ''}}" wx:for="{{themes}}" bindtap="themeSelect" data-id="{{index}}">
+        <view>{{item[0]}}</view>
+        <view>{{item[1]}}</view>
 			</view>
 		</view>
 	</view>

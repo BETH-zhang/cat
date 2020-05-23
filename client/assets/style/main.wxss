@@ -1531,7 +1531,8 @@ button.icon.lg {
 
 .cu-list.grid.col-3>.cu-item:nth-child(3n):after,
 .cu-list.grid.col-4>.cu-item:nth-child(4n):after,
-.cu-list.grid.col-5>.cu-item:nth-child(5n):after {
+.cu-list.grid.col-5>.cu-item:nth-child(5n):after,
+.cu-list.grid.col-6>.cu-item:nth-child(6n):after {
 	border-right-width: 0
 }
 
@@ -3011,10 +3012,17 @@ scroll-view.cu-steps .cu-item {
 	width: calc((100% - 80rpx)/5);
 }
 
+.grid.col-6.grid-square>view {
+	padding-bottom: calc((100% - 80rpx)/6);
+	height: 0;
+	width: calc((100% - 80rpx)/6);
+}
+
 .grid.col-2.grid-square>view:nth-child(2n),
 .grid.col-3.grid-square>view:nth-child(3n),
 .grid.col-4.grid-square>view:nth-child(4n),
-.grid.col-5.grid-square>view:nth-child(5n){
+.grid.col-5.grid-square>view:nth-child(5n),
+.grid.col-6.grid-square>view:nth-child(6n){
 	margin-right: 0;
 }
 
@@ -3036,6 +3044,10 @@ scroll-view.cu-steps .cu-item {
 
 .grid.col-5>view {
 	width: 20%;
+}
+
+.grid.col-6>view {
+	width: 16%;
 }
 
 /*  -- 内外边距 -- */

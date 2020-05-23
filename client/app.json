@@ -1,15 +1,15 @@
 
 {
   "pages": [
+    "pages/ai/index",
+    "pages/pixel/index",
     "pages/home/index",
     "pages/qrcode/index",
     "pages/test/index",
     "pages/user/index",
-    "pages/pixel/index",
     "pages/preview/index",
     "pages/colors/index",
     "pages/vip/index",
-    "pages/ai/index",
     "pages/colorCard/index",
     "pages/log/index",
     "pages/admin/index",
