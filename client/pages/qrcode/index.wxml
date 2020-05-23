@@ -1,9 +1,9 @@
-<customBar bgColor="bg-gradual-orange" isBack="{{true}}">
+<customBar bgColor="bg-gradual-blue" isBack="{{true}}">
 	<view slot="backText">返回</view>
-	<view slot="content">AI 像素</view>
+	<view slot="content">二维码名片</view>
 </customBar>
 
-<view class="UCenter-bg bg-gradual-orange">
+<view class="UCenter-bg bg-gradual-blue">
 	<view class="box-container">
     <image
       wx:if="{{imgPath}}"
@@ -17,31 +17,6 @@
     <view wx:if="{{!imgPath}}" class='img-placeholder' bindtap='chooseImg'>
       <i style="font-size: 160rpx;" class="iconfont icon-taking-picture text-blue"></i>
     </view>
-    
-    <canvas
-      wx:if="{{imgPath}}"
-      style='{{"width:"+canvasWidth *0.25+"px;height:"+canvasHeight *0.25+"px;"}};'
-      canvas-id="cvCanvas"
-      class="image-handler"
-      bindtap='chooseImg'
-    />
-    <canvas
-      wx:if="{{imgPath}}"
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
-      canvas-id="cvCanvasBig"
-      class="image-handler"
-      bindtap='chooseImg'
-    />
-
-    <image
-      wx:if="{{imgPath}}"
-      src='{{imgPath}}'
-      mode='widthFix'
-      class='target'
-      style='{{"width:"+canvasWidth+"px;height:"+canvasHeight+"px;"}};'
-      bindtap='chooseImg'
-    ></image>
-  
   </view>
 </view>
 
@@ -65,7 +40,7 @@
     </view>
     <view class="cu-bar bg-white" style="margin: 0 auto;padding: 40rpx;width:80%">
       <button class="cu-btn round bg-blue" bindtap="saveImg" style="float: left;">保存</button>
-      <button class="cu-btn round bg-blue" open-type="share" data-cur="{{shareImg}}">转发</button>
+      <button class="cu-btn round" open-type="share" data-cur="{{shareImg}}">转发</button>
     </view>
   </view>
 </view>

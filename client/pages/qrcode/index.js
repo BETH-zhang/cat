@@ -1,6 +1,7 @@
 import { saveImage } from '../../utils/wxUtils'
-import ConvertPixel from '../../utils/convertPixel'
-import pixelCardTheme1 from '../../assets/data/pixelCardTheme1';
+import qrcodeTheme from '../../assets/data/qrcodeTheme';
+import { getImagePath, getTempFileURL } from '../../api/image'
+
 const app = getApp()
 
 Page({
@@ -16,32 +17,55 @@ Page({
     template: {},
   },
   onLoad() {
-    this.initCanvas()
   },
  
   themeSelect(e) {
     console.log(this.data.imgPath, this.data.shareImg)
     if (this.data.imgPath) {
+      const userInfo = wx.getStorageSync('userInfo') || {}
       const themeCur = e.currentTarget.dataset.id
       console.log('themeCur: ', themeCur)
       const data = this.download()
       console.log('data: ', data)
       if (data) {
         let template = null
-        switch(themeCur) {
-          case 0:
-            template = new pixelCardTheme1().palette(data)
-            break;
-          default:
-            break;
-        }
 
-        console.log('template: ', template)
-        this.setData({
-          themeCur: themeCur,
-          template: template,
+        getTempFileURL([
+          getImagePath('/home/logo-text.png'),
+          getImagePath('/home/gongzhonghao_qrcode.jpeg'),
+          getImagePath('/home/IMG_3740.JPG'),
+        ]).then((imageRes) => {
+          console.log(imageRes.fileList) 
+
+          const aa = {
+            logoText: imageRes.fileList[0].tempFileURL,
+            logo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            avatar: userInfo.avatarUrl,
+            name: userInfo.nickName,
+            title: '请长按下方二维码',
+            subTitle: '',
+            qrcode: this.data.imgPath || imageRes.fileList[1].tempFileURL,
+            fingerprint: imageRes.fileList[2].tempFileURL,
+            description: ''
+          } 
+          this.setData({
+            template: new qrcodeTheme().palette(aa)
+          })
         })
-        clearTimeout(this.timer)
+        // switch(themeCur) {
+        //   case 0:
+        //     template = new qrcodeTheme().palette(aa)
+        //     break;
+        //   default:
+        //     break;
+        // }
+
+        // console.log('template: ', template)
+        // this.setData({
+        //   themeCur: themeCur,
+        //   template: template,
+        // })
+        // clearTimeout(this.timer)
       }
     } else {
       wx.showToast({
@@ -78,62 +102,14 @@ Page({
   },
   initData() {
   },
-  initCanvas() {
-    this.ConvertPixel = new ConvertPixel('cvCanvas', this)
-
-    wx.getSystemInfo({
-      success: ({
-        screenWidth
-      }) => {
-        this.screenWidth = screenWidth;
-      }
-    })
-
-    const width = app.globalData.systemInfo.windowWidth
-    const height = app.globalData.systemInfo.windowHeight
-    this.setData({ width, height })
-  },
   chooseImg: function() {
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: (res) => {
-        wx.showLoading({
-          title: '图片处理中',
-        })
         this.setData({
           imgPath: res.tempFilePaths[0],
-        })
-        wx.getImageInfo({
-          src: res.tempFilePaths[0],
-          success: (imgInfo) => {
-            let {
-              width,
-              height,
-              imgPath
-            } = imgInfo;
-            let scale = 0.9 * this.screenWidth / Math.max(width, height);
-            let canvasWidth = Math.floor(scale * width);
-            let canvasHeight = Math.floor(scale * height);
-            this.setData({
-              imgInfo,
-              canvasScale: scale,
-              canvasWidth,
-              canvasHeight
-            });
-            this.ConvertPixel.render({
-              width: canvasWidth,
-              height: canvasHeight,
-              imgPath: res.tempFilePaths[0],
-            }, (imgInfo) => {
-              wx.hideLoading()
-              this.setData({
-                imgPath: imgInfo.tempFilePath,
-                imgInfo,
-              })
-            });
-          }
         })
       }
     }, this)
@@ -145,36 +121,9 @@ Page({
         shareImg: '',
       })
     } else {
-      return this.optPictureData()
+      return true
     }
     return null
-  },
-  optPictureData() {
-    wx.showLoading({
-      title: '图片生成中',
-    })
-    this.timer = setTimeout(() => {
-      wx.hideLoading()
-      clearTimeout(this.timer)
-    }, 10000)
-    const date = new Date;
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const time = year + '.' + month + '.' + day;   // 绘图的时间
-
-    const data = {
-      avatar: app.globalData.userInfo.avatarUrl,
-      qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-      name: app.globalData.userInfo.nickName,
-      title: '程小元像素画',
-      description: '',
-      time: time,
-      imgInfo: this.data.imgInfo,
-      bgColor: '#fff',
-    }
-
-    return data
   },
   onImgOK(e) {
     console.log('生成分享图')

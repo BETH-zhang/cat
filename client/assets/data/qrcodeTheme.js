@@ -45,7 +45,7 @@ export default class ColorCard {
           type: 'rect',
           css: {
             top: `${height / 5 / 3.3}rpx`,
-            left: `${width / 2 / 8}rpx`,
+            left: `${width / 2 / 8 + 3}rpx`,
             width: `${width / 2.2}rpx`,
             height: `${height / 5 / 2.8}rpx`,
             color: '#000',
@@ -75,9 +75,9 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: 'Beth',
+          text: data.name,
           css: {
-            top: `${height / 5 / 3}rpx`,
+            top: data.subTitle ? `${height / 5 / 3}rpx` : `${height / 5 / 3 + 15}rpx`,
             left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
             width: `${height / 5 / 2 * 3}rpx`,
             height: `${height / 5 / 2}rpx`,
@@ -88,7 +88,7 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: 'geziabb123',
+          text: data.subTitle,
           css: {
             top: `${height / 5 / 3 + 45}rpx`,
             left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
@@ -179,7 +179,7 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: "添加微信时请说明来意",
+          text: data.description,
           css: {
             width: `${width}rpx`,
             left: `${width / 2}rpx`,

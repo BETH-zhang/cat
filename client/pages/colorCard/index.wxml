@@ -50,7 +50,7 @@
     </view>
     <view class="cu-bar bg-white" style="margin: 0 auto;padding: 40rpx;width:80%">
       <button class="cu-btn round bg-blue" bindtap="saveImg" style="float: left;">保存</button>
-      <button class="cu-btn round bg-blue" open-type="share" data-cur="{{shareImg}}">转发</button>
+      <button class="cu-btn round" open-type="share" data-cur="{{shareImg}}">转发</button>
     </view>
   </view>
 </view>
