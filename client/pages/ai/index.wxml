@@ -55,9 +55,9 @@
 
 <scroll-view scroll-x class="cu-bar foot color-card-export">
 	<view class="bg-white padding">
-		<view class="grid col-6 grid-square" style="text-align: center;">
-			<view class="bg-btn bg-blue {{themeCur===index ? 'bg-img-border' : ''}}" wx:for="{{themes}}" bindtap="themeSelect" data-id="{{index}}">
-        <view>{{item[0]}}</view>
+		<view class="grid col-4 grid-square" style="text-align: center;">
+			<view class="bg-btn bg-{{index ? 'blue' : 'orange'}} {{themeCur===index ? 'bg-img-border' : ''}}" wx:for="{{themes}}" bindtap="themeSelect" data-id="{{index}}">
+        <view class="top">{{item[0]}}</view>
         <view>{{item[1]}}</view>
 			</view>
 		</view>

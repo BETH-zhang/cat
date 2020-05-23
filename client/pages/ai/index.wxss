@@ -49,7 +49,10 @@
 }
 
 .bg-btn {
-  padding-top: 16rpx;
-  margin-right: 12rpx!important;
+  font-size: 18px;
   line-height: 1.5em;
+}
+
+.bg-btn >view.top {
+  padding-top: 30rpx;
 }

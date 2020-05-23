@@ -48,10 +48,19 @@ class ConvertPixel {
 
     // console.log('colorData: ', colorData)
     wx.setStorage({
+      key: 'offsetX',
+      data: 0,
+    })
+    wx.setStorage({
+      key: 'offsetY',
+      data: 0,
+    })
+    wx.setStorage({
       key: 'pixelData',
       data: colorData,
     })
 
+    console.log('setStorage: ', wx.getStorageSync('pixelData')[0])
     if (callback) {callback()} 
   }
 
