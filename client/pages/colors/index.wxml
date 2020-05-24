@@ -12,7 +12,7 @@
 		<view class="cu-item shadow">
 			<view class="image" style="height: 50rpx;">
 				<!-- <image wx:if="{{item.path}}" src="{{item.path}}" mode="widthFix" bindtap="viewImages"></image> -->
-				<view class="cu-tag bg-blue" bindtap="colorCard" data-index="{{index}}">生成色卡</view>
+				<!-- <view class="cu-tag bg-blue" bindtap="colorCard" data-index="{{index}}">生成色卡</view> -->
 				<!-- <view class="cu-tag bg-blue" bindtap="edit" data-id="{{item._id}}">编辑</view> -->
 				<!-- <view class="cu-tag bg-blue" style="right: 120rpx" bindtap="del" data-id="{{item._id}}">删除</view> -->
 				<!-- <view wx:if="{{item.path}}" class="cu-bar bg-shadeBottom">
