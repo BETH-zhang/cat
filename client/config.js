@@ -80,17 +80,17 @@ export default {
     link: 'ai',
     bg: 'bg-gradual-orange',
   }, {
-    id: 2,
-    name: '暴走Gif',
-    icon: 'icon-gif',
-    link: 'gif',
-    bg: 'bg-gradual-green',
-  }, {
     id: 3,
     name: '色卡',
     icon: 'icon-color-card',
     link: 'colorCard',
     bg: 'bg-gradual-blue',
+  }, {
+    id: 2,
+    name: '精品作品',
+    icon: 'icon-vip',
+    link: 'vip',
+    bg: 'bg-gradual-pink',
   }],
 
   exploreData: [
