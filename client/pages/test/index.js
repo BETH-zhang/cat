@@ -9,6 +9,7 @@ import pixelCardTheme0 from '../../assets/data/pixelCardTheme0'
 import pixelCardTheme1 from '../../assets/data/pixelCardTheme1'
 import themeText from '../../assets/data/themeText'
 import qrcodeTheme from '../../assets/data/qrcodeTheme'
+import theme12 from '../../assets/data/workShowTheme'
 const app = getApp();
 
 Component({
@@ -19,7 +20,7 @@ Component({
     template: {},
     image: '',
 
-    id: '11',
+    id: '12',
   },
   lifetimes: {
     created() {
@@ -174,6 +175,22 @@ Component({
           } 
           this.setData({
             template: new qrcodeTheme().palette(aa)
+          })
+          break;
+        case '12':
+          const a12 = {
+            avatar: userInfo.avatarUrl,
+            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+            name: userInfo.nickName,
+            title: '色卡分享',
+            time: '2020.1.1',
+            imgInfo: {
+              path: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg'
+            },
+            colors: ['red', 'red', 'red', 'red', 'red']
+          }
+          this.setData({
+            template: new theme12().palette(a12)
           })
           break;
         default:

@@ -11,4 +11,6 @@
   <button bind:tap='createTemplate' data-cur="5">模版5</button>
   <button bind:tap='createTemplate' data-cur="6">模版6</button>
   <button bind:tap='createTemplate' data-cur="10">模版10</button>
+  <button bind:tap='createTemplate' data-cur="11">模版11</button>
+  <button bind:tap='createTemplate' data-cur="12">模版12</button>
 </scroll-view>
