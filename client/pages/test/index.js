@@ -10,6 +10,9 @@ import pixelCardTheme1 from '../../assets/data/pixelCardTheme1'
 import themeText from '../../assets/data/themeText'
 import qrcodeTheme from '../../assets/data/qrcodeTheme'
 import theme12 from '../../assets/data/workShowTheme'
+
+import { getImagePath, getTempFileURL } from '../../api/image'
+
 const app = getApp();
 
 Component({
@@ -163,34 +166,64 @@ Component({
           })
           break;
         case '11':
-          const aa = {
-            logo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            avatar: userInfo.avatarUrl,
-            name: userInfo.nickName,
-            title: '请长按下方二维码',
-            subTitle: 'geziabb123',
-            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            fingerprint: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            description: '添加微信时请说明来意'
-          } 
-          this.setData({
-            template: new qrcodeTheme().palette(aa)
+          getTempFileURL([
+            getImagePath('/home/logo-text.png'),
+            getImagePath('/home/gongzhonghao_qrcode.jpeg'),
+            getImagePath('/home/IMG_3740.JPG'),
+          ]).then((imageRes) => {
+            console.log(imageRes.fileList) 
+
+            const aa = {
+              logoText: imageRes.fileList[0].tempFileURL,
+              logo: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
+              avatar: userInfo.avatarUrl,
+              name: userInfo.nickName,
+              title: '请长按下方二维码',
+              subTitle: 'geziabb123',
+              qrcode: imageRes.fileList[1].tempFileURL,
+              fingerprint: imageRes.fileList[2].tempFileURL,
+              description: '添加微信时请说明来意'
+            } 
+            this.setData({
+              template: new qrcodeTheme().palette(aa)
+            })
           })
           break;
         case '12':
-          const a12 = {
-            avatar: userInfo.avatarUrl,
-            qrcode: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg',
-            name: userInfo.nickName,
-            title: '色卡分享',
-            time: '2020.1.1',
-            imgInfo: {
-              path: 'https://wx3.sinaimg.cn/orj360/9f7ff7afgy1g9ac39aptdj20by0by0uv.jpg'
-            },
-            colors: ['red', 'red', 'red', 'red', 'red']
-          }
-          this.setData({
-            template: new theme12().palette(a12)
+          getTempFileURL([
+            getImagePath('/home/logo-text.png'),
+            getImagePath('/home/gongzhonghao_qrcode.jpeg'),
+          ]).then((imageRes) => {
+            console.log(imageRes.fileList) 
+
+            const a12 = {
+              logoText: imageRes.fileList[0].tempFileURL,
+              avatar: userInfo.avatarUrl,
+              name: '学号：08-2131-Bb',
+              title: '名称：线稿临摹',
+              subTitle: '主讲老师：走尺',
+              time: '时间：2020.07.15',
+              imgInfo: [{
+                width: 1000,
+                height: 1000,
+                path: 'https://wx3.sinaimg.cn/mw690/9f7ff7afly1ggrkqk8n3pj20rs0rsn5v.jpg',
+                colors: []
+              }, {
+                width: 1000,
+                height: 1000,
+                path: 'https://wx4.sinaimg.cn/mw690/9f7ff7afly1ggrkqkb925j20rs0rsgpl.jpg',
+                colors: []
+              }, {
+                width: 1000,
+                height: 1000,
+                path: 'https://wx3.sinaimg.cn/mw690/9f7ff7afly1ggrkqkbgsjj20rs0rsq91.jpg',
+                colors: []
+              }],
+              description: '加油⛽️'
+            } 
+            this.setData({
+              template: new theme12().palette(a12)
+            })
           })
           break;
         default:

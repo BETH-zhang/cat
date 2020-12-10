@@ -27,6 +27,7 @@ class PixelApplication {
     this.point = null
     this.data = wx.getStorageSync('pixelData') || []
 
+    console.log(canvas.id, this.data[0])
     this.init()
   }
 

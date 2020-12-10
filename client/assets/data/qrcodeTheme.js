@@ -44,31 +44,21 @@ export default class ColorCard {
         {
           type: 'rect',
           css: {
-            top: `${height / 5 / 3}rpx`,
-            left: `${width / 2 / 4}rpx`,
-            width: `${width / 3}rpx`,
-            height: `${height / 5 / 3}rpx`,
+            top: `${height / 5 / 3.3}rpx`,
+            left: `${width / 2 / 8 + 3}rpx`,
+            width: `${width / 2.2}rpx`,
+            height: `${height / 5 / 2.8}rpx`,
             color: '#000',
           },
         },
         {
           type: 'image',
-          url: data.avatar,
+          url: data.logoText,
           css: {
-            top: `${height / 5 / 3}rpx`,
-            left: `${width / 2 / 4}rpx`,
-            width: `${width / 3}rpx`,
-            height: `${height / 5 / 3}rpx`,
-          },
-        },
-        {
-          type: 'rect',
-          css: {
-            top: `${height / 5 / 4}rpx`,
-            left: `${width / 2 + width / 3 / 7}rpx`,
-            width: `${height / 5 / 2}rpx`,
-            height: `${height / 5 / 2}rpx`,
-            color: '#000',
+            top: `${height / 5 / 3.3}rpx`,
+            left: `${width / 2 / 8}rpx`,
+            width: `${width / 2.2}rpx`,
+            height: `${height / 5 / 2.8}rpx`,
           },
         },
         {
@@ -84,20 +74,10 @@ export default class ColorCard {
           },
         },
         {
-          type: 'rect',
-          css: {
-            top: `${height / 5 / 4}rpx`,
-            left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
-            width: `${height / 5 / 2 * 3}rpx`,
-            height: `${height / 5 / 2}rpx`,
-            color: '#ccc',
-          },
-        },
-        {
           type: 'text',
-          text: '程小元像素',
+          text: data.name,
           css: {
-            top: `${height / 5 / 3}rpx`,
+            top: data.subTitle ? `${height / 5 / 3}rpx` : `${height / 5 / 3 + 15}rpx`,
             left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
             width: `${height / 5 / 2 * 3}rpx`,
             height: `${height / 5 / 2}rpx`,
@@ -108,7 +88,7 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: 'chengxiaoyuan',
+          text: data.subTitle,
           css: {
             top: `${height / 5 / 3 + 45}rpx`,
             left: `${width / 2 + width / 7 - width / 2 / 7 + height / 5 / 2}rpx`,
@@ -144,13 +124,68 @@ export default class ColorCard {
         },
         {
           type: 'text',
-          text: "请长按下方二维码",
+          text: "请 长 按 下 方 二 维 码",
           css: {
             width: `${width}rpx`,
             left: `${width / 2}rpx`,
             top: `${height / 5 / 3 * 4 + 1 + 20}rpx`,
             fontSize: '30rpx',
             color: '#2e2c42',
+            align: 'center',
+            textAlign: 'center',
+          },
+        },
+        {
+          type: 'rect',
+          css: {
+            top: `${height / 5 * 2}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            color: '#fff',
+          },
+        },
+        {
+          type: 'image',
+          url: data.qrcode,
+          css: {
+            top: `${height / 5 * 2}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            rotate: 0,
+          },
+        },
+        {
+          type: 'rect',
+          css: {
+            top: `${height / 5 * 2 + 250}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            color: '#fff',
+          },
+        },
+        {
+          type: 'image',
+          url: data.fingerprint,
+          css: {
+            top: `${height / 5 * 2 + 250}rpx`,
+            left: `${(width - 220) / 2}rpx`,
+            width: `220rpx`,
+            height: `220rpx`,
+            rotate: 0,
+          },
+        },
+        {
+          type: 'text',
+          text: data.description,
+          css: {
+            width: `${width}rpx`,
+            left: `${width / 2}rpx`,
+            bottom: `70rpx`,
+            fontSize: '26rpx',
+            color: '#ccc',
             align: 'center',
             textAlign: 'center',
           },

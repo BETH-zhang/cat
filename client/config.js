@@ -80,20 +80,32 @@ export default {
     link: 'ai',
     bg: 'bg-gradual-orange',
   }, {
-    id: 2,
-    name: '暴走Gif',
-    icon: 'icon-gif',
-    link: 'gif',
-    bg: 'bg-gradual-green',
-  }, {
     id: 3,
     name: '色卡',
     icon: 'icon-color-card',
     link: 'colorCard',
     bg: 'bg-gradual-blue',
+  }, {
+    id: 2,
+    name: '精品作品',
+    icon: 'icon-vip',
+    link: 'vip',
+    bg: 'bg-gradual-pink',
   }],
 
   exploreData: [
+    {
+        "title": "作品展示",
+        "href": "work-show",
+        "bg": "bg-gradual-pink",
+        "path": "",
+    },
+    {
+        "title": "名片",
+        "href": "qrcode",
+        "bg": "bg-gradual-blue",
+        "path": "",
+    },
     {
         "title": "暴走 GIF",
         "href": "gif",
@@ -111,6 +123,6 @@ export default {
         "href": "vip",
         "bg": "bg-gradual-red",
         "path": "https://wx4.sinaimg.cn/mw690/9f7ff7afly1g9feta2b4qj20j60j6wi3.jpg"
-    }
+    },
   ],
 }

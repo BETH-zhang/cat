@@ -1,11 +1,16 @@
-import { saveImage } from '../../utils/wxUtils'
-import ConvertPixel from '../../utils/convertPixel'
+import { saveImage, jumpPage } from '../../utils/wxUtils'
+import ConvertPixel, { pixelContant } from '../../utils/convertPixel'
 import pixelCardTheme1 from '../../assets/data/pixelCardTheme1';
 const app = getApp()
 
+console.log(pixelContant)
 Page({
   data: {
-    themes: ['模板1'],
+    themes: [
+      ['原图', '导出'],
+      ['16', '像素'], ['32', '像素'], ['64', '像素'],
+      // ['128', '像素'], ['256', '像素']
+    ],
     themeCur: 0,
 
     imgPath: null,
@@ -14,6 +19,8 @@ Page({
 
     setting: '',
     template: {},
+
+    size: pixelContant.md,
   },
   onLoad() {
     this.initCanvas()
@@ -24,24 +31,37 @@ Page({
     if (this.data.imgPath) {
       const themeCur = e.currentTarget.dataset.id
       console.log('themeCur: ', themeCur)
-      const data = this.download()
-      console.log('data: ', data)
-      if (data) {
-        let template = null
-        switch(themeCur) {
-          case 0:
-            template = new pixelCardTheme1().palette(data)
-            break;
-          default:
-            break;
-        }
 
-        console.log('template: ', template)
-        this.setData({
-          themeCur: themeCur,
-          template: template,
-        })
-        clearTimeout(this.timer)
+      switch(themeCur) {
+        case 0:
+          const data = this.download()
+          console.log('data: ', data)
+          if (data) {
+            const template =  new pixelCardTheme1().palette(data)
+            this.setData({
+              themeCur: themeCur,
+              template: template,
+            })
+            clearTimeout(this.timer)
+          }
+          break;
+        case 1:
+          this.updateSize('sm') 
+          break;
+        case 2:
+          this.updateSize('md') 
+          break;
+        case 3:
+          this.updateSize('lg') 
+          break;
+        case 4:
+          this.updateSize('xl') 
+          break;
+        case 5:
+          this.updateSize('xxl') 
+          break;
+        default:
+          break;
       }
     } else {
       wx.showToast({
@@ -62,7 +82,7 @@ Page({
           this.themeSelect({
             currentTarget: {
               dataset: {
-                id: this.data.themeCur || 1,
+                id: this.data.themeCur || 0,
               }
             },
           })
@@ -75,8 +95,6 @@ Page({
       default:
         break
     }
-  },
-  initData() {
   },
   initCanvas() {
     this.ConvertPixel = new ConvertPixel('cvCanvas', this)
@@ -93,45 +111,63 @@ Page({
     const height = app.globalData.systemInfo.windowHeight
     this.setData({ width, height })
   },
+  updateSize: function(size) {
+    this.setData({
+      size: pixelContant[size || 'lg'],
+    })
+    console.log(this.data.size, this.data.imgInfo)
+    this.formatImageInfo(this.data.imgInfo)
+  },
+  formatImageInfo: function(imgInfoData) {
+    const imgInfo = imgInfoData || {
+      tempFilePath: "http://tmp/wx44378f03ea3692aa.o6zAJszQ4YQ5dZy0aDA8SHOSKW48.0yKIWYDNDzNVc6479873cb9f36c0b8e077b47531df22.JPG",
+      width: 372,
+      height: 372
+    }
+    console.log('imgInfo: ', imgInfo)
+    const width = imgInfo.width
+    const height = imgInfo.height
+    const p = width / height
+    let canvasWidth = p > 1 ? this.data.size : p * this.data.size;
+    let canvasHeight = p < 1 ? this.data.size : this.data.size / p;
+    this.setData({
+      imgInfo,
+      imgPath: imgInfo.tempFilePath,
+      canvasWidth,
+      canvasHeight,
+    });
+    
+    wx.showLoading({
+      title: '像素生成中',
+    })
+    this.ConvertPixel.render({
+      width: canvasWidth,
+      height: canvasHeight,
+      imgPath: imgInfo.tempFilePath,
+    }, () => {
+      wx.hideLoading()
+      jumpPage('page', 'pixel')
+    });
+  },
   chooseImg: function() {
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: (res) => {
-        wx.showLoading({
-          title: '图片处理中',
-        })
         this.setData({
           imgPath: res.tempFilePaths[0],
         })
         wx.getImageInfo({
           src: res.tempFilePaths[0],
           success: (imgInfo) => {
-            let {
-              width,
-              height,
-              imgPath
-            } = imgInfo;
-            let scale = 0.9 * this.screenWidth / Math.max(width, height);
-            let canvasWidth = Math.floor(scale * width);
-            let canvasHeight = Math.floor(scale * height);
             this.setData({
-              imgInfo,
-              canvasScale: scale,
-              canvasWidth,
-              canvasHeight
-            });
-            this.ConvertPixel.render({
-              width: canvasWidth,
-              height: canvasHeight,
-              imgPath: res.tempFilePaths[0],
-            }, (imgInfo) => {
-              wx.hideLoading()
-              this.setData({
-                imgPath: imgInfo.tempFilePath,
-                imgInfo,
-              })
+              imgInfo: {
+                width: imgInfo.width,
+                height: imgInfo.height,
+                tempFilePath: imgInfo.path,
+              },
+              imgPath: imgInfo.path,
             });
           }
         })

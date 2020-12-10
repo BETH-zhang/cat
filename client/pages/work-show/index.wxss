@@ -48,11 +48,12 @@
   bottom: 0;
 }
 
-.bg-btn {
-  font-size: 18px;
-  line-height: 1.5em;
+.bg-img {
+  color: #fff;
+  font-size: 35rpx;
+  line-height: 150rpx;
 }
 
-.bg-btn >view.top {
-  padding-top: 30rpx;
+.bg-img-border {
+  border: 3px solide #000;
 }

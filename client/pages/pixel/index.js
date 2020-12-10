@@ -32,7 +32,12 @@ Page({
   },
 
   onLoad() {
+    console.log('pixel-load')
     this.initCanvas()
+  },
+
+  onReady() {
+    console.log('pixel-ready')
   },
 
   SettingEventListener(e) {
